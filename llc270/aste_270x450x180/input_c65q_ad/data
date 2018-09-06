@@ -1,0 +1,126 @@
+# ====================
+# | Model parameters |
+# ====================
+#
+# Continuous equation parameters
+ &PARM01
+ tRef               = 3*23.,3*22.,21.,2*20.,19.,2*18.,17.,2*16.,15.,14.,13.,
+                      12.,11.,2*9.,8.,7.,2*6.,2*5.,3*4.,3*3.,4*2.,12*1.,
+ sRef               = 50*34.5,
+ no_slip_sides  = .TRUE.,
+ no_slip_bottom = .TRUE.,
+#
+ viscAr=5.e-4,
+ viscAhGrid = 0.E-4,
+#
+ diffKhT=0.E0,
+ diffKhS=0.E0,
+ diffK4T=0.E10,
+ diffK4S=0.E10,
+# diffKrT=1.E-5,
+# diffKrS=1.E-5,
+ bottomDragQuadratic = 0.002,
+ implicitDiffusion=.TRUE.,
+ implicitViscosity=.TRUE.,
+ viscC4Leith=1.5,
+ viscC4Leithd=1.5,
+ viscA4GridMax=0.5,
+ useAreaViscLength=.TRUE.,
+ gravity=9.81,
+ rhonil=1029.,
+ rhoConst=1029.,
+ rhoConstFresh=1000.,
+ eosType='JMD95Z',
+ implicitFreeSurface=.TRUE.,
+ exactConserv=.TRUE.,
+ useSingleCpuIO=.TRUE.,
+ tempAdvScheme=30,
+ saltAdvScheme=30,
+# tempVertAdvScheme=3,
+# saltVertAdvScheme=3,
+# tempImplVertAdv=.TRUE.,
+# saltImplVertAdv=.TRUE.,
+ staggerTimeStep=.TRUE.,
+ vectorInvariantMomentum=.TRUE.,
+ useJamartWetPoints=.TRUE.,
+# set to eccov4, make sure minbathy=20m first
+ hFacMin=.2,
+ hFacMinDr=5.,
+# hFacMin=.3,
+# hFacMinDr=50.,
+# select_rStar=2,
+# select_rStar=0,
+# nonlinFreeSurf=2,
+# nonlinFreeSurf=4,
+ nonlinFreeSurf=0,
+ useRealFreshWaterFlux=.TRUE.,
+# balanceEmPmR=.TRUE.,
+# balanceQnet=.TRUE.,
+# balanceThetaClimRelax=.TRUE.,
+# balanceSaltClimRelax=.TRUE.,
+#
+ allowFreezing=.FALSE.,
+ readBinaryPrec=64,
+ writeBinaryPrec=32,
+# writeBinaryPrec=64,
+ debugLevel=1,
+ /
+
+# Elliptic solver parameters
+ &PARM02
+ cg2dMaxIters=200,
+ cg2dTargetResWunit=1.E-8,
+ /
+
+# Time stepping parameters
+ &PARM03
+ pickupStrictlyMatch=.FALSE.,
+ nIter0=3,
+# 2002.01.01 to 2015.12.31: 366*3+365*11-1=5112days*24*3600/1200
+# nTimeSteps=368064,
+ nTimeSteps=368054,
+#1-yr (366days + 1timestep)
+# nTimeSteps=26353,
+#1-yr (365days)
+#### nTimeSteps=26279,
+# 95 days for testing
+# nTimeSteps=6840,
+# 32 days for testing
+# nTimeSteps=2304,
+ deltaT = 1200.,
+ abEps = 0.1,
+ forcing_In_AB=.FALSE.,
+ momDissip_In_AB=.FALSE.,
+ pChkptFreq  =31536000.0,
+ monitorFreq = 432000.0,
+ adjDumpFreq=2635200.0,
+ adjMonitorFreq = 432000.0,
+ pickupStrictlyMatch=.FALSE.,
+ /
+
+# Gridding parameters
+ &PARM04
+ usingCurvilinearGrid=.TRUE.,
+ delR = 
+    10.00, 10.00, 10.00, 10.00, 10.00, 10.00, 10.00, 10.01,
+    10.03, 10.11, 10.32, 10.80, 11.76, 13.42, 16.04, 19.82, 24.85,
+    31.10, 38.42, 46.50, 55.00, 63.50, 71.58, 78.90, 85.15, 90.18,
+    93.96, 96.58, 98.25, 99.25,100.01,101.33,104.56,111.33,122.83,
+    139.09,158.94,180.83,203.55,226.50,249.50,272.50,295.50,318.50,
+    341.50,364.50,387.50,410.50,433.50,456.50,
+ /
+
+# Input datasets
+ &PARM05
+ adTapeDir='tapes',
+ bathyFile ='bathy_fill9iU42Ef_noStLA_v1.bin',
+ hydrogThetaFile='WOA09v2_T_llc270_JAN.bin',
+ hydrogSaltFile ='WOA09v2_S_llc270_JAN.bin',
+#this one has higher elevated diff at bathy compared to v2m9Eb
+# diffKrFile  ='diffkr_xxi12icoast9x10_merge.bin',
+# diffKrFile  ='diffkr_it17itpTSscal20.bin',
+ diffKrFile  ='diffkr_iter22_argoTS_real8.bin',
+ viscAHDfile ='VISCAH_blendp0002p006lat029060_v1u.bin',
+ viscAHZfile ='VISCAH_blendp0002p006lat029060_v1u.bin',
+ /
+
