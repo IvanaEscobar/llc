@@ -1,0 +1,92 @@
+syntax: glob
+
+## Build and run directories ##
+###############################
+build*
+run*
+
+
+## Data files ## 
+################
+*.mat
+*.txt
+*.meta
+*.data
+*.bin
+*.init
+*.obw
+*.mdjwf
+*.nc
+
+## Zipped directories ##
+########################
+*.tar.gz
+*.tgz
+*.gz
+*.zip
+*.tarz
+
+## Vim ##
+########
+*.swp
+*.swo
+
+## Latex ##
+###########
+*.aux
+*.log
+*.backup
+*.bak
+*.toc
+*.vrb
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+
+## System ##
+############
+*.DS_Store
+
+## Figures/Docs/Videos ##
+#########################
+*.png
+*.jpeg
+*.pdf
+*.avi
+*.mp4
+*.jpg
+*.gif
+*.fig
+*.mj2
+
+## Modified/old files ##
+########################
+*~
+*.orig
+*.mod
+*.old
+.ipynb_checkpoints
+
+## Output ##
+############
+*.o
+*.out
+*.exe
+*STDOUT.0000
+*STDERR.0000
+*.err
+
+## Project Specific ##
+######################
+masks
+
+## MISC ##
+##########
+*.asc
+ax*
+*.nav
+*.snm
+
+syntax: regexp
+.*\#.*\#$
