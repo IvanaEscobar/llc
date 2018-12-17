@@ -19,7 +19,9 @@ end
 %           - '06Feb2017'
 %           - '02Feb2017'
 
-datestamp = date; datestamp(find(datestamp=='-'))='';
+datestamp = date; 
+datestamp = '13Jul2018';
+datestamp(find(datestamp=='-'))='';
 fprintf('Using datestamp: %s\n',datestamp);
 
 %% ================ CHILD GLOBAL ==============================================
@@ -58,10 +60,10 @@ dirs.Grid1=dirs.child.GridOut;
 %dirGrid_rF =['/nobackupp2/atnguye4/llc1080/NA1080x1200/GRID_real8_v3/'];
 
 %define bathymetry binary files for modification during extraction of obcs:
-dirs.child.Bathy =[dirs.child.Root 'run_template/'];
-fBathyIn =[dirs.child.Bathy 'SandSv18p1_NA' opt.nx 'x' opt.ncut1 'x' ...
+dirs.child.binaries =[dirs.child.Root 'run_template/input_binaries/'];
+fBathyIn =[dirs.child.binaries 'SandSv18p1_NA' opt.nx 'x' opt.ncut1 'x' ...
             opt.ncut2 '.bin'];
-fBathyOut=[dirs.child.Bathy 'SandSv18p1_NA' opt.nx 'x' opt.ncut1 'x' ...
+fBathyOut=[dirs.child.binaries 'SandSv18p1_NA' opt.nx 'x' opt.ncut1 'x' ...
             opt.ncut2 '_obcs' datestamp '.bin'];
 
 %% =================== PARENT (coarse) ========================================
@@ -121,9 +123,9 @@ function [dirs] = sverdrup_paths(user,s)
                 s.ncut1 'x' s.ncut2 'x' s.nz '/'];        
         dirs.GridOut=[dirs.Root  '/run_template/'];
     elseif (strcmp(user, 'ivana')>0)
-        dirs.Grid_global_real8=['/scratch/' user '/scott/llc/llc' s.nx ...
+        dirs.Grid_global_real8=['/scratch/' user '/llc/llc' s.nx ...
                 '/global/GRID/'];
-        dirs.Root=['/home/' user '/scott/llc/llc' s.nx '/NA_' s.nx 'x' ...
+        dirs.Root=['/home/' user '/llc/llc' s.nx '/NA_' s.nx 'x' ...
                 s.ncut1 'x' s.ncut2 'x' s.nz '/'];        
         dirs.GridOut=[dirs.Root  'run_template/'];
     end

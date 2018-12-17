@@ -1,51 +1,52 @@
-%read the mygrid from the input (not mds) mygrid file
-%this routine is an adaptation of 
-%/net/ross/raid2/gforget/mygrids/gael_code_v2/faces2mitgcm/mitgcmmygrid_read.m
-%examples of dirGrid:
-%dirGrid='/raid3/gforget/grids/gridCompleted/llcRegLatLon/llc_540/';
-%grid_load_native(dirGrid,'llc');
+%% Read the mygrid from the input (not mds) mygrid file
+% this routine is an adaptation of 
+% /net/ross/raid2/gforget/mygrids/gael_code_v2/faces2mitgcm/mitgcmmygrid_read.m
+% examples of dirGrid:
+% dirGrid='/raid3/gforget/grids/gridCompleted/llcRegLatLon/llc_540/';
+% grid_load_native(dirGrid,'llc');
+
+%dirGrid='/net/weddell/raid3/gforget/grids/gridCompleted/llcRegLatLon/llc_dec09_270/';
+%dirGridOut='/net/nares/raid8/ecco-shared/llc270/aste/GRID/';
 
 clear all;
 warning off;
 
 define_indices;
-
 set_directory;
-
 useNativeFormat=1;
 
 %actual indices on the faces:
 for i=1:6;
-  str=num2str(i);
-  eval(['tmp=exist(''ix' str ''',''var'');']);
-  if(tmp>0);
-    eval(['Lx' str '=length(ix' str ');']);
-    eval(['Ly' str '=length(iy' str ');']);
+  face=num2str(i);
+  if(exist(['ix' face],'var') == 1);
+    eval(['Lx' face '=length(ix' face ');']);
+    eval(['Ly' face '=length(iy' face ');']);
   else;
-    eval(['Lx' str '=0;']);
-    eval(['Ly' str '=0;']);
+    eval(['Lx' face '=0;']);
+    eval(['Ly' face '=0;']);
   end;
 end
-%1%same as [ncut1 ncut2] = [2160 1080]
-%5%        [ncut2 ncut1] = [1080 2160]
+%1:same as [ncut1 ncut2] = [2160 1080]
+%5:        [ncut2 ncut1] = [1080 2160]
 
-[Lx1 Ly1 Lx5 Ly5]			%2160 1080 1080 2160
+[Lx1 Ly1 Lx5 Ly5];			%2160 1080 1080 2160
 
 niout = [  Lx1     0  0 0     Lx5    0];
 njout = [  Ly1     0  0 0     Ly5    0];
 niin  = [   nx    nx nx nx*3  nx*3  nx];
 njin  = [ nx*3  nx*3 nx nx    nx    nx];
 
-%dirGrid='/net/weddell/raid3/gforget/grids/gridCompleted/llcRegLatLon/llc_dec09_270/';
-%dirGridOut='/net/nares/raid8/ecco-shared/llc270/aste/GRID/';
+% fine resolution grid = child grid
+files=dir([dirs.child.Grid_global_real8 'tile00*.mitgrid']);
+numFaces = length(files); % same as the number of *.mitgrid files
+if(numFaces==0);error('missing tile00*.mitgrid for child grid');end;
 
-files=dir([dirGrid_global_real8 'tile00*.mitgrid']);
-if(length(files)==0);error('missing tile00*.mitgrid for fine resolution grid');end;
 tmp1=[]; 
-for ii=1:length(files); 
+for ii=1:numFaces; 
     if isempty(strfind(files(ii).name,'FM')); tmp1=[tmp1;ii]; end; 
 end;
-files=files(tmp1);
+files=files(tmp1); numFaces = length(files);
+
 
 list_fields2={'XC','YC','DXF','DYF','RAC','XG','YG','DXV','DYU','RAZ',...
     'DXC','DYC','RAW','RAS','DXG','DYG'};
@@ -60,20 +61,24 @@ list_ni={'ni','ni','ni','ni','ni','ni+1','ni+1','ni+1','ni+1','ni+1',...
 list_nj={'nj','nj','nj','nj','nj','nj+1','nj+1','nj+1','nj+1','nj+1',...
     'nj','nj+1','nj','nj+1','nj+1','nj'};
 
-Nfaces=length(files);
-
-for iFile=1:Nfaces;
+for iFile=1:numFaces;
     tmp1=files(iFile).name
-    if strfind(dirGrid_global_real8,'cs32_tutorial_held_suarez_cs');
+    if strfind(dirs.child.Grid_global_real8,'cs32_tutorial_held_suarez_cs');
         ni=32; nj=32;
     else;
          ni = niin(iFile);
          nj = njin(iFile);
     end;
-    outfile = [dirGridOut 'tile00' int2str(iFile) '.mitgrid'];
+    
+    % If you want to write out to a different location specify dirGridOut
+    % Ex: 
+    % outfile =   
+    ; %dirGridOut
+    % else
+    outfile = files
     fidout=fopen(outfile,'w','b');
 
-    fid=fopen([dirGrid_global_real8 files(iFile).name],'r','b');
+    fid=fopen([dirs.child.Grid_global_real8 files(iFile).name],'r','b');
     for iFld=1:length(list_fields);
         eval(['nni=' list_ni{iFld} ';']);
         eval(['nnj=' list_nj{iFld} ';']);
@@ -88,8 +93,6 @@ for iFile=1:Nfaces;
 %ph)
         tmp1=fread(fid,[ni+1 nj+1],'float64');
         fprintf('size(input_tile): %i %i  ',size(tmp1));
-%whos tmp1
-%
 
 %defining indices:
         clear ix iy

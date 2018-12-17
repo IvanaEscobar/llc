@@ -16,8 +16,8 @@ ny=2*ncut2;				%2160
 %----- define indices of domain ---------
 nfx=[ncut1 0 0 0 ncut2];nfy=[ncut2 0 0 0 ncut1];
 
-ix1=1:ncut1;                         	%global [ 1   2160] 
-iy1=9377:9377+ncut2-1;			%[9377 10456]
+ix1=1:ncut1;                    %global:    [ 1   2160] 
+iy1=9377:9377+ncut2-1;			%           [9377 10456]
 fprintf('ix1  : %6i %6i ',[ix1(1) ix1(end)]);fprintf('; iy1  : %6i %6i\n',[iy1(1) iy1(end)]);
 
 ix5=3*nx-[iy1(end):-1:iy1(1)]+1;        %global [2505 3584]
