@@ -2,6 +2,7 @@
 % Call first
 
 %% ================ PARENT REGIONAL SIZE ======================================
+% Information provided by An with previous regional cuts in llc270
 nx0=270;
 ny0=1350; nz0=50; nfx0=[nx0 0 nx0 180 450];nfy0=[450 0 nx0 nx0 nx0];
 sum_nfac0=nfy0(1)+nfy0(2)+nfy0(3)+nfx0(4)+nfx0(5);
