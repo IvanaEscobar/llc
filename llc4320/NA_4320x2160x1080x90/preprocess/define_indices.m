@@ -35,6 +35,7 @@ ix5_0=sort(3*nx0-(iy1_0)+1);                    %global [157  225]
 iy5_0=ceil(iy5(1)/fac):iy5(end)/fac;            %global [136  270]
 
 % ---------- Print regional ids of domain and parent ----------
+fprintf('Defining indices...\n');
 fprintf('ix1  : %6i %6i ',[ix1(1) ix1(end)]);
 fprintf('; iy1  : %6i %6i\n',[iy1(1) iy1(end)]);
 fprintf('ix5  : %6i %6i ',[ix5(1) ix5(end)]);

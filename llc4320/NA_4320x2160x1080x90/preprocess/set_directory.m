@@ -23,10 +23,10 @@ end
 %           - '06Feb2017'
 %           - '02Feb2017'
 
-datestamp = date; 
-datestamp = '13Jul2018';
-datestamp(find(datestamp=='-'))='';
-fprintf('Using datestamp: %s\n',datestamp);
+dirs.datestamp = date; 
+dirs.datestamp = '13Jul2018';
+dirs.datestamp(find(dirs.datestamp=='-'))='';
+fprintf('\nSetting directories...\nUsing datestamp: %s\n',dirs.datestamp);
 
 %% ================ DOMAIN GLOBAL ==============================================
 % Specifiying path system of global domain based on hostname and resolution. 
@@ -42,8 +42,8 @@ else
   error('Check for proper login and hostname to define directory for grid');
 end
 
-fprintf('dirgrid_global: %s\n',dirs.domain.grid_global);
-fprintf('dirgrid_out: %s\n',dirs.domain.grid);
+fprintf('Domain grid_global: %s\n',dirs.domain.grid_global);
+fprintf('Domain grid_out: %s\n',dirs.domain.grid);
 
 %% =================== DOMAIN (fine) ===========================================
 % Specifiying paths for the regional cut of the domain based on indices and 
@@ -62,10 +62,10 @@ dirs.matlab=[dirs.domain.root '../preprocess/'];cd(dirs.matlab);
 
 %define bathymetry binary files for modification during extraction of obcs:
 dirs.domain.bins =[dirs.domain.root 'run_template/input_binaries/'];
-fBathyIn =[dirs.domain.bins 'SandSv18p1_NA' id.nx 'x' id.ncut1 'x' ...
+dirs.bathy.fIn =[dirs.domain.bins 'SandSv18p1_NA' id.nx 'x' id.ncut1 'x' ...
             id.ncut2 '.bin'];
-fBathyOut=[dirs.domain.bins 'SandSv18p1_NA' id.nx 'x' id.ncut1 'x' ...
-            id.ncut2 '_obcs' datestamp '.bin'];
+dirs.bathy.fOut=[dirs.domain.bins 'SandSv18p1_NA' id.nx 'x' id.ncut1 'x' ...
+            id.ncut2 '_obcs' dirs.datestamp '.bin'];
 
 %% =================== PARENT (coarse) ========================================
 % set parent global domain paths based on the user and resolution of domain
@@ -88,10 +88,10 @@ if (strcmp(hostname,'sverdrup.ices.utexas.edu')>0)
 end
 
 %solution where we extract the parent obcs (hardcoded):
-RunStr='run_BE2_dthetadr_it0047_pk0000000003';
-RunStrShort='jra55i47';%2002-2015
-dirs.parent.run=[dirs.parent.root RunStr '/'];
-yr_obcs=2002:2015;		
+dirs.runStr='run_BE2_dthetadr_it0047_pk0000000003';
+dirs.runStrShort='jra55i47';%2002-2015
+dirs.parent.run=[dirs.parent.root dirs.runStr '/'];
+dirs.yr_obcs=2002:2015;		
 
 %directory for domain grid vertical rF (same as parent):
 % These are both already saved in dirs.domain.grid_global
@@ -100,7 +100,7 @@ yr_obcs=2002:2015;
 
 % PROGESS PAUSE: using blend on JOERN's path only. goal is to generalize
 % To use Joern's patch, set to 1 (default is 0)
-dirs.blend_bathy=1;
+dirs.bathy.blend=1;
 
 %% =============== CLEAR DATA =================================================
 clear astedim hostname user
