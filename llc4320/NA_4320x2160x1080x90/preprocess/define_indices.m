@@ -3,8 +3,8 @@
 
 %% ================ PARENT REGIONAL SIZE ======================================
 % Information provided by An with previous regional cuts in llc270
-nx0=270;
-ny0=1350; nz0=50; nfx0=[nx0 0 nx0 180 450];nfy0=[450 0 nx0 nx0 nx0];
+nx0=270; ny0=1350; nz0=50; 
+nfx0=[nx0 0 nx0 180 450];nfy0=[450 0 nx0 nx0 nx0];
 sum_nfac0=nfy0(1)+nfy0(2)+nfy0(3)+nfx0(4)+nfx0(5);
 
 deltaT=1200;yrStart=2002;moStart=1;
@@ -46,9 +46,20 @@ fprintf('; iy5_0: %6i %6i\n',[iy5_0(1) iy5_0(end)]);
 
 fprintf('[ncut1 ncut2] = %i %i\n',[ncut1 ncut2]);	%[2160 1080]
 
-%% ================ SAVE STRINGS ==============================================
+%% ================ SAVE data ==============================================
+id.start.yr = yrStart; id.start.mo = moStart; id.dT = deltaT;
+id.ix{1} = ix1; id.ix{5} = ix5;
+id.iy{1} = iy1; id.iy{5} = iy5;
+id.ncut{1} = ncut1; id.ncut{2} = ncut2;
+id.nf.x = nfx; id.nf.y = nfy; 
+id.n.x = nx; id.n.y = ny; id.n.z = nz; 
+id.nf.x0 = nfx0; id.nf.y0 = nfy0; 
+id.n.x0 = nx0; id.n.y0 = ny0; id.n.z0 = nz0; 
 id.nx = num2str(nx);
 id.nx0 = num2str(nx0);
 id.ncut1 = num2str(ncut1);
 id.ncut2 = num2str(ncut2);
 id.nz = num2str(nz);
+
+%% ================ CLEAR UNUSED VARS =========================================
+clearvars -except id

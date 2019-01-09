@@ -100,7 +100,10 @@ yr_obcs=2002:2015;
 
 % PROGESS PAUSE: using blend on JOERN's path only. goal is to generalize
 % To use Joern's patch, set to 1 (default is 0)
-blend_bathy=1;
+dirs.blend_bathy=1;
+
+%% =============== CLEAR DATA =================================================
+clear astedim hostname user
 
 %% =============== FILE PATH FUNCTIONS ========================================
 function [dirs] = glacier0_paths(user,s)
