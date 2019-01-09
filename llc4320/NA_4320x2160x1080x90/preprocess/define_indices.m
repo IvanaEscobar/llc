@@ -51,6 +51,8 @@ fprintf('[ncut1 ncut2] = %i %i\n',[ncut1 ncut2]);	%[2160 1080]
 id.start.yr = yrStart; id.start.mo = moStart; id.dT = deltaT;
 id.ix{1} = ix1; id.ix{5} = ix5;
 id.iy{1} = iy1; id.iy{5} = iy5;
+id.ix0{1} = ix1_0; id.ix0{5} = ix5_0;
+id.iy0{1} = iy1_0; id.iy0{5} = iy5_0;
 id.ncut{1} = ncut1; id.ncut{2} = ncut2;
 id.nf.x = nfx; id.nf.y = nfy; 
 id.n.x = nx; id.n.y = ny; id.n.z = nz; 
@@ -61,6 +63,6 @@ id.nx0 = num2str(nx0);
 id.ncut1 = num2str(ncut1);
 id.ncut2 = num2str(ncut2);
 id.nz = num2str(nz);
-
+id.fac = fac;
 %% ================ CLEAR UNUSED VARS =========================================
 clearvars -except id

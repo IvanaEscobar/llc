@@ -1,30 +1,32 @@
-clear all;
-warning off
+close all; clear all; clc;
+warning off;
 
-%----- define size, grid ---------
 define_indices;
-
-%-- define input and output dir
 set_directory;
-dirOut=dirs.child.OBCS;
+
+dirOut=dirs.domain.obcs;
 
 %nfx0=[nx0 0 nx0 180   450];   nfy0=[  450 0 nx0 nx0 nx0];
 %nfx =[nx  0 nx  ncut2 ncut1]; nfy =[ncut1 0 nx  nx  nx];
 
-nfx0_full=[nx0 0 0 0 3*nx0]; nfy0_full=[3*nx0 0 0 0 nx0];
+nfx0_full=[id.n.x0 0 0 0 3*id.n.x0]; nfy0_full=[3*id.n.x0 0 0 0 id.n.x0];
 
 %------ load grid -------------
 fieldstr={'xc','yc','xg','yg','dxg','dyg'};
 indfield=[  1    2    6    7    15    16];
 
 for iface=[1:5]
-  if(nfx0(iface)>0 & nfy0(iface)>0);
-        if(iface==1);nxa=nx0;nya=3*nx0;ixa=1:nxa;iya=nya-nfy0(iface)+1:nya;%these indices are from global llc
-    elseif(iface==3);nxa=nx0;nya=nx0;  ixa=1:nfx0(iface);iya=1:nya;
-    else;            nxa=3*nx0;nya=nx0;ixa=1:nfx0(iface);iya=1:nya;end;
+  if(id.nf.x0(iface)>0 & id.nf.y0(iface)>0);
+        if(iface==1);
+            nxa=id.n.x0;
+            nya=3*id.n.x0;
+            ixa=1:nxa;
+            iya=nya-id.nf.y0(iface)+1:nya;%these indices are from global llc
+    elseif(iface==3);nxa=id.n.x0;nya=id.n.x0;  ixa=1:id.nf.x0(iface);iya=1:nya;
+    else;            nxa=3*id.n.x0;nya=id.n.x0;ixa=1:id.nf.x0(iface);iya=1:nya;end;
     for ifld=1:size(fieldstr,2);
       clear temp tmp1
-      temp=read_slice([dirs.parent.Grid0_global 'tile00' num2str(iface) '.mitgrid'],...
+      temp=read_slice([dirs.parent.grid_global 'tile00' num2str(iface) '.mitgrid'],...
                        nxa+1,nya+1,indfield(ifld),'real*8');			%global
       eval(['mygrid0.' fieldstr{ifld} '{iface}=temp(ixa,iya);']);		%aste
     end;
@@ -33,14 +35,14 @@ end;
 
 mygrid1=[];
 for iface=[1:5]
-  if(nfx(iface)>0 & nfy(iface)>0);
-        if(iface==1);nxa=nfx(iface);nya=nfy(iface);ixa=1:nxa;iya=1:nya;		%these indices are from cut mitgrid
-    elseif(iface==3);nxa=nfx(iface);nya=nfy(iface);ixa=1:nxa;iya=1:nya;
-    else;            nxa=nfx(iface);nya=nfy(iface);ixa=1:nxa;iya=1:nya;end;
+  if(id.nf.x(iface)>0 & id.nf.y(iface)>0);
+        if(iface==1);nxa=id.nf.x(iface);nya=id.nf.y(iface);ixa=1:nxa;iya=1:nya;	%these indices are from cut mitgrid
+    elseif(iface==3);nxa=id.nf.x(iface);nya=id.nf.y(iface);ixa=1:nxa;iya=1:nya;
+    else;            nxa=id.nf.x(iface);nya=id.nf.y(iface);ixa=1:nxa;iya=1:nya;end;
 
     for ifld=1:size(fieldstr,2);
-      temp=read_slice([dirs.Grid1 'tile' sprintf('%3.3i',iface) '.mitgrid'],...
-                       nfx(iface)+1,nfy(iface)+1,indfield(ifld),'real*8');
+      temp=read_slice([dirs.domain.bins 'tile' sprintf('%3.3i',iface) '.mitgrid'],...
+                       id.nf.x(iface)+1,id.nf.y(iface)+1,indfield(ifld),'real*8');
       eval(['mygrid1.' fieldstr{ifld} '{iface}=temp(ixa,iya);']);		%regional
     end;
   end;
@@ -63,14 +65,14 @@ if(iobcs==1);
   fieldIn0.obcsstr='S';
   fieldIn0.obcstype=find(obcstype==fieldIn0.obcsstr);
   fieldIn0.face=1;
-  fieldIn0.nx=nx0;							% 270
-  fieldIn0.nfx=nfx0;							% [270 0 270 180 450]
-  fieldIn0.nfy=nfy0;							% [450 0 270 270 270]
-  fieldIn0.sshiftx=(nfx0_full(fieldIn0.face)-nfx0(fieldIn0.face));	% 0
-  fieldIn0.sshifty=(nfy0_full(fieldIn0.face)-nfy0(fieldIn0.face));	% 360
+  fieldIn0.nx=id.n.x0;							% 270
+  fieldIn0.nfx=id.nf.x0;							% [270 0 270 180 450]
+  fieldIn0.nfy=id.nf.y0;							% [450 0 270 270 270]
+  fieldIn0.sshiftx=(nfx0_full(fieldIn0.face)-id.nf.x0(fieldIn0.face));	% 0
+  fieldIn0.sshifty=(nfy0_full(fieldIn0.face)-id.nf.y0(fieldIn0.face));	% 360
 
-  clear ix;eval(['ix=ix' num2str(fieldIn0.face) '_0;']);				%global
-  clear iy;eval(['iy=iy' num2str(fieldIn0.face) '_0;']);				%global
+  clear ix;eval(['ix=id.ix0{' num2str(fieldIn0.face) '};']);			%global
+  clear iy;eval(['iy=id.iy0{' num2str(fieldIn0.face) '};']);			%global
   fieldIn0.ix=ix;				% [1:135] global 
 
 %move 1 pt up so that we're not at the southern edge of highres at the outer point (1st wt pt), 
@@ -88,24 +90,24 @@ if(iobcs==1);
   sz0=size(fieldIn0.imask);if(sz0(2)==1&sz0(1)>sz0(2));fieldIn0.imask=fieldIn0.imask';end;     %make into row
 
   fieldIn.name=fieldIn0.name;
-  clear ix;eval(['ix=ix' num2str(fieldIn0.face) ';']);
-  clear iy;eval(['iy=iy' num2str(fieldIn0.face) ';']);
+  clear ix;eval(['ix=id.ix{' num2str(fieldIn0.face) '};']);
+  clear iy;eval(['iy=id.iy{' num2str(fieldIn0.face) '};']);
   fieldIn.obcsstr=fieldIn0.obcsstr;
   fieldIn.obcstype=fieldIn0.obcstype;
   fieldIn.face=fieldIn0.face;
-  fieldIn.nx=nx;							% 4320
-  fieldIn.nfx=nfx;							% [2160 0 0 0 1080]
-  fieldIn.nfy=nfy;							% [1080 0 0 0 2160]
+  fieldIn.nx=id.n.x;							% 4320
+  fieldIn.nfx=id.nf.x;							% [2160 0 0 0 1080]
+  fieldIn.nfy=id.nf.y;							% [1080 0 0 0 2160]
   fieldIn.sshiftx=ix(1)-1;						% 0
   fieldIn.sshifty=iy(1)-1;						% 9377-1=9376
-  fieldIn.ix=(fieldIn0.ix(1)-1)*fac+1:fieldIn0.ix(end)*fac;		% global [1 2160]
+  fieldIn.ix=(fieldIn0.ix(1)-1)*id.fac+1:fieldIn0.ix(end)*id.fac;		% global [1 2160]
 
   if(fieldIn0.obcsstr=='N');
-    fieldIn.jy=((fieldIn0.jy(1)-1)*fac+1).*ones(size(fieldIn.ix));
+    fieldIn.jy=((fieldIn0.jy(1)-1)*id.fac+1).*ones(size(fieldIn.ix));
   elseif(fieldIn0.obcsstr=='S');
-    fieldIn.jy=(fieldIn0.jy(1)*fac).*ones(size(fieldIn.ix));		% global 9392, (1st wet pt)
+    fieldIn.jy=(fieldIn0.jy(1)*id.fac).*ones(size(fieldIn.ix));		% global 9392, (1st wet pt)
   end
-  fieldIn.imask=repmat(fieldIn0.imask',[1 fac]);fieldIn.imask=reshape(fieldIn.imask',1,fac*max(sz0));
+  fieldIn.imask=repmat(fieldIn0.imask',[1 id.fac]);fieldIn.imask=reshape(fieldIn.imask',1,id.fac*max(sz0));
   fieldIn.flag_case=0;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%% 2: Atlantic, North, Face 1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -115,14 +117,14 @@ elseif(iobcs==2);
   fieldIn0.obcsstr='N';
   fieldIn0.obcstype=find(obcstype==fieldIn0.obcsstr);
   fieldIn0.face=1;
-  fieldIn0.nx=nx0;							% 270
-  fieldIn0.nfx=nfx0;							% [270 0 270 180 450]
-  fieldIn0.nfy=nfy0;							% [450 0 270 270 270]
-  fieldIn0.sshiftx=(nfx0_full(fieldIn0.face)-nfx0(fieldIn0.face));	% 0
-  fieldIn0.sshifty=(nfy0_full(fieldIn0.face)-nfy0(fieldIn0.face));	% 360
+  fieldIn0.nx=id.n.x0;							% 270
+  fieldIn0.nfx=id.nf.x0;							% [270 0 270 180 450]
+  fieldIn0.nfy=id.nf.y0;							% [450 0 270 270 270]
+  fieldIn0.sshiftx=(nfx0_full(fieldIn0.face)-id.nf.x0(fieldIn0.face));	% 0
+  fieldIn0.sshifty=(nfy0_full(fieldIn0.face)-id.nf.y0(fieldIn0.face));	% 360
 
-  clear ix;eval(['ix=ix' num2str(fieldIn0.face) '_0;']);				%global
-  clear iy;eval(['iy=iy' num2str(fieldIn0.face) '_0;']);				%global
+  clear ix;eval(['ix=id.ix0{' num2str(fieldIn0.face) '};']);			%global
+  clear iy;eval(['iy=id.iy0{' num2str(fieldIn0.face) '};']);			%global
   fieldIn0.ix=ix;				% [1:135] global 
 
 %move 1 pt up so that we're not at the southern edge of highres at the outer point (1st wt pt)
@@ -140,24 +142,24 @@ elseif(iobcs==2);
   sz0=size(fieldIn0.imask);if(sz0(2)==1&sz0(1)>sz0(2));fieldIn0.imask=fieldIn0.imask';end;      % make into row
 
   fieldIn.name=fieldIn0.name;
-  clear ix;eval(['ix=ix' num2str(fieldIn0.face) ';']);
-  clear iy;eval(['iy=iy' num2str(fieldIn0.face) ';']);
+  clear ix;eval(['ix=id.ix{' num2str(fieldIn0.face) '};']);
+  clear iy;eval(['iy=id.iy{' num2str(fieldIn0.face) '};']);
   fieldIn.obcsstr=fieldIn0.obcsstr;
   fieldIn.obcstype=fieldIn0.obcstype;
   fieldIn.face=fieldIn0.face;
-  fieldIn.nx=nx;							% 4320
-  fieldIn.nfx=nfx;							% [2160 0 0 0 1080]
-  fieldIn.nfy=nfy;							% [1080 0 0 0 2160]
+  fieldIn.nx=id.n.x;							% 4320
+  fieldIn.nfx=id.nf.x;							% [2160 0 0 0 1080]
+  fieldIn.nfy=id.nf.y;							% [1080 0 0 0 2160]
   fieldIn.sshiftx=ix(1)-1;						% 0
   fieldIn.sshifty=iy(1)-1;						% 9377-1=9376
-  fieldIn.ix=(fieldIn0.ix(1)-1)*fac+1:fieldIn0.ix(end)*fac;		% global [1 2160]
+  fieldIn.ix=(fieldIn0.ix(1)-1)*id.fac+1:fieldIn0.ix(end)*id.fac;		% global [1 2160]
 
   if(fieldIn0.obcsstr=='N');
-    fieldIn.jy=((fieldIn0.jy(1)-1)*fac+1).*ones(size(fieldIn.ix));	%global 10433 (1st wet pt)
+    fieldIn.jy=((fieldIn0.jy(1)-1)*id.fac+1).*ones(size(fieldIn.ix));	%global 10433 (1st wet pt)
   elseif(fieldIn0.obcsstr=='S');
-    fieldIn.jy=(fieldIn0.jy(1)*fac).*ones(size(fieldIn.ix));		%
+    fieldIn.jy=(fieldIn0.jy(1)*id.fac).*ones(size(fieldIn.ix));		%
   end
-  fieldIn.imask=repmat(fieldIn0.imask',[1 fac]);fieldIn.imask=reshape(fieldIn.imask',1,fac*max(sz0));
+  fieldIn.imask=repmat(fieldIn0.imask',[1 id.fac]);fieldIn.imask=reshape(fieldIn.imask',1,id.fac*max(sz0));
   fieldIn.flag_case=0;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%% Atlantic, East, Face 5 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -167,14 +169,14 @@ elseif(iobcs==3);
   fieldIn0.obcsstr='E';
   fieldIn0.obcstype=find(obcstype==fieldIn0.obcsstr);
   fieldIn0.face=5;
-  fieldIn0.nx=nx0;
-  fieldIn0.nfx=nfx0;
-  fieldIn0.nfy=nfy0;
+  fieldIn0.nx=id.n.x0;
+  fieldIn0.nfx=id.nf.x0;
+  fieldIn0.nfy=id.nf.y0;
   fieldIn0.sshiftx=0;
   fieldIn0.sshifty=0;
 
-  clear ix;eval(['ix=ix' num2str(fieldIn0.face) '_0;']);
-  clear iy;eval(['iy=iy' num2str(fieldIn0.face) '_0;']);
+  clear ix;eval(['ix=id.ix0{' num2str(fieldIn0.face) '};']);			%global
+  clear iy;eval(['iy=id.iy0{' num2str(fieldIn0.face) '};']);			%global
   fieldIn0.jy=iy+fieldIn0.sshifty;			%[136 270], global,
 
   fieldIn0.pad=obcs0{1}.pad;				%make same as face1, but function, not hardcoded
@@ -191,23 +193,23 @@ elseif(iobcs==3);
   sz0=size(fieldIn0.imask);if(sz0(2)==1&sz0(1)>sz0(2));fieldIn0.imask=fieldIn0.imask';end;
 
   fieldIn.name=fieldIn0.name;
-  clear ix;eval(['ix=ix' num2str(fieldIn0.face) ';']);
-  clear iy;eval(['iy=iy' num2str(fieldIn0.face) ';']);
+  clear ix;eval(['ix=id.ix{' num2str(fieldIn0.face) '};']);
+  clear iy;eval(['iy=id.iy{' num2str(fieldIn0.face) '};']);
   fieldIn.obcsstr=fieldIn0.obcsstr;
   fieldIn.face=fieldIn0.face;
   fieldIn.obcstype=fieldIn0.obcstype;
-  fieldIn.nx=nx;
-  fieldIn.nfx=nfx;
-  fieldIn.nfy=nfy;
+  fieldIn.nx=id.n.x;
+  fieldIn.nfx=id.nf.x;
+  fieldIn.nfy=id.nf.y;
   fieldIn.sshiftx=ix(1)-1;					% 2504
   fieldIn.sshifty=iy(1)-1;                                      % 2160 
-  fieldIn.jy=(fieldIn0.jy(1)-1)*fac+1:fieldIn0.jy(end)*fac;     % [2161 4320] global
+  fieldIn.jy=(fieldIn0.jy(1)-1)*id.fac+1:fieldIn0.jy(end)*id.fac;     % [2161 4320] global
   if(fieldIn0.obcsstr=='E');
-    fieldIn.ix=((fieldIn0.ix(1)-1)*fac+1).*ones(size(fieldIn.jy)); % [3569], global (1st wet pt)
+    fieldIn.ix=((fieldIn0.ix(1)-1)*id.fac+1).*ones(size(fieldIn.jy)); % [3569], global (1st wet pt)
   elseif(fieldIn0.obcsstr=='W');
-    fieldIn.ix=(fieldIn0.ix(1)*fac).*ones(size(fieldIn.jy));
+    fieldIn.ix=(fieldIn0.ix(1)*id.fac).*ones(size(fieldIn.jy));
   end;
-  fieldIn.imask=repmat(fieldIn0.imask',[1 fac]);fieldIn.imask=reshape(fieldIn.imask',1,fac*max(sz0));
+  fieldIn.imask=repmat(fieldIn0.imask',[1 id.fac]);fieldIn.imask=reshape(fieldIn.imask',1,id.fac*max(sz0));
   fieldIn.flag_case=0;
 
 elseif(iobcs==4);
@@ -216,14 +218,14 @@ elseif(iobcs==4);
   fieldIn0.obcsstr='W';
   fieldIn0.obcstype=find(obcstype==fieldIn0.obcsstr);
   fieldIn0.face=5;
-  fieldIn0.nx=nx0;
-  fieldIn0.nfx=nfx0;
-  fieldIn0.nfy=nfy0;
+  fieldIn0.nx=id.n.x0;
+  fieldIn0.nfx=id.nf.x0;
+  fieldIn0.nfy=id.nf.y0;
   fieldIn0.sshiftx=0;
   fieldIn0.sshifty=0;
 
-  clear ix;eval(['ix=ix' num2str(fieldIn0.face) '_0;']);
-  clear iy;eval(['iy=iy' num2str(fieldIn0.face) '_0;']);
+  clear ix;eval(['ix=id.ix0{' num2str(fieldIn0.face) '};']);			%global
+  clear iy;eval(['iy=id.iy0{' num2str(fieldIn0.face) '};']);			%global
   fieldIn0.jy=iy+fieldIn0.sshifty;			%[136 270]
 
   fieldIn0.pad=obcs0{2}.pad;				%make same as face1, but function, not hardcoded
@@ -240,23 +242,23 @@ elseif(iobcs==4);
   sz0=size(fieldIn0.imask);if(sz0(2)==1&sz0(1)>sz0(2));fieldIn0.imask=fieldIn0.imask';end;
 
   fieldIn.name=fieldIn0.name;
-  clear ix;eval(['ix=ix' num2str(fieldIn0.face) ';']);
-  clear iy;eval(['iy=iy' num2str(fieldIn0.face) ';']);
+  clear ix;eval(['ix=id.ix{' num2str(fieldIn0.face) '};']);
+  clear iy;eval(['iy=id.iy{' num2str(fieldIn0.face) '};']);
   fieldIn.obcsstr=fieldIn0.obcsstr;
   fieldIn.face=fieldIn0.face;
   fieldIn.obcstype=fieldIn0.obcstype;
-  fieldIn.nx=nx;
-  fieldIn.nfx=nfx;
-  fieldIn.nfy=nfy;
+  fieldIn.nx=id.n.x;
+  fieldIn.nfx=id.nf.x;
+  fieldIn.nfy=id.nf.y;
   fieldIn.sshiftx=ix(1)-1;					% 2504
   fieldIn.sshifty=iy(1)-1;                                      % 2160 
-  fieldIn.jy=(fieldIn0.jy(1)-1)*fac+1:fieldIn0.jy(end)*fac;     % [2161 4320] global
+  fieldIn.jy=(fieldIn0.jy(1)-1)*id.fac+1:fieldIn0.jy(end)*id.fac;     % [2161 4320] global
   if(fieldIn0.obcsstr=='E');
-    fieldIn.ix=((fieldIn0.ix(1)-1)*fac+1).*ones(size(fieldIn.jy));
+    fieldIn.ix=((fieldIn0.ix(1)-1)*id.fac+1).*ones(size(fieldIn.jy));
   elseif(fieldIn0.obcsstr=='W');
-    fieldIn.ix=(fieldIn0.ix(1)*fac).*ones(size(fieldIn.jy));	%[2528], global, 1st wet pt
+    fieldIn.ix=(fieldIn0.ix(1)*id.fac).*ones(size(fieldIn.jy));	%[2528], global, 1st wet pt
   end;
-  fieldIn.imask=repmat(fieldIn0.imask',[1 fac]);fieldIn.imask=reshape(fieldIn.imask',1,fac*max(sz0));
+  fieldIn.imask=repmat(fieldIn0.imask',[1 id.fac]);fieldIn.imask=reshape(fieldIn.imask',1,id.fac*max(sz0));
   fieldIn.flag_case=0;
 
 %============= 1: Gibraltar Strait , East, Face 1 ==========================
@@ -266,35 +268,35 @@ elseif(iobcs==5);
   fieldIn0.obcsstr='E';
   fieldIn0.obcstype=find(obcstype==fieldIn0.obcsstr);
   fieldIn0.face=1;
-  fieldIn0.nx=nx0;                                                      % 270
-  fieldIn0.nfx=nfx0;                                                    % [270 0 270 0 450]
-  fieldIn0.nfy=nfy0;                                                    % [450 0 270 0 270]
-  fieldIn0.sshiftx=(nfx0_full(fieldIn0.face)-nfx0(fieldIn0.face));      % 0
-  fieldIn0.sshifty=(nfy0_full(fieldIn0.face)-nfy0(fieldIn0.face));      % 360
+  fieldIn0.nx=id.n.x0;                                                  % 270
+  fieldIn0.nfx=id.nf.x0;                                                % [270 0 270 0 450]
+  fieldIn0.nfy=id.nf.y0;                                                % [450 0 270 0 270]
+  fieldIn0.sshiftx=(nfx0_full(fieldIn0.face)-id.nf.x0(fieldIn0.face));  % 0
+  fieldIn0.sshifty=(nfy0_full(fieldIn0.face)-id.nf.y0(fieldIn0.face));  % 360
 
-  clear ix;eval(['ix=ix' num2str(fieldIn0.face) '_0;']);
-  clear iy;eval(['iy=iy' num2str(fieldIn0.face) '_0;']);
-  fieldIn0.jy=iy;                                                               %global
+  clear ix;eval(['ix=id.ix0{' num2str(fieldIn0.face) '};']);			%global
+  clear iy;eval(['iy=id.iy0{' num2str(fieldIn0.face) '};']);			%global
+  fieldIn0.jy=iy;                                                       %global
   fieldIn0.imask = ones(size(fieldIn0.jy));ii=find(iy<621|iy>622);fieldIn0.imask(ii)=0; %[261:262]aste,[621:622]global
 %  fieldIn0.jy=[261:262]+fieldIn0.sshifty;                              % [621 622] global
   fieldIn0.ix=96*ones(size(fieldIn0.jy))+fieldIn0.sshiftx;              % [96] global (1st wet pt)
 
   sz0=size(fieldIn0.imask);if(sz0(2)==1&sz0(1)>sz0(2));fieldIn0.imask=fieldIn0.imask';end;% make into row
 %checking:
-  yg0_f1=readbin([dirs.parent.Grid0_global 'YG.data'],[nx0 nx0*3]);
+  yg0_f1=readbin([dirs.parent.grid_global 'YG.data'],[id.n.x0 id.n.x0*3]);
   tmpj=find(fieldIn0.imask==1);			% [172 173] for 1440x540, [127 128] for 1260x540
-  yg0_f1(fieldIn0.ix(1),fieldIn0.jy(tmpj))	% [35.817378997802734  36.066429138183594]
+  yg0_f1(fieldIn0.ix(1),fieldIn0.jy(tmpj));	% [35.817378997802734  36.066429138183594]
 %end checking
 
   fieldIn.name=fieldIn0.name;
-  clear ix;eval(['ix=ix' num2str(fieldIn0.face) ';']);
-  clear iy;eval(['iy=iy' num2str(fieldIn0.face) ';']);
+  clear ix;eval(['ix=id.ix{' num2str(fieldIn0.face) '};']);
+  clear iy;eval(['iy=id.iy{' num2str(fieldIn0.face) '};']);
   fieldIn.obcsstr=fieldIn0.obcsstr;
   fieldIn.obcstype=fieldIn0.obcstype;
   fieldIn.face=fieldIn0.face;
-  fieldIn.nx=ncut1;                    % 2160
-  fieldIn.nfx=nfx;                     % [2160 0 0 0 1080]
-  fieldIn.nfy=nfy;                     % [1080 0 0 0 2160]
+  fieldIn.nx=id.ncut1;                    % 2160
+  fieldIn.nfx=id.nf.x;                     % [2160 0 0 0 1080]
+  fieldIn.nfy=id.nf.y;                     % [1080 0 0 0 2160]
   fieldIn.sshiftx=ix(1)-1;             % 0
   fieldIn.sshifty=iy(1)-1;             % 9377-1=9376; 
 
@@ -329,4 +331,5 @@ end;
 %keyboard
 end;%iobcs
 
-fsave=[dirOut 'step0_obcs_' datestamp '.mat'];save(fsave,'obcs0','obcs');fprintf('%s\n',fsave);
+fsave=[dirOut 'step0_obcs_' dirs.datestamp '.mat'];save(fsave,'obcs0','obcs');
+fprintf('\nStep 0: Setting up indices...\n%s\n',fsave);
