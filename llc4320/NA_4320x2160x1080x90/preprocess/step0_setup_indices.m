@@ -55,7 +55,7 @@ for iface=[1:5]
     end;
   end;
 end
-clear temp 
+clear temp ixa iya nxa nya
 
 %%=============== DEFINE OPEN BOUNDARIES ======================================
 % Manually define each ob.
@@ -76,7 +76,7 @@ if(iobcs==1);
   fieldIn0.nfy=id.nf.y0;					    % [450 0 270 270 270]
   fieldIn0.sshiftx=(nfx0_full(fieldIn0.face)-id.nf.x0(fieldIn0.face));	% 0
   fieldIn0.sshifty=(nfy0_full(fieldIn0.face)-id.nf.y0(fieldIn0.face));	% 360
-%move 1 pt up so that we're not at the southern edge of highres at the outer point (1st wt pt), 
+%move 1 pt up so that we're not at the southern edge of high res at the outer point (1st wt pt), 
   fieldIn0.pad=1;
 
   clear ix;eval(['ix=id.ix0{' num2str(fieldIn0.face) '};']);			%global
@@ -117,7 +117,7 @@ elseif(iobcs==2);
   fieldIn0.nfy=id.nf.y0;						% [450 0 270 270 270]
   fieldIn0.sshiftx=(nfx0_full(fieldIn0.face)-id.nf.x0(fieldIn0.face));	% 0
   fieldIn0.sshifty=(nfy0_full(fieldIn0.face)-id.nf.y0(fieldIn0.face));	% 360
-%move 1 pt up so that we're not at the southern edge of highres at the outer point (1st wt pt)
+%move 1 pt up so that we're not at the southern edge of high res at the outer point (1st wt pt)
   fieldIn0.pad=1;
 
   clear ix;eval(['ix=id.ix0{' num2str(fieldIn0.face) '};']);			%global
@@ -273,21 +273,22 @@ elseif(iobcs==5);
 %--> Face1new.iCE_1st=1531; Face1new.jCE([1,14))=[9916,9929]
   fieldIn.imask=zeros(size(fieldIn.jy));ii=find(iy>=(9916)&iy<=(9929));fieldIn.imask(ii)=1;
   fieldIn.flag_case=1;
-end;
+end;%end obc initialization block
 %------------------------------------------------------------------------------
 
 [obcs{iobcs},obcs0{iobcs}]=get_obcsNSEW(fieldIn0,fieldIn,mygrid0,mygrid1,0,fieldIn.flag_case);
 
 set(gcf,'paperunits','inches','paperposition',[0 0 14 12]);
 fpr=[dirOut 'step0_obcs' sprintf('%2.2i',iobcs) '.png'];print(fpr,'-dpng');
-end;%iobcs
+end;%iobcs 
 
 fsave=[dirOut 'step0_obcs_' dirs.datestamp '.mat'];save(fsave,'obcs0','obcs');
 fprintf('\nStep 0: Setting up indices...\n%s\n',fsave);
 
 %% ========== CLEAR DATA ======================================================
-clear tmpj
-
+clear tmpj dirOut fieldIn fieldIn0 fieldstr fpr fsave iface ifld ix iy ...
+      mygrid0 mygrid1 nfx0_full nfy0_full obcs obcs0 obcstype sz0 yg0_f1 ii ...
+      iobcs
 %% ========== SCRIPT FUNCTIONS ================================================
 function [fldIn] = set_edge(fldIn, ix, iy, parent)
     if (parent)
