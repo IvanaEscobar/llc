@@ -1,0 +1,2 @@
+cp -r /home/atnguyen/nansen/MITgcm_c67/mysetups/aste_1080x1260x540x90/input_tides/ ./namelists_tides_An
+
