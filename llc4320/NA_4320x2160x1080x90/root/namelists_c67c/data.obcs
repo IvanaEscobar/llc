@@ -50,24 +50,24 @@
 ##components      m2        s2        n2        k2        k1        o1        p1        q1        mf        mm        m4        ms4       mn4          
 ##period (s):  44714.165192 43200.001287 45570.053512 43082.050319 86164.077005 92949.635701 86637.199772 96726.085703 1180295.545550 2380715.863587 22357.090551 21972.021930 22569.042448
  tidalPeriod  = 44714.165, 43200.001, 45570.054, 43082.050, 86164.077, 92949.636, 86637.200, 96726.086, 1180295.546, 2380715.864, 22357.091, 21972.022, 22569.042,
-## normal, need to generate
-# OBSamFile='OBSam_1620x13.bin',
-# OBNamFile='OBNam_1620x13.bin',
-# OBWamFile='OBWam_1620x13.bin',
-# OBEamFile='OBEam_1620x13.bin',
-# OBSphFile='OBSph_1620x13.bin',
-# OBNphFile='OBNph_1620x13.bin',
-# OBWphFile='OBWph_1620x13.bin',
-# OBEphFile='OBEph_1620x13.bin',
-## tangential, need to generate
-# OBSamtFile='OBSam_1620x13.bin',
-# OBNamtFile='OBNam_1620x13.bin',
-# OBWamtFile='OBWam_1620x13.bin',
-# OBEamtFile='OBEam_1620x13.bin',
-# OBSphtFile='OBSph_1620x13.bin',
-# OBNphtFile='OBNph_1620x13.bin',
-# OBWphtFile='OBWph_1620x13.bin',
-# OBEphtFile='OBEph_1620x13.bin',
+# normal, need to generate
+ OBSamFile='OBSam_3240x13.bin',
+ OBNamFile='OBNam_3240x13.bin',
+ OBWamFile='OBWam_3240x13.bin',
+ OBEamFile='OBEam_4500x13.bin',
+ OBSphFile='OBSph_3240x13.bin',
+ OBNphFile='OBNph_3240x13.bin',
+ OBWphFile='OBWph_3240x13.bin',
+ OBEphFile='OBEph_4500x13.bin',
+# tangential, need to generate
+ OBSamtFile='OBStam_3240x13.bin',
+ OBNamtFile='OBNtam_3240x13.bin',
+ OBWamtFile='OBWtam_3240x13.bin',
+ OBEamtFile='OBEtam_3240x13.bin',
+ OBSphtFile='OBStph_3240x13.bin',
+ OBNphtFile='OBNtph_3240x13.bin',
+ OBWphtFile='OBWtph_3240x13.bin',
+ OBEphtFile='OBEtph_3240x13.bin',
  &
 
 # *****************************************

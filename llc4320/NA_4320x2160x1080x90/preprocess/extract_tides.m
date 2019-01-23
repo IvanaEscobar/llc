@@ -1,9 +1,8 @@
+%% EXTRACTING TIDES
 % This script extracts the TPXO tidal predictions at the OBC locations using
 % TMD, converts them into the format used by the MITgcm, and saves the
 % information to input files.
 
-%addpath(genpath('/net/barents/raid16/vocana/llc4320/NA2160x1080/run_template/joernc/tides/tmd_mar_203/TMD2.03'));
-%addpath(genpath('/data4/joernc/MITgcm/utils/matlab'))
 addpath('/home/atnguyen/nansen/tides/JCcode_tides_obcs/tmd_mar_203/TMD2.03');
 addpath('/home/atnguyen/nansen/tides/JCcode_tides_obcs/tmd_mar_203/TMD2.03/FUNCTIONS/');
 addpath('/home/atnguyen/nansen/tides/JCcode_tides_obcs/tmd_mar_203/TMD2.03/DATA/');

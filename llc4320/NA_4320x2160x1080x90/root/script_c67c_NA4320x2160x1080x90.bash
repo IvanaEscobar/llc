@@ -25,7 +25,7 @@ snx=120
 sny=120
 
 # ---------- (1) 1 day simu ----------
-#pickupts0="0000000000"
+pickupts0="0000000000"
 # ---------- (2) 3 day simu ----------
 #pickupts0="0000000000"
 #pickupts1="0000001920"
@@ -39,17 +39,17 @@ sny=120
 #pickupts0="0000010560"
 #pickupts1="0000028080"
 # ---------- (6) 24 weeks simu ----------
-pickupts0="0000028080"
-pickupts1="0000059040"
+#pickupts0="0000028080"
+#pickupts1="0000059040"
 
 extsmooth=
 forwadj= 
 whichexp="_c67c"
-ext3="_test1"
+ext3="_tidal_bc"
 jobfile=script${whichexp}_NA4320x2160x1080x90.bash
 
 #--- 2.set dir ------------
-srcdir=$HOME/MITgcm_c67c/mysetups/NA_4320x2160x1080x90
+srcdir=$PWD #$HOME/MITgcm_c67c/mysetups/NA_4320x2160x1080x90
 datadir=/scratch/ivana/llc/llc4320/NA_4320x2160x1080x90/run_template
 builddir=$srcdir/build${whichexp}
 codedir=$srcdir/code${whichexp}
@@ -76,10 +76,10 @@ ln -s ${datadir}/input_binaries/* .
 ln -s ${datadir}/input_pickup/* .
 ln -s ${datadir}/input_obcs/*.bin . 
 
-#=================================================================================
+#==============================================================================
 #--- 5. linking xx_ fields ------
 ###ln -s ${datadir}/ADXXfiles${xxext}/xx*${xxiter}* ./
-#=================================================================================
+#==============================================================================
 
 #--- 6. NAMELISTS ---------
 cp -f ${srcdir}/${jobfile} .
@@ -106,7 +106,6 @@ ls -l *.bin > command_ln_binary
 ls -l tile* >> command_ln_binary    
 
 #--- 10. (re)set optimcycle --------------------
-
 #\rm data.optim
 #cat > data.optim <<EOF
 # &OPTIM
@@ -115,7 +114,6 @@ ls -l tile* >> command_ln_binary
 #EOF
 
 #--- 11. run ----------------------------------
-
 set -x
 date > run.MITGCM.timing
 mpiexec --mca btl ^tcp,openib --mca mtl psm2 ${exedir}/mitgcmuv${forwadj}  

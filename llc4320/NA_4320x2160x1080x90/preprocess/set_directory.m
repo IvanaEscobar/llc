@@ -24,7 +24,7 @@ end
 %           - '02Feb2017'
 
 %dirs.datestamp = date; 
-dirs.datestamp = '11Jan2018';
+dirs.datestamp = '11Jan2019';
 dirs.datestamp(find(dirs.datestamp=='-'))='';
 fprintf('\nSetting directories...\nUsing datestamp: %s\n',dirs.datestamp);
 
