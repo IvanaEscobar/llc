@@ -1,0 +1,18 @@
+### Postprocessing with the help of Jupyter installed on my local ICES Linux
+### machine. **SVERDRUP** is mounted to my Linux machine (CABOT) to run any
+### postprocessing steps. To mount to **SVERDRUP**, use sshfs (see CRIOS wiki 
+### for details).
+### 
+### The postprocess steps are as follows:
+### 
+### * Login to CABOT
+### * cd into the **SVERDRUP** mount: /workspace/<mount name>
+### * Load Jupyter for postprocessing in the debugging stage
+### * Prototype code in browser
+### 
+### Once I'm done prototyping the postprocess stage, I won't need to consider 
+### using Jupyter, and this document will be null. 
+### 
+### NOTE: files to postprocess need to be accessible via the mount.
+###
+###                                             Updated: 10-Oct-2018 I Escobar
