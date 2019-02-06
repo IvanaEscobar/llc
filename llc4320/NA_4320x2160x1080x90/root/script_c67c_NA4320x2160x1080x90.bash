@@ -1,7 +1,7 @@
 #!/bin/bash -x
 #SBATCH -J NA4230
-#SBATCH -o NA4230.%j.out
-#SBATCH -e NA4230.%j.err
+#SBATCH -o bash.out/NA4230.%j.out
+#SBATCH -e bash.out/NA4230.%j.err
 ## A time limit of 0 means no time limit is to be set
 #SBATCH -t 0
 ##SBATCH -t 48:00:00 
@@ -44,18 +44,18 @@ pickupts0="0000000000"
 
 extsmooth=
 forwadj= 
-whichexp="_c67c"
+vers="_c67c"
 ext3="_tidal_bc"
-jobfile=script${whichexp}_NA4320x2160x1080x90.bash
+jobfile=script${vers}_NA4320x2160x1080x90.bash
 
 #--- 2.set dir ------------
-srcdir=$PWD #$HOME/MITgcm_c67c/mysetups/NA_4320x2160x1080x90
-datadir=/scratch/ivana/llc/llc4320/NA_4320x2160x1080x90/run_template
-builddir=$srcdir/build${whichexp}
-codedir=$srcdir/code${whichexp}
-inputdir=$srcdir/namelists${whichexp}
+srcdir=$PWD #$HOME/MITgcm_c67c/mysetups/NA_4320x2160x1080x90/root/
+builddir=$srcdir/build${vers}
+codedir=$srcdir/code${vers}
+inputdir=$srcdir/namelists${vers}
 scratchdir=/scratch/ivana/llc/llc4320/NA_4320x2160x1080x90
-exedir=$scratchdir/run${whichexp}${ext3}_pk${pickupts1}
+datadir=$scratchdir/run_template
+exedir=$scratchdir/run${vers}${ext3}_pk${pickupts1}
 
 if [ ! -d $exedir ]; then
   mkdir -p $exedir;
@@ -95,7 +95,7 @@ cp -f ${builddir}/mitgcmuv${forwadj}_${snx}x${sny}x${nprocs} ./mitgcmuv${forwadj
 #NOTE: for pickup: copy instead of link to prevent accidental over-write
 #\rm -f pickup*
 if [[ ${pickupts0} ]]; then
-  pickupdir=$scratchdir/run${whichexp}${ext3}_pk${pickupts0}
+  pickupdir=$scratchdir/run${vers}${ext3}_pk${pickupts0}
   cp -f ${pickupdir}/pickup.${pickupts1}.data ./pickup.${pickupts1}.data
   cp -f ${pickupdir}/pickup.${pickupts1}.meta ./pickup.${pickupts1}.meta
 fi

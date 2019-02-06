@@ -1,0 +1,17 @@
+### Checking the differences between North Atlantic domain with and without
+### tides. 
+###
+### Using STDOUT.0000 of the forward run from October 2018 and from tidal run 
+### from January 2019. Both runs were done on **sverdrup**. Using 
+### **plot_tiles.m** in the preprocessing directory, both runs used the same
+### computational parallelization level: 
+###         - Tile size:    120
+###         - CPU used:     257 (task count)
+###         - Nodes used:   11
+###
+### Plots to be generated:
+###         - CFL condition decay
+###         - Surface temperature
+###         - Relative temperature at THIS depth
+###
+###                                             Updated: Feb 2019, I Escobar
