@@ -78,8 +78,8 @@ __pycache__/
 
 ## Project Specific ##
 ######################
-/ans_tides_namelists
-/pickups
+ans_tides_namelists/
+pickups/
 *.0000
 *.0000.*
 
