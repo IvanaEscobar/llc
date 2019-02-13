@@ -25,7 +25,7 @@ snx=120
 sny=120
 
 # ---------- (1) 1 day simu ----------
-pickupts0="0000000000"
+#pickupts1="0000000000"
 # ---------- (2) 3 day simu ----------
 #pickupts0="0000000000"
 #pickupts1="0000001920"
@@ -33,8 +33,8 @@ pickupts0="0000000000"
 #pickupts0="0000001920"
 #pickupts1="0000005760"
 # ---------- (4) 4 weeks simu ----------
-#pickupts0="0000005760"
-#pickupts1="0000010560"
+pickupts0="0000005760"
+pickupts1="0000010560"
 # ---------- (5) 12 weeks simu ----------
 #pickupts0="0000010560"
 #pickupts1="0000028080"
@@ -49,7 +49,7 @@ ext3="_tidal_bc"
 jobfile=script${vers}_NA4320x2160x1080x90.bash
 
 #--- 2.set dir ------------
-srcdir=$PWD #$HOME/MITgcm_c67c/mysetups/NA_4320x2160x1080x90/root/
+srcdir=$PWD #$HOME/llc/llc4320/NA_4320x2160x1080x90/root/ linked in mysetups/
 builddir=$srcdir/build${vers}
 codedir=$srcdir/code${vers}
 inputdir=$srcdir/namelists${vers}

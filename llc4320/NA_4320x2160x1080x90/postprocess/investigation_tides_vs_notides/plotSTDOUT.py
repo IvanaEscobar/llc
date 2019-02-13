@@ -2,7 +2,9 @@
 
 from getSTDOUT import *
 
-path_to_STDOUT = 'data/'; extension = '.notides'
+path_to_STDOUT = 'data/'; extension = '.notides'; numRuns=4;
+for i in range(numRuns):
+
 d_notides = getData( (path_to_STDOUT + 'STDOUT.0000' + extension) )
 d =         getData( (path_to_STDOUT + 'STDOUT.0000') )
 
@@ -26,7 +28,7 @@ plt.subplot(2,3,2)
 plt.plot( d_V1 )
 plt.subplot(2,3,3)
 plt.plot( (d_noV1 - d_V1), 'r-' )
-plt.title( 'difference' ) 
+plt.title( 'difference' )
 plt.subplot(2,3,4)
 plt.plot( d_noV2 )
 plt.title( var2 )

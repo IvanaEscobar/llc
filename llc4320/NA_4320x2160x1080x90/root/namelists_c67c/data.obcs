@@ -1,6 +1,7 @@
 # ***************
 # Open boundaries
 # ***************
+# Files found in input_binaries
  &OBCS_PARM01
  OB_Jnorth = 2160*1057, 1080*0, 
  OB_Jsouth = 2160*16  , 1080*0, 
@@ -15,8 +16,6 @@
  OBCS_u1_adv_T = 1,
  OBCS_u1_adv_S = 1,
 #
-#replace these files with the ones from
-#from /scratch/atnguyen/llc4320/NA_4320x2160x1080x90/run_template/input_obcs
  OBSsFile='OBSs_3240x90x170_13Jul2018_bl.bin',
  OBStFile='OBSt_3240x90x170_13Jul2018_bl.bin',
  OBSuFile='OBSu_3240x90x170_13Jul2018_bl.bin',
@@ -46,11 +45,11 @@
 ## *****************************************
 ## Tidal BC parameters
 ## *****************************************
- useOBCStides = .FALSE.,
+ useOBCStides = .TRUE.,
 ##components      m2        s2        n2        k2        k1        o1        p1        q1        mf        mm        m4        ms4       mn4          
 ##period (s):  44714.165192 43200.001287 45570.053512 43082.050319 86164.077005 92949.635701 86637.199772 96726.085703 1180295.545550 2380715.863587 22357.090551 21972.021930 22569.042448
  tidalPeriod  = 44714.165, 43200.001, 45570.054, 43082.050, 86164.077, 92949.636, 86637.200, 96726.086, 1180295.546, 2380715.864, 22357.091, 21972.022, 22569.042,
-# normal, need to generate
+# normal
  OBSamFile='OBSam_3240x13.bin',
  OBNamFile='OBNam_3240x13.bin',
  OBWamFile='OBWam_3240x13.bin',
@@ -59,7 +58,7 @@
  OBNphFile='OBNph_3240x13.bin',
  OBWphFile='OBWph_3240x13.bin',
  OBEphFile='OBEph_4500x13.bin',
-# tangential, need to generate
+# tangential
  OBSamtFile='OBStam_3240x13.bin',
  OBNamtFile='OBNtam_3240x13.bin',
  OBWamtFile='OBWtam_3240x13.bin',
