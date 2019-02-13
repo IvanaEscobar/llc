@@ -67,7 +67,7 @@ run*
 *.old
 .ipynb_checkpoints
 __old__
-__pycache__
+__pycache__/
 
 ## Output ##
 ############
@@ -78,8 +78,8 @@ __pycache__
 
 ## Project Specific ##
 ######################
-/an_tides_namelists
-/pickups
+/an_tides_namelists/
+/pickups/
 *.0000
 *.0000.*
 
