@@ -67,21 +67,21 @@ run*
 *.old
 .ipynb_checkpoints
 __old__
+__pycache__
 
 ## Output ##
 ############
 *.o
 *.out
 *.exe
-*STDOUT.0000*
-*STDERR.0000*
 *.err
 
 ## Project Specific ##
 ######################
-an_tides_namelists
-STDOUT.0000*
-pickup*
+/an_tides_namelists
+/pickups
+*.0000
+*.0000.*
 
 ## MISC ##
 ##########
