@@ -1,10 +1,9 @@
 #!/bin/bash -x
-#SBATCH -J NA4230
-#SBATCH -o bash.out/NA4230.%j.out
-#SBATCH -e bash.out/NA4230.%j.err
+#SBATCH -J NA4320
+#SBATCH -o bash.out/NA4320.%j.out
+#SBATCH -e bash.out/NA4320.%j.err
 ## A time limit of 0 means no time limit is to be set
 #SBATCH -t 0
-##SBATCH -t 48:00:00 
 ##SBATCH -N 25
 ##SBATCH -n 698
 #SBATCH -N 11
@@ -42,14 +41,13 @@ pickupts1="0000010560"
 #pickupts0="0000028080"
 #pickupts1="0000059040"
 
-extsmooth=
 forwadj= 
 vers="_c67c"
 ext3="_tidal_bc"
 jobfile=script${vers}_NA4320x2160x1080x90.bash
 
 #--- 2.set dir ------------
-srcdir=$PWD #$HOME/llc/llc4320/NA_4320x2160x1080x90/root/ linked in mysetups/
+srcdir=$PWD #$HOME/llc/llc4320/NA_4320x2160x1080x90/root/ ln -s in mysetups/
 builddir=$srcdir/build${vers}
 codedir=$srcdir/code${vers}
 inputdir=$srcdir/namelists${vers}
