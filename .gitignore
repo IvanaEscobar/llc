@@ -73,14 +73,15 @@ __old__
 *.o
 *.out
 *.exe
-*STDOUT.0000
-*STDERR.0000
+*STDOUT.0000*
+*STDERR.0000*
 *.err
 
 ## Project Specific ##
 ######################
 an_tides_namelists
 STDOUT.0000*
+pickup*
 
 ## MISC ##
 ##########
