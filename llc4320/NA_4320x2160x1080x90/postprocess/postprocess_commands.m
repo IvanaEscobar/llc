@@ -1,7 +1,6 @@
 which read_slice
 pwd
-nx = 2160; ny = 1080; nz = 90
-nx = 2160; ny = 2160; nz = 90
+nx = 2160; ny = 2160; nz = 90;
 a = read_slice('pickup.0000010560.data', nx, ny, 1+(3-1)*nz, 'real*8');
 pwd
 a1=a(:,1:1080);
