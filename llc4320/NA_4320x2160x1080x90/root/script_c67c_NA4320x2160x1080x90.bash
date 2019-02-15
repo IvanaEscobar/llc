@@ -1,5 +1,5 @@
 #!/bin/bash -x
-#SBATCH -J NA4320
+#SBATCH -J NA43t3
 #SBATCH -o bash.out/NA4320.%j.out
 #SBATCH -e bash.out/NA4320.%j.err
 ## A time limit of 0 means no time limit is to be set
@@ -29,11 +29,11 @@ sny=120
 #pickupts0="0000000000"
 #pickupts1="0000001920"
 # ---------- (3) 1 week simu ----------
-#pickupts0="0000001920"
-#pickupts1="0000005760"
+pickupts0="0000001920"
+pickupts1="0000005760"
 # ---------- (4) 4 weeks simu ----------
-pickupts0="0000005760"
-pickupts1="0000010560"
+#pickupts0="0000005760"
+#pickupts1="0000010560"
 # ---------- (5) 12 weeks simu ----------
 #pickupts0="0000010560"
 #pickupts1="0000028080"

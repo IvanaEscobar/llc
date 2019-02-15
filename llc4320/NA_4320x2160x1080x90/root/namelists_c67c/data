@@ -122,17 +122,17 @@
 ## 3 days at 45sec: 24*3*3600/45 = 5760
 # nTimeSteps     = 5760,
 # ---------- (3) 1 week simu ----------
-# deltaT     =    60.,
-## nIter0: 2880*30/60 + 5760*45/60 = 5760
-# nIter0     = 5760,
-## 1 week at 60sec: 24*7*3600/60 = 10080
-# nTimeSteps = 10080,
+ deltaT     =    60.,
+# nIter0: 2880*30/60 + 5760*45/60 = 5760
+ nIter0     = 5760,
+# 1 week at 60sec: 24*7*3600/60 = 10080
+ nTimeSteps = 10080,
 # ---------- (4) 4 weeks simu ----------
- deltaT      =    90.,
-# nIter0: 2880*30/90 + 5760*45/90 + 10080*60/90 = 10560
- nIter0     = 10560,
-# 4 weeks at 90sec: 24*7*4*3600/90 = 26880
- nTimeSteps = 26880,
+# deltaT      =    90.,
+## nIter0: 2880*30/90 + 5760*45/90 + 10080*60/90 = 10560
+# nIter0     = 10560,
+## 4 weeks at 90sec: 24*7*4*3600/90 = 26880
+# nTimeSteps = 26880,
 # ---------- (5) 12 weeks simu ----------
 # deltaT      =    120.,
 ## nIter0: 2880*30/120 + 5760*45/120 + 10080*60/120 + 26880*90/120 = 28080
@@ -153,12 +153,12 @@
 
 # ---------- (1) 1 day simu ----------
 # ---------- (2) 2 day simu ----------
- monitorFreq =   1.,
- chkptFreq  = 21600.,
+# monitorFreq =   1.,
+# chkptFreq  = 21600.,
 # ---------- (3) 1 week simu ----------
 ## every hour
-# monitorFreq =   3600.
-# chkptFreq = 43200.
+ monitorFreq =   3600.
+ chkptFreq = 43200.
 # ---------- (4) 4 weeks simu ----------
 # ---------- (5) 12 weeks simu ----------
 ## every 3 hours
