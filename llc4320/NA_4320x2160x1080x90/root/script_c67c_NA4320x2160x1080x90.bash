@@ -29,11 +29,11 @@ sny=120
 #pickupts0="0000000000"
 #pickupts1="0000001920"
 # ---------- (3) 1 week simu ----------
-pickupts0="0000001920"
-pickupts1="0000005760"
+#pickupts0="0000001920"
+#pickupts1="0000005760"
 # ---------- (4) 4 weeks simu ----------
-#pickupts0="0000005760"
-#pickupts1="0000010560"
+pickupts0="0000005760"
+pickupts1="0000010560"
 # ---------- (5) 12 weeks simu ----------
 #pickupts0="0000010560"
 #pickupts1="0000028080"
