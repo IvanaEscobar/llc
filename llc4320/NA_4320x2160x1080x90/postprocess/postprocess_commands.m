@@ -9,8 +9,7 @@ size(a1)
 size(a50
 size(a50)
 size(a5)
-a15=cat(1,a1,sym_g_mod(a5,7,0));
-figure(1);clf;pcolor(a15');shading flat;colorbar;grid
+%a15=cat(1,a1,sym_g_mod(a5,7,0));
 a15=cat(1,sym_g_mod(a5,7,0),a1);
 figure(1);clf;pcolor(a15');shading flat;colorbar;grid
 nx = 2160; ny = 2160; nz = 90;nfx=[nx 0 0 0 1080];nfy=[1080 0 0 0 nx];
