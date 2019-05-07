@@ -47,21 +47,21 @@ ext3="_tidal_bc"
 jobfile=script${vers}_NA4320x2160x1080x90.bash
 
 #--- 2.set dir ------------
-srcdir=$PWD #$HOME/llc/llc4320/NA_4320x2160x1080x90/root/ ln -s in mysetups/
-builddir=$srcdir/build${vers}
-codedir=$srcdir/code${vers}
-inputdir=$srcdir/namelists${vers}
-scratchdir=/scratch/ivana/llc/llc4320/NA_4320x2160x1080x90
-datadir=$scratchdir/run_template
-exedir=$scratchdir/run${vers}${ext3}_pk${pickupts1}
+srcDir=$PWD #$HOME/llc/llc4320/NA_4320x2160x1080x90/root/ ln -s in mysetups/
+buildDir=$srcDir/build${vers}
+codeDir=$srcDir/code${vers}
+inpDir=$srcDir/namelists${vers}
+scratchDir=/scratch/ivana/llc/llc4320/NA_4320x2160x1080x90
+dataDir=$scratchDir/run_template
+exeDir=$scratchDir/run${vers}${ext3}_pk${pickupts1}
 
-if [ ! -d $exedir ]; then
-  mkdir -p $exedir;
-  mkdir -p $exedir/diags;
+if [ ! -d $exeDir ]; then
+  mkdir -p $exeDir;
+  mkdir -p $exeDir/diags;
 fi
-cd $exedir;
+cd $exeDir;
 
-cp -rf ${codedir}/ .
+cp -rf ${codeDir}/ .
 
 #--- 3. link forcing -------------
 if [ ! -d ./jra55 ]; then
@@ -70,32 +70,32 @@ if [ ! -d ./jra55 ]; then
 fi
 
 #--- 4. linking binary ---------
-ln -s ${datadir}/input_binaries/* .
-ln -s ${datadir}/input_pickup/* .
-ln -s ${datadir}/input_obcs/*.bin . 
+ln -s ${dataDir}/input_binaries/* .
+ln -s ${dataDir}/input_pickup/* .
+ln -s ${dataDir}/input_obcs/*.bin . 
 
 #==============================================================================
 #--- 5. linking xx_ fields ------
-###ln -s ${datadir}/ADXXfiles${xxext}/xx*${xxiter}* ./
+###ln -s ${dataDir}/ADXXfiles${xxext}/xx*${xxiter}* ./
 #==============================================================================
 
 #--- 6. NAMELISTS ---------
-cp -f ${srcdir}/${jobfile} .
-cp -f ${inputdir}/* .
+cp -f ${srcDir}/${jobfile} .
+cp -f ${inpDir}/* .
 \rm -f data.exch2
 cp -f data.exch2_${snx}x${sny}x${nprocs} data.exch2
 
 #--- 7. executable --------
 \rm -f mitgcmuv*
-cp -f ${builddir}/mitgcmuv${forwadj}_${snx}x${sny}x${nprocs} ./mitgcmuv${forwadj}
+cp -f ${buildDir}/mitgcmuv${forwadj}_${snx}x${sny}x${nprocs} ./mitgcmuv${forwadj}
 
 #--- 8. pickups -----------
 #NOTE: for pickup: copy instead of link to prevent accidental over-write
 #\rm -f pickup*
 if [[ ${pickupts0} ]]; then
-  pickupdir=$scratchdir/run${vers}${ext3}_pk${pickupts0}
-  cp -f ${pickupdir}/pickup.${pickupts1}.data ./pickup.${pickupts1}.data
-  cp -f ${pickupdir}/pickup.${pickupts1}.meta ./pickup.${pickupts1}.meta
+  pkupDir=$scratchDir/run${vers}${ext3}_pk${pickupts0}
+  cp -f ${pkupDir}/pickup.${pickupts1}.data ./pickup.${pickupts1}.data
+  cp -f ${pkupDir}/pickup.${pickupts1}.meta ./pickup.${pickupts1}.meta
 fi
 
 #--- 9. make a list of all linked files ------
@@ -114,5 +114,5 @@ ls -l tile* >> command_ln_binary
 #--- 11. run ----------------------------------
 set -x
 date > run.MITGCM.timing
-mpiexec --mca btl ^tcp,openib --mca mtl psm2 ${exedir}/mitgcmuv${forwadj}  
+mpiexec --mca btl ^tcp,openib --mca mtl psm2 ${exeDir}/mitgcmuv${forwadj}  
 date >> run.MITGCM.timing

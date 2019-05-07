@@ -3,8 +3,8 @@ clear all;
 define_indices;
 set_directory;
 
-nxp=2*nfy(1);
-a=readbin(fBathyOut,[nxp ny]);
+nxp=2*id.nf.y(1);
+a=readbin(dirs.bathy.fOut,[nxp id.n.y]);
 hf1=ones(size(a));hf1(find(a==0))=0;
 hf{1}=hf1(1:nfx(1),1:nfy(1));
 hf{5}=reshape(hf1(1:nxp,sum(nfy(1:3))+nfx(4)+1:sum(nfy(1:3))+sum(nfx(4:5))),nfx(5),nfy(5));

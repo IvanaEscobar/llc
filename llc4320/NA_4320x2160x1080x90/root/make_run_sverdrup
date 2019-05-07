@@ -14,7 +14,7 @@ vers="_c67c"
 #	exp_dir:  Problem run
 #		  Ex: ~ivana/llc/llc4320/NA_4320x2160x1080x90/root/
 root_dir=$HOME/MITgcm$vers
-exp_dir=$PWD #~ivana/MITgcm_c67c/mysetups/NA_4320x2160x1080x90/root/
+exp_dir=$PWD #symlink to ~ivana/MITgcm_c67c/mysetups/NA_4320x2160x1080x90/root/
 build_dir=$exp_dir/build$vers$suff
 code_dir=$exp_dir/code$vers$suff
 inp_dir=$exp_dir/namelists$vers$suff
