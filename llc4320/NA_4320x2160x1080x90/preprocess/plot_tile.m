@@ -6,12 +6,13 @@ set_directory;
 nxp=2*id.nf.y(1);
 a=readbin(dirs.bathy.fOut,[nxp id.n.y]);
 hf1=ones(size(a));hf1(find(a==0))=0;
-hf{1}=hf1(1:nfx(1),1:nfy(1));
-hf{5}=reshape(hf1(1:nxp,sum(nfy(1:3))+nfx(4)+1:sum(nfy(1:3))+sum(nfx(4:5))),nfx(5),nfy(5));
-%[hf1,hf]=get_aste_tracer(hf,nfx,nfy);%clear hf
+hf{1}=hf1(1:id.nf.x(1),1:id.nf.y(1));
+hf{5}=reshape(hf1(1:nxp,sum(id.nf.y(1:3))+id.nf.x(4)+1:sum(id.nf.y(1:3)) ...
+    +sum(id.nf.x(4:5))),id.nf.x(5),id.nf.y(5)); 
+%[hf1,hf]=get_aste_tracer(hf,id.nf.x,id.nf.y);%clear hf
 
-factor(ncut1)      %2 2 2 2 3 3 3 5	%2160
-factor(ncut2)	   %2 2 2 3 3 3   5	%1080
+factor(id.ncut{1})      %2 2 2 2 3 3 3 5	%2160
+factor(id.ncut{2})	   %2 2 2 3 3 3   5	%1080
 
 %possible tile size:
 % 24 30 40 45 54 60 72 90 108 120 
@@ -28,22 +29,22 @@ elseif(icase==8);dtilex=108;dtiley=108;	%total  400,  313
 elseif(icase==9);dtilex=120;dtiley=120;	%total  324,  257 
 end;
 print_fig=1;
-%nx=nx;ny=2*nx1+nx2+nx;nfx=[nx 0 nx nx2 nx1];nfy=[nx1 0 nx nx nx];
+%nx=nx;ny=2*nx1+nx2+nx;id.nf.x=[nx 0 nx nx2 nx1];id.nf.y=[nx1 0 nx nx nx];
 
 cc=0;cc1=0;
 for iface=[1,3,5]
   msk{iface}=0.*hf{iface};
 end;
 
-fOut=[dirGridOut 'exch2_tile' sprintf('%2.2i',dtilex) 'x' sprintf('%2.2i',dtiley) '.txt'];
+fOut=[dirs.domain.grid 'exch2_tile' sprintf('%2.2i',dtilex) 'x' sprintf('%2.2i',dtiley) '.txt'];
 fid=fopen(fOut,'w');
 
 for iface=[1,5];
   clear temp 
   temp=hf{iface};
   temp1=0.*temp;
-  nnx=nfx(iface)/dtilex;
-  nny=nfy(iface)/dtiley;
+  nnx=id.nf.x(iface)/dtilex;
+  nny=id.nf.y(iface)/dtiley;
 
   for j=1:nny
     jy=(j-1)*dtiley+1:j*dtiley;
@@ -72,11 +73,11 @@ for iface=[1,5];
   figure(iface);clf;colormap(gray(3));
   imagescnan(msk{iface}');axis xy;caxis([-1,2]);
   %temp1=yc{iface};title(['yc: [' num2str(nanmin(temp1(:)),3) ' ' num2str(nanmax(temp1(:)),3) ']']);
-  set(gca,'Xtick',0:dtilex:nfx(iface),'Ytick',0:dtiley:nfy(iface));grid;
-  hold on;[aa,bb]=contour(1:nfx(iface),1:nfy(iface),hf{iface}',[1 1]);hold off;
+  set(gca,'Xtick',0:dtilex:id.nf.x(iface),'Ytick',0:dtiley:id.nf.y(iface));grid;
+  hold on;[aa,bb]=contour(1:id.nf.x(iface),1:id.nf.y(iface),hf{iface}',[1 1]);hold off;
   set(bb,'color',.7.*[1,1,1],'linewidth',2);
-  nnx=nfx(iface)/dtilex;
-  nny=nfy(iface)/dtiley;
+  nnx=id.nf.x(iface)/dtilex;
+  nny=id.nf.y(iface)/dtiley;
   for j=1:nny;
     jy=(j-1)*dtiley+1:j*dtiley;
     for i=1:nnx
@@ -92,11 +93,11 @@ for iface=[1,5];
   elseif(iface==3);set(gcf,'paperunit','inches','paperposition',[0 0 10 10]);
   elseif(iface==4);set(gcf,'paperunit','inches','paperposition',[0 0 8 10]);
   else;            set(gcf,'paperunit','inches','paperposition',[0 0 16 10]);end;
-  figure(iface);fpr=[dirGridOut 'Face' num2str(iface) '_tile' sprintf('%2.2i',dtilex) 'x' sprintf('%2.2i',dtiley) '.png'];
+  figure(iface);fpr=[dirs.domain.grid 'Face' num2str(iface) '_tile' sprintf('%2.2i',dtilex) 'x' sprintf('%2.2i',dtiley) '.png'];
   print(fpr,'-dpng');fprintf('%s\n',fpr);
   end;
 end;
-  fprintf('tilex,tiley,total_tile,num_tile: [%i %i %i %i]\n',[dtilex,dtiley,nxp*ny/dtilex/dtiley,cc]);
+  fprintf('tilex,tiley,total_tile,num_tile: [%i %i %i %i]\n',[dtilex,dtiley,nxp*id.n.y/dtilex/dtiley,cc]);
 
 keyboard
 end;
