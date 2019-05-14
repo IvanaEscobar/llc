@@ -28,11 +28,11 @@
 #SBATCH --mail-type=begin
 #SBATCH --mail-type=end
 
-### Run in the 
+### Run in the $SCRATCH project directory ###
 
 module restore
 module load remora
 set -x
 date>run.MITGCM.timing
-remora ibrun -np 257 tacc_affinity $exeDir/mitgcmuv$suff
+remora ibrun tacc_affinity $exeDir/mitgcmuv$suff
 date>>run.MITGCM.timing
