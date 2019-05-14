@@ -1,11 +1,11 @@
-**Contents**
+**llc**
+
+## Contents 
 
 1. llc270: support files for NA4320.
 2. llc1080: copying structure of the directory for NA4320.
 3. llc4320: root directory for NA4320 project.
 4. vizHelp: things to ask TACC about viz with Paraview.
-
-When you're done, you can delete the content in this README and update the file with details for others getting started with your repository.
 
 *We recommend that you open this README in another tab as you perform the tasks below. You can [watch our video](https://youtu.be/0ocf7u76WSo) for a full demo of all the steps in this tutorial. Open the video in a new tab to avoid leaving Bitbucket.*
 
