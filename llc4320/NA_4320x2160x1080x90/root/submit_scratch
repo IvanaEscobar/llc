@@ -1,0 +1,38 @@
+#!/bin/bash
+
+#SBATCH -J NA4320
+#SBATCH -o sbatch.output/NA4320.%j.out
+#SBATCH -e sbatch.output/NA4320.%j.err
+#SBATCH -A Transfer-of-ECCO-glo
+#================================================
+# Tile size 30x30
+##SBATCH -N 94
+##SBATCH -n 3957
+#================================================
+# Tile size 40x40
+##SBATCH -N 53
+##SBATCH -n 2238
+#================================================
+# Tile size 45x45
+##SBATCH -N 42
+##SBATCH -n 1779
+#================================================
+# Tile size 120x120
+#SBATCH -N 6
+#SBATCH -n 257
+#================================================
+#SBATCH -t 6:00:00
+#SBATCH -p skx-normal
+
+#SBATCH --mail-user=ivana@oden.utexas.edu
+#SBATCH --mail-type=begin
+#SBATCH --mail-type=end
+
+### Run in the 
+
+module restore
+module load remora
+set -x
+date>run.MITGCM.timing
+remora ibrun -np 257 tacc_affinity $exeDir/mitgcmuv$suff
+date>>run.MITGCM.timing
