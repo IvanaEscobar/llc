@@ -7,27 +7,23 @@
 suff=""
 
 ## Set up code version: blank if current version
-vers="_c67c"
+vers="_c67h"
 
 ## Set up directories:
-#	root_dir: MITgcm code
-#	exp_dir:  Problem run
-#		  Ex: ~ivana/llc/llc4320/NA_4320x2160x1080x90/root/
-root_dir=$HOME/MITgcm$vers
-exp_dir=$PWD #~ivana/MITgcm_c67c/mysetups/NA_4320x2160x1080x90/root/
-build_dir=$exp_dir/build$vers$suff
-code_dir=$exp_dir/code$vers$suff
-inp_dir=$exp_dir/namelists$vers$suff
+#	gcmDir: MITgcm code
+#	srcDir:  Problem run
+#		  Ex: in sverdrup: ~ivana/llc/llc4320/NA_4320x2160x1080x90/root/
+gcmDir=$HOME/MITgcm$vers
+srcDir=$PWD #/work/05427/llc/llc4320/NA_4320x2160x1080x90/root/
+buildDir=$srcDir/build$vers$suff
+codeDir=$srcDir/code$vers$suff
+inpDir=$srcDir/namelists$vers$suff
 
 ## Opt file architecture specific
-stampede_opt=$env_setups/optfiles/linux_amd64_ifort+mpi_stampede
-lonestar_opt=$env_setups/optfiles/linux_amd64_ifort+mpi_lonestar
-lonestar_profile_opt=$env_setups/optfiles/linux_amd64_ifort+mpi_lonestar+profile
-sverdrup_opt=$env_setups/optfiles/linux_amd64_ifort+mpi_sverdrup
+opt=$env_setups/optfiles/linux_amd64_ifort+mpi_stampede2
 
 ## Use the correct opt file here
-build_cmd="$root_dir/tools/genmake2 -rd=$root_dir -mods=$code_dir
--optfile=$sverdrup_opt -mpi"
+build_cmd="$gcmDir/tools/genmake2 -rd=$gcmDir -mods=$codeDir -optfile=$opt -mpi"
 
 ## Check which run to set up
 if [[ $suff == "_ad" ]]
@@ -42,18 +38,18 @@ else
 fi
 
 ## Build the model in build directory
-if [ ! -d $build_dir ]
+if [ ! -d $buildDir ]
   then
-        mkdir $build_dir
-        cd $build_dir
+        mkdir $buildDir
+        cd $buildDir
 else
-        cd $build_dir
+        cd $buildDir
         if [ -s Makefile ] ; then
 		make clean
 	fi
 fi
 
-cd $build_dir
+cd $buildDir
 echo "Inside dir: "$PWD
 
 echo "Evaluating: "$build_cmd
