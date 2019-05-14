@@ -13,8 +13,10 @@ vers="_c67h"
 #	gcmDir: MITgcm code
 #	srcDir:  Problem run
 #		  Ex: in sverdrup: ~ivana/llc/llc4320/NA_4320x2160x1080x90/root/
+#		  Ex: ~ivana/llc/llc4320/NA_4320x2160x1080x90/root/
 gcmDir=$HOME/MITgcm$vers
 srcDir=$PWD #/work/05427/llc/llc4320/NA_4320x2160x1080x90/root/
+#exp_dir=$PWD #symlink to ~ivana/MITgcm_c67c/mysetups/NA_4320x2160x1080x90/root/
 buildDir=$srcDir/build$vers$suff
 codeDir=$srcDir/code$vers$suff
 inpDir=$srcDir/namelists$vers$suff
