@@ -3,10 +3,14 @@ clear all;
 define_indices;
 set_directory;
 
-a0=readbin([dirGrid0 'bathy_fill9iU42Ef_noStLA.bin'],[nx0 ny0],1,'real*8');[a0,af0]=get_aste_tracer(a0,nfx0,nfy0);
-idot=find(fBathyIn=='.');extBathy='';%'_v2';
-a=readbin([fBathyIn(1:idot-1) extBathy '.bin'],[ncut1 ny]);[a,af]=get_aste_tracer(a,nfx,nfy);
-load([dirOBCS 'step0_obcs_' datestamp '.mat']);	%obcs0 obcs
+a0=readbin( [dirs.parent.grid 'bathy_fill9iU42Ef_noStLA_v1.bin'],...
+            [id.n.x0 id.n.y0],1,'real*8');
+[a0,af0]=get_aste_tracer(a0,id.nf.x0,id.nf.y0);
+idot=find(dirs.bathy.fIn=='.');extBathy='';%'_v2';
+a=readbin([dirs.bathy.fIn(1:idot-1) extBathy '.bin'],[id.ncut{1} id.n.y]);
+[a,af]=get_aste_tracer(a,id.nf.x,id.nf.y);
+load([dirs.domain.obcs 'step0_obcs_' dirs.datestamp '.mat']);	%obcs0 obcs
+clear extBathy a a0 idot;
 
 figure(1);clf;
 iface=[1,5];
@@ -54,9 +58,11 @@ for iobcs=[1,2,size(obcs,2),3,4];%:size(obcs,2)-1];
   hold off;
   %keyboard
 end;
+clear af;
 
 figure(1);set(gcf,'paperunits','inches','paperposition',[0 0 12 10]);
-fpr=[dirOBCS 'NA' nxstr 'x' num2str(ncut1) 'x' num2str(ncut2) '_obcsC.png'];print(fpr,'-dpng');fprintf('%s\n',fpr);
+fpr=[dirs.domain.obcs 'NA' id.nx 'x' id.ncut1 'x' id.ncut2 '_obcsC.png'];
+print(fpr,'-dpng');fprintf('%s\n',fpr);
 
 iloop=[0 0 0];
 clear type face
@@ -91,5 +97,7 @@ for iobcs=[1,2,size(obcs,2),3,4];%:size(obcs,2)-1];
 end;
 
 figure(2);set(gcf,'paperunits','inches','paperposition',[0 0 12 10]);
-fpr=[dirOBCS 'NA' nxstr 'x' num2str(ncut1) 'x' num2str(ncut2) '_obcsC270.png'];print(fpr,'-dpng');fprintf('%s\n',fpr);
-
+fpr=[dirs.domain.obcs 'NA' id.nx 'x' id.ncut1 'x' id.ncut2 '_obcsC270.png'];
+print(fpr,'-dpng');fprintf('%s\n',fpr);
+clear af0 iface face  ii iloop iobcs cc jface obcstype ss ss1 type obcs ...
+        obcs0 ll i fpr cc0 ccl;

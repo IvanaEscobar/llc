@@ -1,5 +1,5 @@
 %load in step1 llc270aste output, expand and interp to 106k
-clear all;
+%clear all;
 
 %get indices:
 define_indices;
@@ -7,31 +7,32 @@ define_indices;
 %set directory
 set_directory;
 
-dirIn  = dirOBCS;
+%print title
+fprintf('\nStep2b: modify hFac...\n');
+
+% load drF from step 2a
+dirIn  = dirs.domain.obcs;
 dirOut = dirIn;
 
-% load drF
-rC0  =   (squeeze(rdmds([dirGrid0    'RC'])));
-rC   =   (squeeze(rdmds([dirGrid_rF  'RC'])));
-rF0  =   (squeeze(rdmds([dirGrid0    'RF'])));
-rF   =   (squeeze(rdmds([dirGrid_rF  'RF'])));
-drF0 =   (squeeze(rdmds([dirGrid0    'DRF'])));  nz0=length(drF0);
-drF  =   (squeeze(rdmds([dirGrid_rF  'DRF'])));  nz =length(drF);
+rC0  =   (squeeze(rdmds([dirs.parent.grid    'RC'])));
+rC   =   (squeeze(rdmds([dirs.domain.grid_global  'RC'])));
+rF0  =   (squeeze(rdmds([dirs.parent.grid    'RF'])));
+rF   =   (squeeze(rdmds([dirs.domain.grid_global  'RF'])));
+drF0 =   (squeeze(rdmds([dirs.parent.grid    'DRF'])));  id.n.z0=length(drF0);
+drF  =   (squeeze(rdmds([dirs.domain.grid_global  'DRF'])));  id.n.z =length(drF);
 
 % load step 0 obcs structures
-fIn0=[dirIn 'step1_obcs_' datestamp '.mat'];load(fIn0,'obcs0','T0','S0','U0','V0');
+fIn0=[dirIn 'step1_obcs_' dirs.datestamp '.mat'];load(fIn0,'obcs0','T0','S0','U0','V0');
 
 % load step 2a obcs structure:
-fIn  =[dirOut 'step2a_obcs_' datestamp '.mat'];load(fIn);	%U,V,T,S,obcs
+fIn  =[dirOut 'step2a_obcs_' dirs.datestamp '.mat'];load(fIn);	%U,V,T,S,obcs
 
 %define output file: 
-fsave=[dirOut 'step2b_obcs_' datestamp '.mat'];
+fsave=[dirOut 'step2b_obcs_' dirs.datestamp '.mat'];
 
 %calculating hFac using updated bathy:
 hFacMin=0.2;
 hFacMinDr=5.;
-%hFacMin=0;
-%hFacMinDr=0.1;
 
 %define last obcs:
 obcs2=obcs;
@@ -167,7 +168,7 @@ clear hfvel0 ds0 vel0 hfvel1 ds1 vel1 scale1 sz tr0 tr1 tr1n scalen
   eval(['vel1  =' velstr '{iobcs};']);
   eval(['scale1=obcs2{iobcs}.scale' upper(dsstr) ';']);			%size [1 nx]
   sz=size(vel1);
-  scale1=repmat(scale1',[1 sz(2) sz(3)]);				%[nx nz nt]
+  scale1=repmat(scale1',[1 sz(2) sz(3)]);				%[nx id.n.z nt]
 
   tr0 =compute_gate_transport(vel0,ds0,drF0,hfvel0);
   tr1 =compute_gate_transport(vel1.*scale1,ds1,drF ,hfvel1);
@@ -181,7 +182,7 @@ clear hfvel0 ds0 vel0 hfvel1 ds1 vel1 scale1 sz tr0 tr1 tr1n scalen
 %here we're saving velocity that are already scaled. So if want to conserve relative to original hf, 
 %need to divide by scalen
 
-  clear tmp;tmp=repmat(scalen',[1 sz(1) sz(2)]);tmp=permute(tmp,[2 3 1]);%[nx nz nt]
+  clear tmp;tmp=repmat(scalen',[1 sz(1) sz(2)]);tmp=permute(tmp,[2 3 1]);%[nx id.n.z nt]
   fprintf('obcs2{iobcs}.%c=%c{iobcs}.*scale1.*tmp;\n',[velstr velstr]);
   fprintf('obcs2{iobcs}.%c=0.*obcs2{iobcs}.%c;\n',[velnulstr velstr]);
   eval(['obcs2{iobcs}.' velstr '=' velstr '{iobcs}.*scale1.*tmp;']);clear tmp;
@@ -229,7 +230,7 @@ save(fsave,'obcs2','-v7.3');fprintf('%s\n',fsave);
 obcs_balance=1;
 if(obcs_balance==1);
 
-  drF=abs(squeeze(rdmds([dirGrid_rF 'DRF'])));
+  drF=abs(squeeze(rdmds([dirs.domain.grid_global 'DRF'])));
 %South Atlantic:
   i=1;f1S=compute_gate_transport(obcs2{i}.V,obcs2{i}.dxg,drF',obcs2{i}.hfS);
   j=3;f5E=compute_gate_transport(obcs2{j}.U,obcs2{j}.dyg,drF',obcs2{j}.hfW);
@@ -248,16 +249,16 @@ if(obcs_balance==1);
   fGi=-f1E;
 
   figure(1);clf;colormap(seismic(21));
-  %subplot(321);j=5;mypcolor(1:nfy(1),-[1:nz],-mean(obcs2{j}.U,3)');ccp=max(abs(caxis));caxis([-ccp ccp]);
+  %subplot(321);j=5;mypcolor(1:nfy(1),-[1:id.n.z],-mean(obcs2{j}.U,3)');ccp=max(abs(caxis));caxis([-ccp ccp]);
   %                 mythincolorbar;title('face1 Gibraltar, +=intoMediter');grid;
   %                 ii=find(obcs{j}.imask==1);set(gca,'Xlim',[ii(1)-5 ii(end)+5]);% -32 -1]);
-  subplot(322);i=1;mypcolor(1:ncut1,-[1:nz], mean(obcs2{i}.V,3)');ccp=max(abs(caxis));caxis([-ccp ccp]);
+  subplot(322);i=1;mypcolor(1:id.ncut{1},-[1:id.n.z], mean(obcs2{i}.V,3)');ccp=max(abs(caxis));caxis([-ccp ccp]);
 		   mythincolorbar;grid;title('face1S, + =northward');
-  subplot(323);j=3;mypcolor(1:ncut1,-[1:nz],-mean(obcs2{j}.U,3)');ccp=0.05.*max(abs(caxis));caxis([-ccp ccp]);
+  subplot(323);j=3;mypcolor(1:id.ncut{1},-[1:id.n.z],-mean(obcs2{j}.U,3)');ccp=0.05.*max(abs(caxis));caxis([-ccp ccp]);
 		   mythincolorbar;title('face5E, + = northward');
-  subplot(324);j=2;mypcolor(1:ncut1,-[1:nz],-mean(obcs2{j}.V,3)');ccp=max(abs(caxis));caxis([-ccp ccp]);
+  subplot(324);j=2;mypcolor(1:id.ncut{1},-[1:id.n.z],-mean(obcs2{j}.V,3)');ccp=max(abs(caxis));caxis([-ccp ccp]);
                    mythincolorbar;title('face1N , +=S');grid;
-  subplot(321);j=4;mypcolor(1:ncut1,-[1:nz], mean(obcs2{j}.U,3)');ccp=max(abs(caxis));caxis([-ccp ccp]);
+  subplot(321);j=4;mypcolor(1:id.ncut{1},-[1:id.n.z], mean(obcs2{j}.U,3)');ccp=max(abs(caxis));caxis([-ccp ccp]);
                    mythincolorbar;title('face5W , +=S');grid;
   nt=size(f1S);nt=nt(2);
   subplot(349);plot(1:nt,fSA,'b-',1:nt,fGi,'g-',1:nt,fNA,'r-');grid;legend('fSA','fGi','fNA');
@@ -283,8 +284,8 @@ if(obcs_balance==1);
   
   dvel=imbl./sum(A15S(:));
 
-  obcs2{iobcs1S}.dV =  repmat(dvel',[1 ncut1 nz]);obcs2{iobcs1S}.dV=permute(obcs2{iobcs1S}.dV,[2 3 1]);
-  obcs2{iobcs5E}.dU = -repmat(dvel',[1 ncut1,nz]);obcs2{iobcs5E}.dU=permute(obcs2{iobcs5E}.dU,[2 3 1]);
+  obcs2{iobcs1S}.dV =  repmat(dvel',[1 id.ncut{1} id.n.z]);obcs2{iobcs1S}.dV=permute(obcs2{iobcs1S}.dV,[2 3 1]);
+  obcs2{iobcs5E}.dU = -repmat(dvel',[1 id.ncut{1},id.n.z]);obcs2{iobcs5E}.dU=permute(obcs2{iobcs5E}.dU,[2 3 1]);
   obcs2{iobcs5W}.dU = zeros(size(obcs2{iobcs5W}.U));
   obcs2{iobcs1N}.dV = zeros(size(obcs2{iobcs1N}.V));
 
@@ -299,19 +300,23 @@ if(obcs_balance==1);
   resid=fSAbl+(f5Wbl-f1Nbl)+(fGi);
   subplot(3,4,11);plot(f1Sbl-f1S,'b-');grid;hold on;plot(-f5Ebl+f5E,'r-');hold off;legend('f1Sbl-f1S','f5Ebl-f5E');
   subplot(3,4,12);plot(resid,'b-');grid;title(num2str(sum(resid)));legend('resid');%,'imbl');hold on;plot(imbl,'r-');
-  %subplot(323);mypcolor(1:nx,-[1:nz],-mean(obcs2{iobcs5E}.U-obcs2{iobcs5E}.dU,3)');grid;
+  %subplot(323);mypcolor(1:nx,-[1:id.n.z],-mean(obcs2{iobcs5E}.U-obcs2{iobcs5E}.dU,3)');grid;
 % 	cc1=max(abs(caxis));caxis([-cc1 cc1]);title('face5Ebl, + = northward');
-  %subplot(324);mypcolor(1:nx,-[1:nz],mean(obcs2{iobcs1S}.V-obcs2{iobcs1S}.dV,3)');
+  %subplot(324);mypcolor(1:nx,-[1:id.n.z],mean(obcs2{iobcs1S}.V-obcs2{iobcs1S}.dV,3)');
 %	cc1=max(abs(caxis));caxis([-cc1 cc1]);mythincolorbar;grid;title('face1Sbl, + =northward');
   set(gcf,'paperunits','inches','paperposition',[0 0 15 8]);
-  fpr=[dirOut 'figure02_step02b_bl' '.png'];print(fpr,'-dpng');fprintf('%s\n',fpr);
+  fpr=[dirOut 'figure02_step02b_bl' '.png'];
+  print(fpr,'-dpng');fprintf('%s\n',fpr);
 
 %updating vel to include balancing correction
 
   obcs2{iobcs5E}.U=obcs2{iobcs5E}.U-obcs2{iobcs5E}.dU;
   obcs2{iobcs1S}.V=obcs2{iobcs1S}.V-obcs2{iobcs1S}.dV;
 
-  fsave_bl=[dirOut 'step2b_obcs_' datestamp '_bl.mat'];
+  fsave_bl=[dirOut 'step2b_obcs_' dirs.datestamp '_bl.mat'];
   save(fsave_bl,'obcs2','-v7.3');fprintf('%s\n',fsave_bl);
-
 end
+
+clear a A* ans bathy* cc* dr* ds* dvel f1* f5* fGi fIn* fNA fpr fSA* fsave* ...
+    hf* hFac* i ii imbl iobcs* istr* itype ix iz j jj kk ll* mm nn nt obcs* ...
+    oo pp qq rC* resid rF* S* scale* sz T* tmp tr* U* V* vel* tmpb

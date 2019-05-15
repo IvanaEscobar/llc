@@ -7,31 +7,32 @@ define_indices;
 %set directory
 set_directory;
 
-dirIn  = dirOBCS;
+% Step title
+fprintf('\nStep2a: interpolate open boundary to regional domain...');
+
+dirIn  = dirs.domain.obcs;
 dirOut = dirIn;
 
 %calculating hFac using updated bathy:
 hFacMin=0.2;
 hFacMinDr=5.;
-%hFacMin=0;
-%hFacMinDr=0.1;
 
 eyeballing_Gibraltar=1;
 
 % load drF
-rC0  =   (squeeze(rdmds([dirGrid0    'RC'])));
-rC   =   (squeeze(rdmds([dirGrid_rF  'RC'])));
-rF0  =   (squeeze(rdmds([dirGrid0    'RF'])));
-rF   =   (squeeze(rdmds([dirGrid_rF  'RF'])));
-drF0 =   (squeeze(rdmds([dirGrid0    'DRF'])));  nz0=length(drF0);
-drF  =   (squeeze(rdmds([dirGrid_rF  'DRF'])));  nz =length(drF);
+rC0  =   (squeeze(rdmds([dirs.parent.grid    'RC'])));
+rC   =   (squeeze(rdmds([dirs.domain.grid_global  'RC'])));
+rF0  =   (squeeze(rdmds([dirs.parent.grid    'RF'])));
+rF   =   (squeeze(rdmds([dirs.domain.grid_global  'RF'])));
+drF0 =   (squeeze(rdmds([dirs.parent.grid    'DRF'])));  nz0=length(drF0);
+drF  =   (squeeze(rdmds([dirs.domain.grid_global  'DRF'])));  nz =length(drF);
 
 % load step 0 obcs structures
-fIn=[dirIn 'step0_obcs_' datestamp '.mat'];load(fIn,'obcs');
-fIn=[dirIn 'step1_obcs_' datestamp '.mat'];load(fIn,'obcs0','T0','S0','U0','V0');
+fIn=[dirIn 'step0_obcs_' dirs.datestamp '.mat'];load(fIn,'obcs');
+fIn=[dirIn 'step1_obcs_' dirs.datestamp '.mat'];load(fIn,'obcs0','T0','S0','U0','V0');
 
 nt=size(T0{1},3);
-fsave=[dirOut 'step2a_obcs_' datestamp '.mat'];
+fsave=[dirOut 'step2a_obcs_' dirs.datestamp '.mat'];
 
 %initialize
 for iobcs=1:size(obcs,2);	%8
@@ -41,20 +42,20 @@ for iobcs=1:size(obcs,2);	%8
   iv=unique(obcs{iobcs}.ivel(2,:));
   jv=unique(obcs{iobcs}.jvel(2,:));
 
-  ixp=zeros(1,length(obcs0{iobcs}.iC1(1,:)).*fac);
-  jyp=zeros(1,length(obcs0{iobcs}.jC1(1,:)).*fac);
+  ixp=zeros(1,length(obcs0{iobcs}.iC1(1,:)).*id.fac);
+  jyp=zeros(1,length(obcs0{iobcs}.jC1(1,:)).*id.fac);
   if(length(ix)==1);
     for k=1:length(obcs0{iobcs}.iC1(1,:));
-      i1=(obcs0{iobcs}.jC1(1,k)-1)*fac+1;i2=(obcs0{iobcs}.jC1(1,k))*fac;
-      jyp((k-1)*fac+1:k*fac)=i1:i2;
-      ixp((k-1)*fac+1:k*fac)=ix;
+      i1=(obcs0{iobcs}.jC1(1,k)-1)*id.fac+1;i2=(obcs0{iobcs}.jC1(1,k))*id.fac;
+      jyp((k-1)*id.fac+1:k*id.fac)=i1:i2;
+      ixp((k-1)*id.fac+1:k*id.fac)=ix;
     end;
     [a,b]=intersect(jyp,obcs{iobcs}.jC1(1,:));
   elseif(length(jy)==1);
     for k=1:length(obcs0{iobcs}.iC1(1,:));
-      i1=(obcs0{iobcs}.iC1(1,k)-1)*fac+1;i2=(obcs0{iobcs}.iC1(1,k))*fac;
-      ixp((k-1)*fac+1:k*fac)=i1:i2;
-      jyp((k-1)*fac+1:k*fac)=jy;
+      i1=(obcs0{iobcs}.iC1(1,k)-1)*id.fac+1;i2=(obcs0{iobcs}.iC1(1,k))*id.fac;
+      ixp((k-1)*id.fac+1:k*id.fac)=i1:i2;
+      jyp((k-1)*id.fac+1:k*id.fac)=jy;
     end;
     [a,b]=intersect(ixp,obcs{iobcs}.iC1(1,:));
   end;
@@ -81,14 +82,14 @@ varstr={'T','S','U','V'};
 % for T,S: set land to bottom-most non-NaN value to avoid spurious values toward zeros.
 
 for iobcs=1:size(obcs,2);
-  fprintf('iobcs: %i ',iobcs);
+  fprintf('\niobcs: %i ',iobcs);
   for ivar=1:size(varstr,2);
     fprintf('varstr: %s ',varstr{ivar});
     clear sz0 szp tmp tmp0 tmpp z0 x0 z x
 
     eval(['tmp0=' varstr{ivar} '0{iobcs};']);
-    %sz0=size(T0{iobcs});				%[nx0 nz0 nt]
-    %sz =size(T{iobcs});					%[nx0 nz0 nt]
+    %sz0=size(T0{iobcs});				%[id.n.x0 nz0 nt]
+    %sz =size(T{iobcs});					%[id.n.x0 nz0 nt]
     %[z0,x0]=meshgrid(rC0,1:sz(1));
     %[z ,x ]=meshgrid(rC ,1:sz(1));
 
@@ -109,7 +110,7 @@ for iobcs=1:size(obcs,2);
       end;
     end;
 
-    tmpp=interp_llc270toXXXX_v6(tmp0,flagXX,flagNZ,flaghFac,nx,drF0,drF);
+    tmpp=interp_llc270toXXXX_v6(tmp0,flagXX,flagNZ,flaghFac,id.n.x,drF0,drF);
     tmpp=tmpp(ind{iobcs},:,:);
 
 %fix special case of Gibraltar Strait
@@ -162,13 +163,13 @@ for iobcs=1:size(obcs,2);
   end;
 end;
 
-
+fprintf('\n\n');
 %check obcs:
 for iobcs=1:size(obcs0,2);
   fnames=fieldnames(obcs0{iobcs});
   clear sz0 szp iz ix tmp tmp0 z0 x0 z x
-  sz0=size(T0{iobcs});					%[nx0 nz0 nt]
-  sz =size(T{iobcs});					%[nx0 nz0 nt]
+  sz0=size(T0{iobcs});					%[id.n.x0 nz0 nt]
+  sz =size(T{iobcs});					%[id.n.x0 nz0 nt]
   [z0,x0]=meshgrid(rC0,1:sz(1));
   [z ,x ]=meshgrid(rC ,1:sz(1));
 
@@ -182,12 +183,12 @@ for iobcs=1:size(obcs0,2);
       eval(['tmp0=obcs0{iobcs}.' fnamep ';']);
       szp=size(tmp0);
       iz=find(szp==sz0(2));	%nz0
-      ix=find(szp==sz0(1));	%nx0
+      ix=find(szp==sz0(1));	%id.n.x0
       if(length(szp)==2);szp=[szp 1];end;
 
       if(ix==1);
         if(isempty(iz)==1);
-          tmp=interp_llc270toXXXX_v6(tmp0,flagXX,0,0,nx,drF0,drF);
+          tmp=interp_llc270toXXXX_v6(tmp0,flagXX,0,0,id.n.x,drF0,drF);
           if(eyeballing_Gibraltar==1 & obcs{iobcs}.flag_case==1);
             tmp=zeros(size(tmp));
             ik =find(obcs{iobcs}.imask==1);            %2 or 4 or 6 or etc.
@@ -203,7 +204,7 @@ for iobcs=1:size(obcs0,2);
           if(length(strfind(fnamep,'hf'))>0);			%skipping hf[S,W] for now
             if(fnamep(3)=='C');
               fprintf('%s ',fnamep);
-              eval(['D=interp_llc270toXXXX_v6(obcs0{iobcs}.D' fnamep(4) ',flagXX,0,0,nx,drF0,drF);']);
+              eval(['D=interp_llc270toXXXX_v6(obcs0{iobcs}.D' fnamep(4) ',flagXX,0,0,id.n.x,drF0,drF);']);
               if(eyeballing_Gibraltar==1 & obcs{iobcs}.flag_case==1);
 %in the case of eyeballing, will match exactly
                 D=0.*D;
@@ -223,7 +224,7 @@ for iobcs=1:size(obcs0,2);
               tmp=nan(length(ind{iobcs}),length(iz),szp(3));
             end;
           else;
-            tmpp=interp_llc270toXXXX_v6(tmp0,flagXX,0,0,nx,drF0,drF);
+            tmpp=interp_llc270toXXXX_v6(tmp0,flagXX,0,0,id.n.x,drF0,drF);
             tmpp=tmpp(ind{iobcs},:,:);
 
             z0=abs(rC0');z1=abs(rC');
@@ -303,6 +304,7 @@ if(check_transport==1);
   %str2={'x','y','y','y'};
   %str3={'S','W','W','W'};
 
+  fprintf('\n\n');
   for iobcs=1:size(obcs,2);
     clear tmp sc vel ds hf tmp0 vel0 ds0 hf0 a
     
@@ -319,8 +321,8 @@ if(check_transport==1);
   
     a=tmp-tmp0;fprintf('iobcs: %i , [sum,mean] resid transport: %g %g\n',[iobcs,sum(a),mean(a)]);
     if(obcs{iobcs}.flag_case==1);
-      fprintf('Gibralta mean transport [obcs0,obcs]: %f %f\n',[mean(tmp0) mean(tmp)]./1e6);
-      fprintf('Correct Gibralta mean transport is 0.046344737627870 Sv\n');		%eccov4r3
+      fprintf('\nGibraltar mean transport [obcs0,obcs]: %f %f\n',[mean(tmp0) mean(tmp)]./1e6);
+      fprintf('Correct Gibraltar mean transport is 0.046344737627870 Sv\n');		%eccov4r3
     end;
   end;
 % from aste_1080x1260x540x90:
@@ -351,3 +353,8 @@ end;
 
 save(fsave,'obcs','T','S','U','V','-v7.3');fprintf('%s\n',fsave);
 
+clear b check_transport D dz dz1 dz2 fIn flaghFac ...
+    eyeballing_Gibraltar flagNZ flagXX fnamep fnames fsave hFacMin hFacMinDr ...
+    hfnew i i1 i2 iface ifld ii ik ik0 ind iobces istr iv ivar ix ixp iz nz ...
+    iznan junk jv jy jyp k Lix Ljy nt iobcs nz0 obcs obcs0 S ...
+    S0 ss str sz sz0 szp T T0 tmp* U U0 V V0 varstr w1 w2 x x0 z z0 z1

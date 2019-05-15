@@ -1,4 +1,5 @@
 clear all;
+%% NOT USED BY ME
 dirIn1='/nobackupp2/atnguye4/llc4320/global/run_template/';
 dirIn='/nobackupp8/dmenemen/tarballs/llc_4320/run_template/';
 dirGrid=[dirIn '../grid/'];

@@ -79,11 +79,11 @@ if (strcmp(hostname,'sverdrup.ices.utexas.edu')>0)
 
     %directory of ASTE llc270
     if id.nx0 == '270'
-        astedim = [id.nx0 'x450x180']; % (hardcoded)
+        astedim = [id.nx0 'x450x180']; % hardcoded
         dirs.parent.root=['/scratch/' user '/aste_' astedim '/'];
         % Latest bathy: 3Feb2017
         dirs.parent.grid=[dirs.parent.root 'GRID_real8/']; 
-        dirs.parent.data_grid = 'real8'; % (harcoded: check w. An)
+        dirs.parent.data_grid = 'real8'; % hardcoded
     end
 end
 
@@ -91,6 +91,7 @@ end
 dirs.runStr='run_BE2_dthetadr_it0047_pk0000000003';
 dirs.runStrShort='jra55i47';%2002-2015
 dirs.parent.run=[dirs.parent.root dirs.runStr '/'];
+dirs.parent.run_copy=['/scratch/ivana/' dirs.runStr '_copy/'];
 dirs.yr_obcs=2002:2015;		
 
 %directory for domain grid vertical rF (same as parent):

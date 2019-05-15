@@ -3,21 +3,25 @@ clear all;
 %define grid:
 define_indices;
 
-nxp=ncut1;ny=2*ncut2;
+nxp=id.ncut{1};ny=2*id.ncut{2};
 
 %--- set directory ---
 set_directory;
-dirIn  = dirOBCS;
+
+%set title
+fprintf('\nStep 3: fix bathymetry...\n');
+
+dirIn  = dirs.domain.obcs;
 dirOut = dirIn;
 
-fIn=[dirOut 'step2b_obcs_' datestamp '.mat'];load(fIn,'obcs2');
+fIn=[dirOut 'step2b_obcs_' dirs.datestamp '.mat'];load(fIn,'obcs2');
 
 % read in the bathymetry:
-tmp=dir(fBathyIn);precIn='real*4';if(tmp.bytes/nxp/ny/4==2);precIn='real*8';end;
-bathy=abs(readbin(fBathyIn,[nxp ny],1,precIn));
-bathy=get_aste_faces(bathy,nfx,nfy);
+tmp=dir(dirs.bathy.fIn);precIn='real*4';if(tmp.bytes/nxp/ny/4==2);precIn='real*8';end;
+bathy=abs(readbin(dirs.bathy.fIn,[nxp ny],1,precIn));
+bathy=get_aste_faces(bathy,id.nf.x,id.nf.y);
 bathy0=bathy;
-ind=zeros(nxp,ny);ind=get_aste_faces(ind,nfx,nfy);
+ind=zeros(nxp,ny);ind=get_aste_faces(ind,id.nf.x,id.nf.y);
 
 for iobcs=1:size(obcs2,2);
   iface=obcs2{iobcs}.face;
@@ -33,8 +37,8 @@ for iobcs=1:size(obcs2,2);
     clear ij;tmp=ind{iface}(ix1(imask),jy1);ij=find(tmp(:)>=0);tmp(ij)=tmp(ij)+1;ind{iface}(ix1(imask),jy1)=tmp;
     clear ij;tmp=ind{iface}(ix1(imask),jy2);ij=find(tmp(:)>=0);tmp(ij)=tmp(ij)+1;ind{iface}(ix1(imask),jy2)=tmp;
     if(obcs2{iobcs}.obcsstr=='N');
-      bathy{iface}(ix1(imask),jy1+1:nfy(iface))=0;
-      ind{iface}(ix1(imask),jy1+1:nfy(iface))=-1;
+      bathy{iface}(ix1(imask),jy1+1:id.nf.y(iface))=0;
+      ind{iface}(ix1(imask),jy1+1:id.nf.y(iface))=-1;
     else;
       bathy{iface}(ix1(imask),1:jy1-1)=0;
       ind{iface}(ix1(imask),1:jy1-1)=-1;
@@ -45,8 +49,8 @@ for iobcs=1:size(obcs2,2);
     clear ij;tmp=ind{iface}(ix1,jy1(imask));ij=find(tmp(:)>=0);tmp(ij)=tmp(ij)+1;ind{iface}(ix1,jy1(imask))=tmp;
     clear ij;tmp=ind{iface}(ix2,jy1(imask));ij=find(tmp(:)>=0);tmp(ij)=tmp(ij)+1;ind{iface}(ix2,jy1(imask))=tmp;
     if(obcs2{iobcs}.obcsstr=='E');
-      bathy{iface}(ix1+1:nfx(iface),jy1(imask))=0;
-      ind{iface}(ix1+1:nfx(iface),jy1(imask))=-1;
+      bathy{iface}(ix1+1:id.nf.x(iface),jy1(imask))=0;
+      ind{iface}(ix1+1:id.nf.x(iface),jy1(imask))=-1;
     else;
       bathy{iface}(1:ix1-1,jy1(imask))=0;
       ind{iface}(1:ix1-1,jy1(imask))=-1;
@@ -56,14 +60,14 @@ for iobcs=1:size(obcs2,2);
   if(obcs2{iobcs}.flag_case==1);
     bathy{iface}(ix1,jy1(imask(1))-20:jy1(imask(1))-1)=0;
     bathy{iface}(ix1,jy1(end)+1:jy1(imask(end))+20)=0;
-    bathy{iface}(ix1+1:nfx(iface),jy1(imask(1))-20:jy1(imask(end))+20)=0;
+    bathy{iface}(ix1+1:id.nf.x(iface),jy1(imask(1))-20:jy1(imask(end))+20)=0;
     ind{iface}(ix1,jy1(imask(1))-20:jy1(imask(1))-1)=-1;
     ind{iface}(ix1,jy1(imask(end))+1:jy1(imask(end))+20)=-1;
-    ind{iface}(ix1+1:nfx(iface),jy1(imask(1))-20:jy1(imask(end))+20)=-1;
+    ind{iface}(ix1+1:id.nf.x(iface),jy1(imask(1))-20:jy1(imask(end))+20)=-1;
   end;
 end;
 
-iface=find(nfx>0);
+iface=find(id.nf.x>0);
 nface=length(iface);
 figure(1);clf;
 for i=1:length(iface);
@@ -100,12 +104,12 @@ fix_bathy_v1;
 %now put face 1 and face5 together to blend
 a=cat(1,sym_g_mod(bathy{5},7,0),bathy{1});
 
-%%fOut=[dirRoot 'run_template/bathy_aste' nxstr 'x' num2str(ncut2) 'x' num2str(ncut1) '_obcs' datestamp '.bin'];
-%bcompact=get_aste_tracer(bathy,nfx,nfy);
+%%fOut=[dirRoot 'run_template/bathy_aste' nxstr 'x' num2str(id.ncut{2}) 'x' num2str(id.ncut{1}) '_obcs' dirs.datestamp '.bin'];
+%bcompact=get_aste_tracer(bathy,id.nf.x,id.nf.y);
 %
-%bcompact=aste_tracer2compact(bcompact,nfx,nfy);
+%bcompact=aste_tracer2compact(bcompact,id.nf.x,id.nf.y);
 %bcompact=-abs(bcompact);
-%writebin(fBathyOut,bcompact,1,'real*4');
+%writebin(dirs.bathy.fOut,bcompact,1,'real*4');
 %
 %if(blend_bathy==1);
 %
@@ -141,5 +145,5 @@ for k=1:Liy;
 end;
 %
 
-bcompact1=aste_tracer2compact(a,nfx,nfy);bcompact1=-abs(bcompact1);
-writebin(fBathyOut,bcompact1,1,'real*4');
+bcompact1=aste_tracer2compact(a,id.nf.x,id.nf.y);bcompact1=-abs(bcompact1);
+writebin(dirs.bathy.fOut,bcompact1,1,'real*4');

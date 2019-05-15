@@ -1,7 +1,7 @@
 %inspection, face1, for this face, North obcs: valid up to index 1424 in x-dir
 i=1;
-ix=1563:ncut1;iy= 271:ncut2;bathy{i}(ix,iy)=0; ix=1425:ncut1;iy=1058:ncut2;bathy{i}(ix,iy)=0;
-ix=1425:ncut1;iy=1045:ncut2;bathy{i}(ix,iy)=0; ix=1421:1423; iy=1051:1054; bathy{i}(ix,iy)=0;
+ix=1563:id.ncut{1};iy= 271:id.ncut{2};bathy{i}(ix,iy)=0; ix=1425:id.ncut{1};iy=1058:id.ncut{2};bathy{i}(ix,iy)=0;
+ix=1425:id.ncut{1};iy=1045:id.ncut{2};bathy{i}(ix,iy)=0; ix=1421:1423; iy=1051:1054; bathy{i}(ix,iy)=0;
 ix=1383:1385; iy=1034:1037; bathy{i}(ix,iy)=0; ix=1392:1395; iy=1043:1047; bathy{i}(ix,iy)=0;
 ix=1378:1387; iy=1019:1026; bathy{i}(ix,iy)=0; ix=1385:1398; iy=1010:1018; bathy{i}(ix,iy)=0;
 ix=1395:1408; iy= 989:1005; bathy{i}(ix,iy)=0; ix=1383:1385; iy=1016:1019; bathy{i}(ix,iy)=0;

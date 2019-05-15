@@ -3,6 +3,9 @@ clear all;
 define_indices;
 set_directory;
 
+%% set title
+fprintf('\nPlot tile for parallel decomposition...\n');
+
 nxp=2*id.nf.y(1);
 a=readbin(dirs.bathy.fOut,[nxp id.n.y]);
 hf1=ones(size(a));hf1(find(a==0))=0;
@@ -11,22 +14,24 @@ hf{5}=reshape(hf1(1:nxp,sum(id.nf.y(1:3))+id.nf.x(4)+1:sum(id.nf.y(1:3)) ...
     +sum(id.nf.x(4:5))),id.nf.x(5),id.nf.y(5)); 
 %[hf1,hf]=get_aste_tracer(hf,id.nf.x,id.nf.y);%clear hf
 
-factor(id.ncut{1})      %2 2 2 2 3 3 3 5	%2160
-factor(id.ncut{2})	   %2 2 2 3 3 3   5	%1080
+factor(id.ncut{1});      %2 2 2 2 3 3 3 5	%2160
+factor(id.ncut{2});	   %2 2 2 3 3 3   5	%1080
 
 %possible tile size:
 % 24 30 40 45 54 60 72 90 108 120 
 
-for icase=1:9;
-if(icase==1);dtilex=30;dtiley=30;       %total 5184, 3957
-elseif(icase==2);dtilex=40;dtiley=40;	%total 2916, 2238 
-elseif(icase==3);dtilex=45;dtiley=45;	%total 2304, 1779 
-elseif(icase==4);dtilex=54;dtiley=54;	%total 1600, 1243 
-elseif(icase==5);dtilex=60;dtiley=60;	%total 1296, 1006 
-elseif(icase==6);dtilex=72;dtiley=72;	%total  900,  698 
-elseif(icase==7);dtilex=90;dtiley=90;	%total  576,  456 
-elseif(icase==8);dtilex=108;dtiley=108;	%total  400,  313 
-elseif(icase==9);dtilex=120;dtiley=120;	%total  324,  257 
+for icase=1:11;
+if(icase==1);dtilex=24;dtiley=24;           %total 8100, 6167 
+elseif(icase==2);dtilex=30;dtiley=30;       %total 5184, 3957
+elseif(icase==3);dtilex=36;dtiley=36;       %total 3600, 2752
+elseif(icase==4);dtilex=40;dtiley=40;   	%total 2916, 2238 
+elseif(icase==5);dtilex=45;dtiley=45;   	%total 2304, 1779 
+elseif(icase==6);dtilex=54;dtiley=54;   	%total 1600, 1243 
+elseif(icase==7);dtilex=60;dtiley=60;   	%total 1296, 1006 
+elseif(icase==8);dtilex=72;dtiley=72;   	%total  900,  698 
+elseif(icase==9);dtilex=90;dtiley=90;   	%total  576,  456 
+elseif(icase==10);dtilex=108;dtiley=108;	%total  400,  313 
+elseif(icase==11);dtilex=120;dtiley=120;	%total  324,  257 
 end;
 print_fig=1;
 %nx=nx;ny=2*nx1+nx2+nx;id.nf.x=[nx 0 nx nx2 nx1];id.nf.y=[nx1 0 nx nx nx];
@@ -99,5 +104,5 @@ for iface=[1,5];
 end;
   fprintf('tilex,tiley,total_tile,num_tile: [%i %i %i %i]\n',[dtilex,dtiley,nxp*id.n.y/dtilex/dtiley,cc]);
 
-keyboard
+%keyboard
 end;

@@ -7,13 +7,16 @@ define_indices;
 %set directory
 set_directory;
 
-dirIn  = dirOBCS;
+%Set title
+fprintf('\nStep 2c: save interploated open boundary conditions...\n');
+
+dirIn  = dirs.domain.obcs;
 dirOut = dirIn;
 
 % load step2b obcs structures
 extbl='';
 obcs_balance=1;if(obcs_balance==1);extbl='_bl';end;
-fIn  =[dirOut 'step2b_obcs_' datestamp extbl '.mat'];
+fIn  =[dirOut 'step2b_obcs_' dirs.datestamp extbl '.mat'];
 load(fIn);	%obcs2
 
 %arrange into East, West, North South
@@ -87,7 +90,7 @@ for iloop=1:size(obcsstr,2);	%NSEW
   str=[sprintf('%4.4i',L) 'x' nzstr 'x' ntstr];
   for ivar=1:size(varstr,2);
     clear tmp fOut
-    fOut=[dirOut 'OB' obcsstr{iloop} lower(varstr{ivar}) '_' str '_' datestamp extbl '.bin'];
+    fOut=[dirOut 'OB' obcsstr{iloop} lower(varstr{ivar}) '_' str '_' dirs.datestamp extbl '.bin'];
     eval(['tmp=' obcsstrlong{iloop} '.' varstr{ivar} ';']);
     writebin(fOut,tmp,1,'real*4');fprintf('%s\n',fOut);
   end;
@@ -152,3 +155,6 @@ fprintf('%4i %4i ; %4i at %4i\n',[ii(1:end-1)+1 ii(2:end) ii(2:end)-ii(1:end-1) 
 %OB_JWest: 
 %   1 1080 ; 1080 at    0
 %1081 3240 ; 2160 at   24
+
+clear East extbl f* get_field i iface ii iloop ivar ix iy jy L* n* North obcs* ...
+    South s* tmp varstr West write_files xshift yshift inan iobcs
