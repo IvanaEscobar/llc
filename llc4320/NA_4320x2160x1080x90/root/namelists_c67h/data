@@ -111,10 +111,10 @@
 ### Time stepping parameters -------------------------------------------------- 
  &PARM03
 # ---------- (1) 1 day simu ----------
-# deltaT     =   30.,
-# nIter0     =   0,
-## 1 day at 30sec: 24*3600/30 = 2880
-# nTimeSteps =   2880,
+ deltaT     =   30.,
+ nIter0     =   0,
+# 1 day at 30sec: 24*3600/30 = 2880
+ nTimeSteps =   2880,
 # ---------- (2) 3 day simu ----------
 # deltaT     =    45.,
 ## nIter0: 2880*30 / 45 = 1920
@@ -133,17 +133,24 @@
 # nIter0     = 10560,
 ## 4 weeks at 90sec: 24*7*4*3600/90 = 26880
 # nTimeSteps = 26880,
-# ---------- (5) 12 weeks simu ----------
- deltaT      =    120.,
-# nIter0: 2880*30/120 + 5760*45/120 + 10080*60/120 + 26880*90/120 = 28080
- nIter0     = 28080,
-# 12 weeks at 120sec: 24*7*12*3600/120 = 60480
- nTimeSteps = 60480,
-# ---------- (6) 24 weeks simu ----------
+## ---------- (5) 12 weeks simu ----------
+# deltaT      =    120.,
+## nIter0: 2880*30/120 + 5760*45/120 + 10080*60/120 + 26880*90/120 = 28080
+# nIter0     = 28080,
+## 12 weeks at 120sec: 24*7*12*3600/120 = 60480
+# nTimeSteps = 60480,
+## ---------- (6) 24 weeks simu ----------
 # deltaT      =    180.,
 ## nIter0: 2880*30/180 + 5760*45/180 + 10080*60/180 + 26880*90/180 ...
 ##         + 60480*120/180 = 59040
 # nIter0     = 59040,
+## 24 weeks at 180sec: 24*7*24*3600/180 = 80640
+# nTimeSteps = 80640,
+
+
+
+# deltaT     = 90.,
+# nIter0     = 1,
 ## 24 weeks at 180sec: 24*7*24*3600/180 = 80640
 # nTimeSteps = 80640,
 
@@ -153,8 +160,8 @@
 
 # ---------- (1) 1 day simu ----------
 # ---------- (2) 2 day simu ----------
-# monitorFreq =   1.,
-# chkptFreq  = 21600.,
+ monitorFreq =   1.,
+ chkptFreq  = 21600.,
 # ---------- (3) 1 week simu ----------
 ## every hour
 # monitorFreq =   3600.
@@ -162,8 +169,8 @@
 # ---------- (4) 4 weeks simu ----------
 # ---------- (5) 12 weeks simu ----------
 ## every 3 hours
- monitorFreq =   10800.
- chkptFreq = 86400.
+# monitorFreq =   10800.
+# chkptFreq = 86400.
 # ---------- (6) 24 weeks simu ----------
 ## every 12 hours
 # monitorFreq =   43200.

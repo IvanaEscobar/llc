@@ -11,6 +11,12 @@ vers="_c67h"
 ## Set up file extensions: blank if no extension
 ext=""
 
+## Specify parallel domain decomposition:
+#   Read SIZE.h or data.exch2 for sNx, sNy, and nPx
+sNx="120"
+sNy=$sNx
+nPx="257"
+
 ## Set up pickup time step file extension: '00000000' if no pickup
 pkup="00000000"
 pkup_prev=""
@@ -31,6 +37,7 @@ scratchDir=$SCRATCH/llc/llc4320/NA_4320x2160x1080x90
 exeDir=$scratchDir/run$vers${ext}_pk$pkup
 
 submit_script=$srcDir/submit_scratch$suff
+sizeh=$codeDir/SIZE.h_${sNx}x${sNy}x$nPx
 ## =============================================================================
 ## Create executing directory: where gcm output will go
 if [ ! -d $exeDir ] ; then
@@ -51,11 +58,20 @@ echo "Grabbing necessary files ..."
 # Submission script
 cp $submit_script .
 
+# SIZE.h
+cp $sizeh SIZE.h
+
 # Executable
-cp -f $buildDir/mitgcmuv$suff .
+cp -f $buildDir/mitgcmuv_${sNx}x${sNy}x${nPx}$suff mitgcmuv
 
 # Namelists
 cp -f $inpDir/* .
+if [ ! -f "$inpDir/data.exch2_${sNx}x${sNy}x$nPx" ]; then
+    echo "Check for correct data.exch2 file"
+    exit 1
+else
+    cp -f $inpDir/data.exch2_${sNx}x${sNy}x$nPx data.exch2
+fi
 
 # 6 hour forcing files
 forcingDir=$WORK/forcing
@@ -65,7 +81,7 @@ if [ ! -d /.jra55 ]; then
 fi
 
 # binary files
-dataDir=$WORK/../NA4320-data
+dataDir=$srcDir/run_template
 ln -sf $dataDir/input_binaries/* .
 ln -sf $dataDir/input_pickup/* .
 ln -sf $dataDir/input_obcs/*.bin .

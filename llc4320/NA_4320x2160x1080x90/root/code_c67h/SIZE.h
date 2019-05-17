@@ -26,12 +26,8 @@ C     Nx  - No. points in X for the total domain.
 C     Ny  - No. points in Y for the total domain.
 C     Nr  - No. points in Z for full process domain.
 C     &     nPx =  1080*2160*2 /120/120 = 324 - land = 257
-C /108/108 = 400 - land = 313
-C/90/90 = 
-C                             /45/30 = 864
-C                             /60/30 = 648
-C                             /45/45 = 576
-C                             /30/30 = 1296
+C                              /108/108 = 400 - land = 313
+C                              /90/90   = 576 - land = 456 
       INTEGER sNx
       INTEGER sNy
       INTEGER OLx
@@ -45,7 +41,7 @@ C                             /30/30 = 1296
       INTEGER Nr
       PARAMETER (
      &           sNx =  120,
-     &           sNy =  120,
+     &           sNy =  sNx,
      &           OLx =   8,
      &           OLy =   8,
      &           nSx =   1,

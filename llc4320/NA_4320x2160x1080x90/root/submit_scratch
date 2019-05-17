@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #SBATCH -J NA4320
-#SBATCH -o sbatch.output/NA4320.%j.out
-#SBATCH -e sbatch.output/NA4320.%j.err
+#SBATCH -o NA4320.%j.out
+#SBATCH -e NA4320.%j.err
 #SBATCH -A Transfer-of-ECCO-glo
 #================================================
 # Tile size 30x30
@@ -28,11 +28,38 @@
 #SBATCH --mail-type=begin
 #SBATCH --mail-type=end
 
+## Set up suffix for run
+#   adjoint run: "_ad"
+#   forward run: "" 
+suff=""
+
+## Set up code version: blank if current version
+vers="_c67h"
+
+## Set up file extensions: blank if no extension
+ext=""
+
+## Specify parallel domain decomposition:
+#   Read SIZE.h or data.exch2 for sNx, sNy, and nPx
+sNx="120"
+sNy=$sNx
+nPx="257"
+
+## Set up pickup time step file extension: '00000000' if no pickup
+pkup="0000000001"
+pkup_prev="0000010XXXX"
+
+## =============================================================================
+## Set up directories:
+scratchDir=$SCRATCH/llc/llc4320/NA_4320x2160x1080x90
+exeDir=$scratchDir/run$vers${ext}_pk$pkup
+## =============================================================================
 ### Run in the $SCRATCH project directory ###
+cd $exeDir
 
 module restore
 module load remora
 set -x
 date>run.MITGCM.timing
-remora ibrun tacc_affinity $exeDir/mitgcmuv$suff
+remora ibrun tacc_affinity mitgcmuv_${sNx}x${sNy}x${nPx}$suff
 date>>run.MITGCM.timing
