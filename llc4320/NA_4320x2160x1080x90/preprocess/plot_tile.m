@@ -99,10 +99,12 @@ for iface=[1,5];
   elseif(iface==4);set(gcf,'paperunit','inches','paperposition',[0 0 8 10]);
   else;            set(gcf,'paperunit','inches','paperposition',[0 0 16 10]);end;
   figure(iface);fpr=[dirs.domain.grid 'Face' num2str(iface) '_tile' sprintf('%2.2i',dtilex) 'x' sprintf('%2.2i',dtiley) '.png'];
-  print(fpr,'-dpng');fprintf('%s\n',fpr);
+  print(fpr,'-dpng');%fprintf('%s\n',fpr);
   end;
 end;
   fprintf('tilex,tiley,total_tile,num_tile: [%i %i %i %i]\n',[dtilex,dtiley,nxp*id.n.y/dtilex/dtiley,cc]);
 
 %keyboard
 end;
+
+clear a* b* cc* dtile* f* h* i icase iface ix j* l* msk n* print* temp*
