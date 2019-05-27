@@ -1,19 +1,27 @@
 #!/bin/bash
 ## Copy this into your problem directory and modify to your needs
 
-## Set up suff for run: 
+## Set up fwdAdj for run: 
 #	"_ad": adjoint
 #	"":    forward
-suff=""
+fwdAdj=""
 
 ## Set up code version: blank if current version
 vers="_c67h"
 
 ## Specify parallel domain decomposition:
-#   Read SIZE.h to determine sNx, sNy, and nPx
-sNx="120"
+#   Read SIZE.h or data.exch2 for sNx, sNy, and nPx
+sNx="54"
 sNy=$sNx
-nPx="257"
+nPx="1234"
+##---
+#sNx="45"
+#sNy=$sNx
+#nPx="1779"
+##---
+#sNx="120"
+#sNy=$sNx
+#nPx="257"
 
 ## Set up directories:
 #	gcmDir: MITgcm code
@@ -21,14 +29,14 @@ nPx="257"
 #		  Ex: in sverdrup: ~ivana/llc/llc4320/NA_4320x2160x1080x90/root/
 gcmDir=$HOME/MITgcm$vers
 srcDir=$PWD #/work/05427/llc/llc4320/NA_4320x2160x1080x90/root/
-buildDir=$srcDir/build$vers$suff
-codeDir=$srcDir/code$vers$suff
+buildDir=$srcDir/build$vers$fwdAdj
+codeDir=$srcDir/code$vers$fwdAdj
 
 ## Copy correct SIZE.h file
 if [ -f "$codeDir/SIZE.h_${sNx}x${sNy}x$nPx" ]; then
     cp $codeDir/SIZE.h_${sNx}x${sNy}x$nPx $codeDir/SIZE.h
 else
-    echo "Add SIZE.h_sNxxsNyxnPx in code directory..."
+    echo "Add SIZE.h_sNx x sNy x nPx in code directory..."
     exit 1
 fi
 
@@ -39,14 +47,14 @@ opt=$env_setups/optfiles/linux_amd64_ifort+mpi_stampede2
 build_cmd="$gcmDir/tools/genmake2 -rd=$gcmDir -mods=$codeDir -optfile=$opt -mpi"
 
 ## Check which run to set up
-if [[ $suff == "_ad" ]]
+if [[ $fwdAdj == "_ad" ]]
   then
         echo "Preparing adjoint run ..."
-elif [[ $suff == "" ]]
+elif [[ $fwdAdj == "" ]]
   then
         echo "Preparing forward run ..."
 else
-        echo "Unsure of suffix, exiting ..."
+        echo "Unsure of fwdAdj suffix, exiting ..."
         exit 1
 fi
 
@@ -70,7 +78,7 @@ eval $build_cmd
 echo "Make depend ..."
 eval "make depend" 
 echo "Making executable ..."
-if [[ $suff == "_ad" ]] ; then
+if [[ $fwdAdj == "_ad" ]] ; then
   eval "make -j 4 adall" 
 else
   eval "make -j 4"

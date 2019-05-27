@@ -1,5 +1,5 @@
 #!/bin/bash -x
-#SBATCH -J NA43t5
+#SBATCH -J NA4320s2
 #SBATCH -o bash.out/NA4320.%j.out
 #SBATCH -e bash.out/NA4320.%j.err
 ## A time limit of 0 means no time limit is to be set

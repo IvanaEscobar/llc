@@ -83,7 +83,7 @@
  useSingleCpuIO  = .TRUE.,
  readBinaryPrec  = 32,
  writeBinaryPrec = 32,
- debuglevel      = 1,
+ debuglevel      = 0,
 #
 ## Unused parameters.
 # gravity = 9.81,
@@ -110,11 +110,19 @@
  &
 ### Time stepping parameters -------------------------------------------------- 
  &PARM03
+# ---------- (4) 4 weeks simu ----------
+ deltaT      =    90.,
+# nIter0: 
+ nIter0     = 0,
+## 4 weeks at 90sec: 24*7*4*3600/90 = 26880
+# nTimeSteps = 26880,
+# 12 weeks at 90sec: 24*7*12*3600/90 = 80640 
+ nTimeSteps = 80640,
 # ---------- (1) 1 day simu ----------
- deltaT     =   30.,
- nIter0     =   0,
-# 1 day at 30sec: 24*3600/30 = 2880
- nTimeSteps =   2880,
+# deltaT     =   30.,
+# nIter0     =   0,
+## 1 day at 30sec: 24*3600/30 = 2880
+# nTimeSteps =   2880,
 # ---------- (2) 3 day simu ----------
 # deltaT     =    45.,
 ## nIter0: 2880*30 / 45 = 1920
@@ -160,7 +168,7 @@
 
 # ---------- (1) 1 day simu ----------
 # ---------- (2) 2 day simu ----------
- monitorFreq =   1.,
+ monitorFreq = 21600.,
  chkptFreq  = 21600.,
 # ---------- (3) 1 week simu ----------
 ## every hour
@@ -211,7 +219,7 @@
 # ----------------------------------------------------------------------------- 
 ### Bathymetry files and initial condition files
  &PARM05
- bathyFile       = 'SandSv18p1_NA4320x2160x1080_obcs13Jul2018.bin',
+ bathyFile       = 'SandSv18p1_NA4320x2160x1080_obcs11Jan2019.bin',
  hydrogThetaFile = 'WOA09v2_T_llc4320_JAN.bin',
  hydrogSaltFile  = 'WOA09v2_S_llc4320_JAN.bin',
 # uVelInitFile    = 'U0_2160x540x100.bin',

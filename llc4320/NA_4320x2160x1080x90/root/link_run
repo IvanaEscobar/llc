@@ -1,9 +1,9 @@
 #!/bin/bash
 
-## Set up suffix for run
-#   adjoint run: "_ad"
-#   forward run: "" 
-suff=""
+## Set up fwdAdj for run: 
+#	"_ad": adjoint
+#	"":    forward
+fwdAdj=""
 
 ## Set up code version: blank if current version
 vers="_c67h"
@@ -13,13 +13,22 @@ ext=""
 
 ## Specify parallel domain decomposition:
 #   Read SIZE.h or data.exch2 for sNx, sNy, and nPx
-sNx="120"
+sNx="54"
 sNy=$sNx
-nPx="257"
+nPx="1234"
+##---
+#sNx="45"
+#sNy=$sNx
+#nPx="1779"
+##---
+#sNx="120"
+#sNy=$sNx
+#nPx="257"
 
-## Set up pickup time step file extension: '00000000' if no pickup
-pkup="00000000"
-pkup_prev=""
+## Set up pickup time step file extension: '0000000000' if no pickup
+### Picking up from the 5 week "warm up" run on sverdrup
+pkup="0000000001"
+pkup_prev="0000010560"
 
 ## =============================================================================
 ## Set up directories:
@@ -27,16 +36,15 @@ pkup_prev=""
 #   srcDir:    Problem run
 #       Ex: in sverdrup: ~ivana/llc/llc4320/NA_4320x2160x1080x90/root
 gcmDir=$HOME/MITgcm$vers
-
 srcDir=$PWD # $WORK/llc/llc4320/NA_4320x2160x1080x90/root
-buildDir=$srcDir/build$vers$suff
-codeDir=$srcDir/code$vers$suff
-inpDir=$srcDir/namelists$vers$suff
+buildDir=$srcDir/build$vers$fwdAdj
+codeDir=$srcDir/code$vers$fwdAdj
+inpDir=$srcDir/namelists$vers$fwdAdj
 
 scratchDir=$SCRATCH/llc/llc4320/NA_4320x2160x1080x90
 exeDir=$scratchDir/run$vers${ext}_pk$pkup
 
-submit_script=$srcDir/submit_scratch$suff
+submit_script=$srcDir/submit_scratch$fwdAdj
 sizeh=$codeDir/SIZE.h_${sNx}x${sNy}x$nPx
 ## =============================================================================
 ## Create executing directory: where gcm output will go
@@ -62,7 +70,7 @@ cp $submit_script .
 cp $sizeh SIZE.h
 
 # Executable
-cp -f $buildDir/mitgcmuv_${sNx}x${sNy}x${nPx}$suff mitgcmuv
+cp -f $buildDir/mitgcmuv_${sNx}x${sNy}x${nPx}$fwdAdj mitgcmuv
 
 # Namelists
 cp -f $inpDir/* .
@@ -83,13 +91,14 @@ fi
 # binary files
 dataDir=$srcDir/run_template
 ln -sf $dataDir/input_binaries/* .
-ln -sf $dataDir/input_pickup/* .
+#ln -sf $dataDir/input_pickup/* .
 ln -sf $dataDir/input_obcs/*.bin .
 
 ## =============================================================================
 ## Setup pickups: 
 #   WARNING: copy instead of link to avoid overwriting output
 if [[ $pkup_prev ]]; then
+    echo "Linking pickup data..."
     pkupDir=$scratchDir/run$vers${ext}_pk$pkup_prev
     cp -f $pkupDir/pickup.${pkup}.data .
     cp -f $pkupDir/pickup.${pkup}.meta .

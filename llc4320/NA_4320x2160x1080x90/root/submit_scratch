@@ -17,12 +17,21 @@
 ##SBATCH -N 42
 ##SBATCH -n 1779
 #================================================
-# Tile size 120x120
-#SBATCH -N 6
-#SBATCH -n 257
+# HAVE TO ACCOUNT FOR AN OFFSET on the first node:
+# 48*26 = 1248-1234 = offset = 14
+# Tile size 54x54
+#SBATCH -N 26
+##SBATCH -n 1248
+#SBATCH -n 1234
 #================================================
-#SBATCH -t 6:00:00
+# Tile size 120x120
+##SBATCH -N 6
+##SBATCH -n 257
+#================================================
+#SBATCH -t 48:00:00
 #SBATCH -p skx-normal
+#SBATCH -A Polar-Project
+#SBATCH --reservation=ECCO19School
 
 #SBATCH --mail-user=ivana@oden.utexas.edu
 #SBATCH --mail-type=begin
@@ -41,13 +50,22 @@ ext=""
 
 ## Specify parallel domain decomposition:
 #   Read SIZE.h or data.exch2 for sNx, sNy, and nPx
-sNx="120"
+sNx="54"
 sNy=$sNx
-nPx="257"
+nPx="1234"
+##---
+#sNx="45"
+#sNy=$sNx
+#nPx="1779"
+##---
+#sNx="120"
+#sNy=$sNx
+#nPx="257"
 
-## Set up pickup time step file extension: '00000000' if no pickup
+## Set up pickup time step file extension: '0000000000' if no pickup
+### Picking up from the 5 week "warm up" run on sverdrup
 pkup="0000000001"
-pkup_prev="0000010XXXX"
+pkup_prev="0000010560"
 
 ## =============================================================================
 ## Set up directories:
@@ -61,5 +79,5 @@ module restore
 module load remora
 set -x
 date>run.MITGCM.timing
-remora ibrun tacc_affinity mitgcmuv_${sNx}x${sNy}x${nPx}$suff
+remora ibrun -n $nPx mitgcmuv
 date>>run.MITGCM.timing

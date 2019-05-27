@@ -32,13 +32,11 @@
  aqhfile           = 'jra55/jra55_spfh2m',
  swdownfile        = 'jra55/jra55_dsw',
  lwdownfile        = 'jra55/jra55_dlw',
-# apressurefile     = 'jra55/jra55_pres_tide',
  apressurefile     = 'jra55/jra55_pres',
  tidePotFile       = 'jra55/pot_tide_1deg',
  uwindfile         = 'jra55/jra55_u10m',
  vwindfile         = 'jra55/jra55_v10m',
  runofffile        = 'runoff1p2472-360x180x12.bin',
-# runofffile        = 'fekete_runoff_SMOOTH_llc270_v3.bin',
 #
  precipstartdate1  = 19790101,
  precipstartdate2  = 013000,
