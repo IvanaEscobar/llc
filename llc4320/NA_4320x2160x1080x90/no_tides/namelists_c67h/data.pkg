@@ -1,0 +1,10 @@
+# Packages
+ &PACKAGES
+ useEXF         = .TRUE.,
+ useCAL         = .TRUE.,
+# useKPP         = .FALSE.,
+ useKPP         = .TRUE.,
+ useDiagnostics = .TRUE.,
+ useOBCS        = .TRUE.,
+# useProfiles=.TRUE.,
+ /

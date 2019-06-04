@@ -19,9 +19,6 @@ end
 %           - '13Jul2018'
 %           - '13Jan2018'
 %           - '20Dec2017'
-%           - '24Feb2017'
-%           - '06Feb2017'
-%           - '02Feb2017'
 
 %dirs.datestamp = date; 
 dirs.datestamp = '11Jan2019';

@@ -1,0 +1,138 @@
+#!/bin/bash
+
+## Set up fwdAdj for run: 
+#	"_ad": adjoint
+#	"":    forward
+fwdAdj=""
+
+## Set up code version: blank if current version
+vers="_c67h"
+
+## Set up file extensions: blank if no extension
+ext="_notides"
+
+## Specify parallel domain decomposition:
+#   Read SIZE.h or data.exch2 for sNx, sNy, and nPx
+sNx="54"
+sNy=$sNx
+nPx="1234"
+##---
+#sNx="45"
+#sNy=$sNx
+#nPx="1779"
+##---
+#sNx="120"
+#sNy=$sNx
+#nPx="257"
+
+## Set up pickup time step file extension: '0000000000' if no pickup
+### Picking up from the 5 week "warm up" run on sverdrup
+pkup="0000000001"
+pkup_prev="0000010560"
+
+## =============================================================================
+## Set up directories:
+#   gcmDir:   MITgcm code
+#   srcDir:    Problem run
+#       Ex: in sverdrup: ~ivana/llc/llc4320/NA_4320x2160x1080x90/root
+gcmDir=$HOME/MITgcm$vers
+srcDir=$PWD # $WORK/llc/llc4320/NA_4320x2160x1080x90/root
+buildDir=$srcDir/build$vers$fwdAdj
+codeDir=$srcDir/code$vers$fwdAdj
+inpDir=$srcDir/namelists$vers$fwdAdj
+
+scratchDir=$SCRATCH/llc/llc4320/NA_4320x2160x1080x90
+exeDir=$scratchDir/run$vers${ext}_pk$pkup
+
+submit_script=$srcDir/submit_scratch$fwdAdj
+sizeh=$codeDir/SIZE.h_${sNx}x${sNy}x$nPx
+## =============================================================================
+## Create executing directory: where gcm output will go
+if [ ! -d $exeDir ] ; then
+	echo "Making "$exeDir" ..."
+    mkdir $exeDir
+else
+    echo "Moving to "$exeDir" ..."
+fi        
+cd $exeDir
+
+if [ ! -d "diags" ] ; then
+    mkdir diags
+fi
+## =============================================================================
+## Link problem information
+echo "Grabbing necessary files ..."
+
+# Submission script
+cp $submit_script .
+
+# SIZE.h
+cp $sizeh SIZE.h
+
+# Executable
+cp -f $buildDir/mitgcmuv_${sNx}x${sNy}x${nPx}$fwdAdj mitgcmuv
+
+# Namelists
+cp -f $inpDir/* .
+if [ ! -f "$inpDir/data.exch2_${sNx}x${sNy}x$nPx" ]; then
+    echo "Check for correct data.exch2 file"
+    exit 1
+else
+    cp -f $inpDir/data.exch2_${sNx}x${sNy}x$nPx data.exch2
+fi
+
+# 6 hour forcing files
+forcingDir=$WORK/forcing
+if [ ! -d /.jra55 ]; then
+    ln -sf $forcingDir/jra55 .
+    ln -sf $forcingDir/jra55xx .
+fi
+
+# binary files
+dataDir=$srcDir/run_template
+ln -sf $dataDir/input_binaries/* .
+ln -sf $dataDir/input_obcs/*.bin .
+
+## =============================================================================
+## Setup pickups: 
+#   WARNING: copy instead of link to avoid overwriting output
+if [[ $pkup_prev ]]; then
+    echo "Linking pickup data..."
+    pkupDir=$scratchDir/no_tidal_bc/run${vers}_test1_pk$pkup_prev
+    cp -f $pkupDir/pickup.${pkup}.data .
+    cp -f $pkupDir/pickup.${pkup}.meta .
+fi
+
+echo "Ready to execute ..."
+## =============================================================================
+## list of linked files
+ls -l *.bin > linked_list
+ls -l tile* >> linked_list
+
+echo ""
+echo "*** Pro tips: "
+echo "      - Check data.pkg: useAUTODIFF = .true.? usePROFILES = .false.? "
+echo ""
+echo "      - Check data: "
+echo "           nTimeSteps correct? tapes directory uncommented? adjDump = false?"
+echo ""
+echo "      - Check data.ctrl ... mult = 0 for non-optimize run? "
+echo "           have the necessary xx_<parameter> files?"
+echo ""
+echo "      - Check data.diagnostics: have the filenames set with diags/ prefix? "
+echo ""
+echo "      - Check data.exf: directory set for correct forcing files? period correct?"
+echo "" 
+echo "      - Check data.ecco: ... just make sure it looks good"
+echo ""
+echo "      - Check to make sure any masks are set properly ... "
+echo ""
+echo "      - Check submit file for .."
+echo "           Correct queue? "
+echo "           forward run: <exec> mitgcmuv "
+echo "           adjoint: <exec> mitgcmuv_ad "
+echo "           walltime correct? " 
+echo ""
+echo "Assuming this is done, ready for launch ... "
+echo ""
+echo ""

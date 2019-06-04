@@ -1,0 +1,60 @@
+#!/bin/bash
+
+#SBATCH -J NA4320
+#SBATCH -o notide.%j.out
+#SBATCH -e notide.%j.err
+#================================================
+# Tile size 54x54
+#SBATCH -N 26
+#SBATCH -n 1234
+#================================================
+#SBATCH -t 48:00:00
+#SBATCH -p skx-normal
+#SBATCH -A Polar-Project
+#SBATCH --mail-user=ivana@oden.utexas.edu
+#SBATCH --mail-type=all
+
+## Set up suffix for run
+#   adjoint run: "_ad"
+#   forward run: "" 
+suff=""
+
+## Set up code version: blank if current version
+vers="_c67h"
+
+## Set up file extensions: blank if no extension
+ext="_notides"
+
+## Specify parallel domain decomposition:
+#   Read SIZE.h or data.exch2 for sNx, sNy, and nPx
+sNx="54"
+sNy=$sNx
+nPx="1234"
+##---
+#sNx="45"
+#sNy=$sNx
+#nPx="1779"
+##---
+#sNx="120"
+#sNy=$sNx
+#nPx="257"
+
+## Set up pickup time step file extension: '0000000000' if no pickup
+### Picking up from the 5 week "warm up" run on sverdrup
+pkup="0000000001"
+pkup_prev="0000010560"
+
+## =============================================================================
+## Set up directories:
+scratchDir=$SCRATCH/llc/llc4320/NA_4320x2160x1080x90
+exeDir=$scratchDir/run$vers${ext}_pk$pkup
+## =============================================================================
+### Run in the $SCRATCH project directory ###
+cd $exeDir
+
+module restore
+module load remora
+set -x
+date>run.MITGCM.timing
+remora ibrun -n $nPx mitgcmuv
+date>>run.MITGCM.timing
