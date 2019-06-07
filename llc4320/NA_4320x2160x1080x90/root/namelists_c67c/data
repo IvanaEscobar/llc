@@ -83,7 +83,7 @@
  useSingleCpuIO  = .TRUE.,
  readBinaryPrec  = 32,
  writeBinaryPrec = 32,
- debuglevel      = 1,
+ debuglevel      = 0,
 #
 ## Unused parameters.
 # gravity = 9.81,
@@ -110,6 +110,14 @@
  &
 ### Time stepping parameters -------------------------------------------------- 
  &PARM03
+# ---------- 2 years simu ----------
+# Spun up from (4) at 39 days (added from (1)-(4))
+ deltaT      =    90.,
+# nIter0: 10560+26880
+ nIter0     = 37440,
+## 2 years at 90sec: 2*365.25*24*3600/90 = 701280
+ nTimeSteps = 701280,
+
 # ---------- (1) 1 day simu ----------
 # deltaT     =   30.,
 # nIter0     =   0,
@@ -133,13 +141,13 @@
 # nIter0     = 10560,
 ## 4 weeks at 90sec: 24*7*4*3600/90 = 26880
 # nTimeSteps = 26880,
-# ---------- (5) 12 weeks simu ----------
- deltaT      =    120.,
-# nIter0: 2880*30/120 + 5760*45/120 + 10080*60/120 + 26880*90/120 = 28080
- nIter0     = 28080,
-# 12 weeks at 120sec: 24*7*12*3600/120 = 60480
- nTimeSteps = 60480,
-# ---------- (6) 24 weeks simu ----------
+## ---------- (5) 12 weeks simu ----------
+# deltaT      =    120.,
+## nIter0: 2880*30/120 + 5760*45/120 + 10080*60/120 + 26880*90/120 = 28080
+# nIter0     = 28080,
+## 12 weeks at 120sec: 24*7*12*3600/120 = 60480
+# nTimeSteps = 60480,
+## ---------- (6) 24 weeks simu ----------
 # deltaT      =    180.,
 ## nIter0: 2880*30/180 + 5760*45/180 + 10080*60/180 + 26880*90/180 ...
 ##         + 60480*120/180 = 59040
@@ -147,13 +155,15 @@
 ## 24 weeks at 180sec: 24*7*24*3600/180 = 80640
 # nTimeSteps = 80640,
 
-# frequency of saving restart files, in seconds
-# pChkptFreq  = 86400.,
-# pChkptFreq  = 864000.,
+# frequency of saving restart files, 1 month in seconds
+ pChkptFreq  = 2635200.,
+
+ monitorFreq = 2635200.,
+ chkptFreq = 2635200.,
 
 # ---------- (1) 1 day simu ----------
 # ---------- (2) 2 day simu ----------
-# monitorFreq =   1.,
+# monitorFreq = 21600.,
 # chkptFreq  = 21600.,
 # ---------- (3) 1 week simu ----------
 ## every hour
@@ -162,8 +172,8 @@
 # ---------- (4) 4 weeks simu ----------
 # ---------- (5) 12 weeks simu ----------
 ## every 3 hours
- monitorFreq =   10800.
- chkptFreq = 86400.
+# monitorFreq =   10800.
+# chkptFreq = 86400.
 # ---------- (6) 24 weeks simu ----------
 ## every 12 hours
 # monitorFreq =   43200.
@@ -204,12 +214,7 @@
 # ----------------------------------------------------------------------------- 
 ### Bathymetry files and initial condition files
  &PARM05
- bathyFile       = 'SandSv18p1_NA4320x2160x1080_obcs13Jul2018.bin',
+ bathyFile       = 'SandSv18p1_NA4320x2160x1080_obcs11Jan2019.bin',
  hydrogThetaFile = 'WOA09v2_T_llc4320_JAN.bin',
  hydrogSaltFile  = 'WOA09v2_S_llc4320_JAN.bin',
-# uVelInitFile    = 'U0_2160x540x100.bin',
-# vVelInitFile    = 'V0_2160x540x100.bin',
-# diffKrFile  = 'diffkr_basin_v1m9EfC_llc1080.bin',
-# viscA4Dfile = 'visc3DblendfromrunobcsCdiv1e6_08Mar2016_aste2160.bin',
-# viscA4Zfile = 'visc3DblendfromrunobcsCdiv1e6_08Mar2016_aste2160.bin',
  /

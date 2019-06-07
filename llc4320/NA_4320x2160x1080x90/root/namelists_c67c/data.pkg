@@ -2,9 +2,8 @@
  &PACKAGES
  useEXF         = .TRUE.,
  useCAL         = .TRUE.,
-# useKPP         = .FALSE.,
  useKPP         = .TRUE.,
- useDiagnostics = .TRUE.,
+ useDiagnostics = .FALSE.,
  useOBCS        = .TRUE.,
 # useProfiles=.TRUE.,
  /
