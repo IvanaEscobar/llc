@@ -1,0 +1,41 @@
+<html> 
+<head> 
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> 
+<script type="text/javascript"> 
+google.charts.load('current', {'packages':['line']}); 
+google.charts.setOnLoadCallback(drawChart); 
+function drawChart() { 
+var data = new google.visualization.DataTable(); 
+data.addColumn('number', 'Execution Time (s)'); 
+data.addColumn('number', 'Transmitted Packets'); 
+data.addColumn('number', 'Received Packets'); 
+data.addColumn('number', 'Transmitted Bytes'); 
+data.addColumn('number', 'Received Bytes'); 
+data.addColumn('number', 'Transmitted Errors'); 
+data.addColumn('number', 'Transmitted Dropped'); 
+data.addColumn('number', 'Received Frame Errors'); 
+data.addColumn('number', 'Received CRC Errors'); 
+data.addRows([
+[0,42,48,14580,3132,0,0,0,0,], 
+]); 
+var options = {  
+chart: { 
+title: 'Ethernet Stats', 
+}, 
+width: 1024,  
+height: 800,  
+axes: {  
+x: {  
+0: {side: 'top'}  
+}  
+},  
+ };  
+var chart = new google.charts.Line(document.getElementById('line_top_x'));  
+chart.draw(data, options);  
+}  
+</script>  
+</head>  
+<body>  
+  <div id="line_top_x"></div>  
+</body>  
+</html>  

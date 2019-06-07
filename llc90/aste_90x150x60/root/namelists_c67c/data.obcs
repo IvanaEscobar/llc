@@ -7,11 +7,10 @@
 #
  useOBCSprescribe=.TRUE.,
  OBCS_monSelect = 3,
-# >0: use 1rst O. upwind adv-scheme @ OB (=1: only if outflow)
+## >0: use 1rst O. upwind adv-scheme @ OB (=1: only if outflow)
  OBCS_u1_adv_T = 1,
  OBCS_u1_adv_S = 1,
 #
-
  OBSsFile='OBSs_390x50x170_15Nov2018_bl.bin',
  OBStFile='OBSt_390x50x170_15Nov2018_bl.bin',
  OBSuFile='OBSu_390x50x170_allzeros.bin',

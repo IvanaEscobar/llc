@@ -12,11 +12,12 @@ C============================================================
       INTEGER  NOBSGLOB
       PARAMETER ( NOBSGLOB = 200000  )
       INTEGER NFILESPROFMAX
+C      PARAMETER ( NFILESPROFMAX=20 )
       PARAMETER ( NFILESPROFMAX=40 )
       INTEGER NVARMAX
       PARAMETER ( NVARMAX=6 )
       INTEGER NLEVELMAX
-      PARAMETER ( NLEVELMAX=90 )
+      PARAMETER ( NLEVELMAX=110 )
       INTEGER NUM_INTERP_POINTS
       PARAMETER (NUM_INTERP_POINTS = 4)
 #ifdef ALLOW_PROFILES_SAMPLESPLIT_COST
@@ -25,4 +26,3 @@ C============================================================
       INTEGER NAVGBINMAX
       PARAMETER ( NAVGBINMAX=10245 )
 #endif
-

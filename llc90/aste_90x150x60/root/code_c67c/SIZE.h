@@ -36,25 +36,15 @@ C     Nr  - No. points in Z for full process domain.
       INTEGER Nx
       INTEGER Ny
       INTEGER Nr
-c
-c-- 270 * ( 450 + 270 + 180 + 450 ) = 270 * 1350
-c-- 90*3 * 90*15 = 90*3 * 90*3*5
-c-- blanklist = 149; 405-149 = 256(8x32) or 260(10*26) or 264(12x22) 
-c-- new bathy = 149-3+14=160; 405-160 = 245 or 248(8x31) or 250(10*25) or 252(12x21) or 260 (13x20)
-c
+      
       PARAMETER (
      &           sNx =  30,
      &           sNy =  30,
-     &           OLx =   4,
-     &           OLy =   4,
+     &           OLx =   8,
+     &           OLy =   8,
      &           nSx =   1,
      &           nSy =   1,
-C-- with blank list: nPx = 248; nPx*nSx = 248*1 = 248
-C     &           nPx =  248,
-C     &           nPx =  260,
      &           nPx =  36,
-C-- without blank list: nPx = 405; nPx*nSx = 405*1 = 405
-CC     &           nPx = 405,
      &           nPy =   1,
      &           Nx  = sNx*nSx*nPx,
      &           Ny  = sNy*nSy*nPy,

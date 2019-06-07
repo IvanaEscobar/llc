@@ -1,0 +1,36 @@
+<html> 
+<head> 
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> 
+<script type="text/javascript"> 
+google.charts.load('current', {'packages':['line']}); 
+google.charts.setOnLoadCallback(drawChart); 
+function drawChart() { 
+var data = new google.visualization.DataTable(); 
+data.addColumn('number','Execution Time (s)'); 
+data.addColumn('number','home1'); 
+data.addColumn('number','work'); 
+data.addColumn('number','scratch'); 
+data.addRows([
+]); 
+var options = {  
+chart: { 
+title: 'Aggregated Lustre Load', 
+subtitle: 'IOPS'  
+}, 
+width: 1024,  
+height: 800,  
+axes: {  
+x: {  
+0: {side: 'top'}  
+}  
+},  
+};  
+var chart = new google.charts.Line(document.getElementById('data_div'));  
+chart.draw(data, options);  
+}  
+</script>  
+</head>  
+<body>  
+<div id='data_div'></div> 
+</body>  
+</html>  

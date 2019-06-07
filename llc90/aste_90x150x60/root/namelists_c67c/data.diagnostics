@@ -7,8 +7,8 @@
 #  levels(:,n) : list of levels to write to file (Notes: declared as REAL)
 #                when this entry is missing, select all common levels of this
 #                list
-#  fields(:,n) : list of diagnostics fields (8.c) (see "available_diagnostics" 
-#                file for the list of all available diag. in this particular 
+#  fields(:,n) : list of diagnostics fields (8.c) (see "available_diagnostics"
+#                file for the list of all available diag. in this particular
 #                config)
 #--------------------------------------------------------------------
 #
@@ -16,7 +16,7 @@
     dumpatlast = .TRUE.,
 ##---
     filename(1)   = 'diags/state_3d_hourly',
-    frequency(1)  = 3600.0, 
+    frequency(1)  = 3600.0,
     fields(1:2,1) = 'THETA    ','SALT    ',
 #---
     filename(2)   = 'diags/state_2d_hourly',
@@ -36,11 +36,6 @@
                    'EXFatemp','EXFaqh  ','EXFtaux ','EXFtauy ',
                    'EXFuwind','EXFvwind','EXFpress','EXFhs   ','EXFhl   ',
                    'EXFsnow ','EXFtidep'
-#    fields(1:20,4)= 'EXFhs   ','EXFhl   ','EXFlwnet','EXFswnet',
-#                    'EXFlwdn ','EXFswdn ','EXFqnet ','EXFtaux ',
-#                    'EXFtauy ','EXFuwind','EXFvwind','EXFatemp',
-#                    'EXFaqh  ','EXFevap ','EXFpreci','EXFsnow ',
-#                    'EXFempmr','EXFpress','EXFroff ','EXFtidep',
  &
 #====================
  &DIAG_STATIS_PARMS

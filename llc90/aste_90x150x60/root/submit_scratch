@@ -4,31 +4,16 @@
 #SBATCH -o miniaste.%j.out
 #SBATCH -e miniaste.%j.err
 #================================================
-# Tile size 30x30
-##SBATCH -N 94
-##SBATCH -n 3957
-#================================================
-# Tile size 40x40
-##SBATCH -N 53
-##SBATCH -n 2238
-#================================================
-# Tile size 45x45
-##SBATCH -N 42
-##SBATCH -n 1779
-#================================================
-# MINI ASTE 
+### MINI ASTE 
 #SBATCH -N 1
 #SBATCH -n 36
 #================================================
-#SBATCH -t 6:00:00
-#SBATCH -p skx-normal
+#SBATCH -t 0:30:00
+#SBATCH -p skx-dev
 #SBATCH -A Polar-Project
-#SBATCH --reservation=ECCO19School
-
 #SBATCH --mail-user=ivana@oden.utexas.edu
-#SBATCH --mail-type=begin
-#SBATCH --mail-type=end
-
+#SBATCH --mail-type=all
+## =============================================================================
 ## Set up suffix for run
 #   adjoint run: "_ad"
 #   forward run: "" 
@@ -47,14 +32,14 @@ sNy=$sNx
 nPx="36"
 
 ## Set up pickup time step file extension: '00000000' if no pickup
-#pkup="0000000000"
+pkup="0000000000"
 #pkup="0000000001"
 #pkup_prev="0000010XXXX"
 
 ## =============================================================================
 ## Set up directories:
 scratchDir=$SCRATCH/llc/llc90/aste_90x150x60
-exeDir=$scratchDir/run$vers${ext}_pk
+exeDir=$scratchDir/run$vers${ext}_pk$pkup
 ## =============================================================================
 ### Run in the $SCRATCH project directory ###
 cd $exeDir

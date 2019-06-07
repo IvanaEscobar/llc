@@ -6,16 +6,6 @@
 #
  useAtmWind        = .TRUE.,
 #
-#TO COMBINE WITH ALLOW_ZENITH_ANGLE:
-# exf_albedo        = 0.1,
-# useExfZenIncoming = .TRUE.,
-# select_ZenAlbedo  = 1,
-##
-# ocean_emissivity = 0.97,
-# ice_emissivity = 0.95,
-# snow_emissivity = 0.95,
-#
-# exf_albedo        = 0.1556,
  exf_albedo        = 0.1,
  exf_scal_BulkCdn  = 0.9997,
  exf_iprec         = 32,
@@ -32,31 +22,32 @@
  aqhfile           = 'jra55/jra55_spfh2m',
  swdownfile        = 'jra55/jra55_dsw',
  lwdownfile        = 'jra55/jra55_dlw',
-# apressurefile     = 'jra55/jra55_pres_tide',
  apressurefile     = 'jra55/jra55_pres',
  tidePotFile       = 'jra55/pot_tide_1deg',
  uwindfile         = 'jra55/jra55_u10m',
  vwindfile         = 'jra55/jra55_v10m',
  runofffile        = 'runoff1p2472-360x180x12.bin',
-# runofffile        = 'fekete_runoff_SMOOTH_llc270_v3.bin',
 #
  precipstartdate1  = 19790101,
  precipstartdate2  = 013000,
  precipperiod      = 10800.0,
+# 
  atempstartdate1   = 19790101,
  atempstartdate2   = 000000,
  atempperiod       = 10800.0,
+# 
  aqhstartdate1     = 19790101,
  aqhstartdate2     = 000000,
  aqhperiod         = 10800.0,
+#
  swdownstartdate1  = 19790101,
  swdownstartdate2  = 013000,
  swdownperiod      = 10800.0,
+#
  lwdownstartdate1  = 19790101,
  lwdownstartdate2  = 013000,
  lwdownperiod      = 10800.0,
-##Hong's email 11/jan/2017: pressure: timing same as precip/sw/lw
-# apressurestartdate1  = 19790101,
+#
  apressurestartdate1  = 19790115,
  apressurestartdate2  = 013000,
  apressureperiod      = 10800.0,
@@ -64,32 +55,36 @@
  tidePotstartdate1  = 20020101,
  tidePotstartdate2  = 003000,
  tidePotperiod      = 3600.0,
-#
+##
  uwindstartdate1   = 19790101,
  uwindstartdate2   = 000000,
  uwindperiod       = 10800.0,
+#
  vwindstartdate1   = 19790101,
  vwindstartdate2   = 000000,
  vwindperiod       = 10800.0,
-# "*period=-12" specifies monthly-mean forcing
+ ustressstartdate1   = 19790101,
+ ustressstartdate2   = 000000,
+ ustressperiod       = 10800.0,
+ vstressstartdate1   = 19790101,
+ vstressstartdate2   = 000000,
+ vstressperiod       = 10800.0,
+ wspeedstartdate1   = 19790101,
+ wspeedstartdate2   = 000000,
+ wspeedperiod       = 10800.0,
+## "*period=-12" specifies monthly-mean forcing
  runoffperiod      = -12,
  &
 #
  &EXF_NML_03
  exf_offset_atemp  = 273.15,
  exf_inscal_swdown = -1.,
- exf_inscal_lwdown = -1., 
-# 1/365/24/3600 yr/s conversion, runoff [m/yr --> m/s]
+ exf_inscal_lwdown = -1.,
+## 1/365/24/3600 yr/s conversion, runoff [m/yr --> m/s]
  exf_inscal_runoff = 3.1710e-08,
-# commenting out inscal_runoff equiv to setting to detfault=1
-
  &
 #
  &EXF_NML_04
-#if in global lat/lon, need interp, comment out runoff_interpMethod
-#if already in aste compact format, set runoff_interpMethod=0
-# runoff_interpMethod = 0,
-#
  precip_lon0       = 0.0D0,
  precip_lon_inc    = 0.5625D0,
  precip_lat0       = -89.57009D0,
@@ -194,6 +189,45 @@
  vwind_nlon        = 640,
  vwind_nlat        = 320,
 #
+ ustress_lon0        = 0.0D0,
+ ustress_lon_inc     = 0.5625D0,
+ ustress_lat0        = -89.57009D0,
+ ustress_lat_inc     = 0.556914D0, 0.560202D0, 0.560946D0, 0.561227D0, 0.561363D0,
+                     0.561440D0, 0.561487D0, 0.561518D0, 0.561539D0, 0.561554D0,
+                     0.561566D0, 0.561575D0, 0.561582D0, 0.561587D0, 0.561592D0,
+                     289*0.561619268965519,
+                     0.561592D0, 0.561587D0, 0.561582D0, 0.561575D0, 0.561566D0,
+                     0.561554D0, 0.561539D0, 0.561518D0, 0.561487D0, 0.561440D0,
+                     0.561363D0, 0.561227D0, 0.560946D0, 0.560202D0, 0.556914D0,
+ ustress_nlon        = 640,
+ ustress_nlat        = 320,
+#
+ vstress_lon0        = 0.0D0,
+ vstress_lon_inc     = 0.5625D0,
+ vstress_lat0        = -89.57009D0,
+ vstress_lat_inc     = 0.556914D0, 0.560202D0, 0.560946D0, 0.561227D0, 0.561363D0,
+                     0.561440D0, 0.561487D0, 0.561518D0, 0.561539D0, 0.561554D0,
+                     0.561566D0, 0.561575D0, 0.561582D0, 0.561587D0, 0.561592D0,
+                     289*0.561619268965519,
+                     0.561592D0, 0.561587D0, 0.561582D0, 0.561575D0, 0.561566D0,
+                     0.561554D0, 0.561539D0, 0.561518D0, 0.561487D0, 0.561440D0,
+                     0.561363D0, 0.561227D0, 0.560946D0, 0.560202D0, 0.556914D0,
+ vstress_nlon        = 640,
+ vstress_nlat        = 320,
+#
+ wspeed_lon0        = 0.0D0,
+ wspeed_lon_inc     = 0.5625D0,
+ wspeed_lat0        = -89.57009D0,
+ wspeed_lat_inc     = 0.556914D0, 0.560202D0, 0.560946D0, 0.561227D0, 0.561363D0,
+                     0.561440D0, 0.561487D0, 0.561518D0, 0.561539D0, 0.561554D0,
+                     0.561566D0, 0.561575D0, 0.561582D0, 0.561587D0, 0.561592D0,
+                     289*0.561619268965519,
+                     0.561592D0, 0.561587D0, 0.561582D0, 0.561575D0, 0.561566D0,
+                     0.561554D0, 0.561539D0, 0.561518D0, 0.561487D0, 0.561440D0,
+                     0.561363D0, 0.561227D0, 0.560946D0, 0.560202D0, 0.556914D0,
+ wspeed_nlon        = 640,
+ wspeed_nlat        = 320,
+#
  runoff_lon0       = 0.50D0,
  runoff_lon_inc    = 1.0D0,
  runoff_lat0       = -89.5D0,
@@ -214,15 +248,7 @@
   obcsSstartdate2   = 060000,
   obcsSperiod       = 2629800.0,
 #
-  obcsNstartdate1   = 20011215,
-  obcsNstartdate2   = 060000,
-  obcsNperiod       = 2629800.0,
-#
   obcsEstartdate1   = 20011215,
   obcsEstartdate2   = 060000,
   obcsEperiod       = 2629800.0,
-#
-  obcsWstartdate1   = 20011215,
-  obcsWstartdate2   = 060000,
-  obcsWperiod       = 2629800.0,
  &
