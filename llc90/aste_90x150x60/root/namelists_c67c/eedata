@@ -1,6 +1,0 @@
- &EEPARMS
- useCubedSphereExchange=.TRUE.,
- nTx=1,
- nTy=1,
- debugMode=.FALSE.,
- /

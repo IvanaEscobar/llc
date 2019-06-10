@@ -49,9 +49,9 @@
  apressurestartdate2  = 013000,
  apressureperiod      = 10800.0,
 #
-# tidePotstartdate1  = 20020101,
-# tidePotstartdate2  = 003000,
-# tidePotperiod      = 3600.0,
+ tidePotstartdate1  = 20020101,
+ tidePotstartdate2  = 003000,
+ tidePotperiod      = 3600.0,
 #
  uwindstartdate1   = 19790101,
  uwindstartdate2   = 000000,
