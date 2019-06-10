@@ -74,11 +74,11 @@ if(~exist(fsave));
  end;
  
 figure(1);clf;
-for i = 1:1;%length(ind)
+for i = 1:length(ind)
     c=eta(:,i);
    [Pw_m,fw_m]=periodogram(c-mean(c));
    %[Pw_m,fw_m]=pmtm(c-mean(c));
-    %subplot(3,2,i);
+    subplot(3,2,i);
     loglog(1./(fw_m./(2*pi)),Pw_m.*(2*pi).^2);grid;
     hold on;loglog([12 12],[1e-6 1e4],'r-','linewidth',2);
             loglog([24 24],[1e-6 1e4],'g-','linewidth',2);
@@ -89,3 +89,4 @@ for i = 1:1;%length(ind)
             hold off;
      xlabel('Period in hours');ylabel('Spectral density [Pa^2/hr], NASA');%'JC');
 end
+savefig('spectral_wtides.fig');

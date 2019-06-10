@@ -1,52 +1,44 @@
 #!/bin/bash
 
-#SBATCH -J NA4320
-#SBATCH -o notide.%j.out
-#SBATCH -e notide.%j.err
+#SBATCH -J miniaste
+#SBATCH -o miniaste.%j.out
+#SBATCH -e miniaste.%j.err
 #================================================
-# Tile size 54x54
-#SBATCH -N 26
-#SBATCH -n 1234
+### MINI ASTE 
+#SBATCH -N 1
+#SBATCH -n 36
 #================================================
-#SBATCH -t 11:59:00
-#SBATCH -p skx-normal
+#SBATCH -t 0:30:00
+#SBATCH -p skx-dev
 #SBATCH -A Polar-Project
 #SBATCH --mail-user=ivana@oden.utexas.edu
 #SBATCH --mail-type=all
-
+## =============================================================================
 ## Set up suffix for run
 #   adjoint run: "_ad"
 #   forward run: "" 
 suff=""
 
 ## Set up code version: blank if current version
-vers="_c67h"
+vers="_c67c"
 
 ## Set up file extensions: blank if no extension
-ext="_notides"
+ext=""
 
 ## Specify parallel domain decomposition:
 #   Read SIZE.h or data.exch2 for sNx, sNy, and nPx
-sNx="54"
+sNx="30"
 sNy=$sNx
-nPx="1234"
-##---
-#sNx="45"
-#sNy=$sNx
-#nPx="1779"
-##---
-#sNx="120"
-#sNy=$sNx
-#nPx="257"
+nPx="36"
 
-## Set up pickup time step file extension: '0000000000' if no pickup
-### Picking up from the 5 week "warm up" run on sverdrup
-pkup="0000000001"
-pkup_prev="0000010560"
+## Set up pickup time step file extension: '00000000' if no pickup
+pkup="0000000000"
+#pkup="0000000001"
+#pkup_prev="0000010XXXX"
 
 ## =============================================================================
 ## Set up directories:
-scratchDir=$SCRATCH/llc/llc4320/NA_4320x2160x1080x90
+scratchDir=$SCRATCH/llc/llc90/aste_90x150x60
 exeDir=$scratchDir/run$vers${ext}_pk$pkup
 ## =============================================================================
 ### Run in the $SCRATCH project directory ###
