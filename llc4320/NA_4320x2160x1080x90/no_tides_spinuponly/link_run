@@ -9,7 +9,7 @@ fwdAdj=""
 vers="_c67h"
 
 ## Set up file extensions: blank if no extension
-ext="_test1"
+ext="_notides_spinup"
 
 ## Specify parallel domain decomposition:
 #   Read SIZE.h or data.exch2 for sNx, sNy, and nPx

@@ -40,13 +40,13 @@ C                              /90/90   = 576 - land = 456
       INTEGER Ny
       INTEGER Nr
       PARAMETER (
-     &           sNx =  54,
+     &           sNx =  120,
      &           sNy =  sNx,
      &           OLx =   8,
      &           OLy =   8,
      &           nSx =   1,
      &           nSy =   1,
-     &           nPx = 1234,
+     &           nPx = 257,
      &           nPy =   1,
      &           Nx  = sNx*nSx*nPx,
      &           Ny  = sNy*nSy*nPy,
