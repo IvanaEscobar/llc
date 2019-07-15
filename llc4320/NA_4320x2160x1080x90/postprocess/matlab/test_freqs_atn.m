@@ -35,7 +35,7 @@ iy_f1=[354 763];
 ii1=(iy_f1-1)*nx+ix_f1;
 ind=[ii1];%,ii5'];%588202,2037043,1162595,
 lat0=yc(ind);
-f0=(1./(2.*7.292115e-5.*sin(lat0.*pi./180)./2./pi))./3600
+f0=(1./(2.*7.292115e-5.*sin(lat0.*pi./180)./2./pi))./3600;
 
  dirin=[dirroot 'run_tides_run2_hourly_it0000_pk0001577880/diags/ETANcor/'];
  varstr='ETANcor';

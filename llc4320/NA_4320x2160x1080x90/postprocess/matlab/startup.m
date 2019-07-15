@@ -1,1 +1,0 @@
-/work/03901/atnguyen/matlab/startup.m
