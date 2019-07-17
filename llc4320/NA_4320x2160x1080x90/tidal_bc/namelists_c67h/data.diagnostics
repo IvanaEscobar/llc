@@ -16,17 +16,17 @@
     dumpatlast = .TRUE.,
 ##---
     filename(1)   = 'diags/state_3d_hourly',
-    frequency(1)  = 604800.0, 
+    frequency(1)  = 3600.0, 
     fields(1:2,1) = 'THETA    ','SALT    ',
 #---
     filename(2)   = 'diags/state_2d_hourly',
     frequency(2)  = 3600.0,
-    fields(1:9,2) = 'ETAN    ','ETANSQ  ','DETADT2 ','PHIBOT  ','sIceLoad',
-                    'MXLDEPTH','RSURF   ','oceQnet ','oceFWflx',
+    fields(1:9,2) = 'ETAN    ','DETADT2 ','PHIBOT  ','sIceLoad',
+                    'MXLDEPTH','oceQnet ','oceFWflx',
                     'oceTAUX ','oceTAUY ',
 #---
     filename(3)   = 'diags/trsp_3d_hourly',
-    frequency(3)  = 604800.0,
+    frequency(3)  = 3600.0,
     fields(1:3,3) = 'UVELMASS','VVELMASS','WVELMASS',
 #---
     filename(4)   = 'diags/exf_zflux_hourly',
@@ -35,7 +35,12 @@
                     'EXFswdn ','EXFlwdn ','EXFswnet','EXFlwnet','EXFqnet ',
                     'EXFatemp','EXFaqh  ','EXFtaux ','EXFtauy ',
                     'EXFuwind','EXFvwind','EXFpress','EXFhs   ','EXFhl   ',
-                    'EXFsnow ','EXFtidep',
+                    'EXFsnow ','EXFtidep'
+#    fields(1:20,4)= 'EXFhs   ','EXFhl   ','EXFlwnet','EXFswnet',
+#                    'EXFlwdn ','EXFswdn ','EXFqnet ','EXFtaux ',
+#                    'EXFtauy ','EXFuwind','EXFvwind','EXFatemp',
+#                    'EXFaqh  ','EXFevap ','EXFpreci','EXFsnow ',
+#                    'EXFempmr','EXFpress','EXFroff ','EXFtidep',
  &
 #====================
  &DIAG_STATIS_PARMS

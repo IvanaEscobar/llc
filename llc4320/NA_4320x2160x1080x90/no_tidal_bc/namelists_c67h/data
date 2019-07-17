@@ -107,12 +107,19 @@
 ## 365.25 days at 90sec: 365.25*24*3600/90 = 350 640
  nTimeSteps = 350640,
 
-# every 24 hours
- monitorFreq =   86400.
-# every 48 hours 
- chkptFreq = 172800.
-# every month
- pChkptFreq = 2635200.
+## every 24 hours
+# monitorFreq =   86400.
+## every 48 hours 
+# chkptFreq = 172800.
+## every month
+# pChkptFreq = 2635200.
+
+# every 1 day
+ monitorFreq    = 86400.
+# every 2 days 
+ chkptFreq      = 172800.
+# every 2 days
+ pChkptFreq     = 172800.
 
  abEps       = 0.1,
 ## It is unclear what these specify.

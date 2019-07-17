@@ -5,7 +5,17 @@
  &EXF_NML_01
 #
  useAtmWind        = .TRUE.,
-
+#
+#TO COMBINE WITH ALLOW_ZENITH_ANGLE:
+# exf_albedo        = 0.1,
+# useExfZenIncoming = .TRUE.,
+# select_ZenAlbedo  = 1,
+##
+# ocean_emissivity = 0.97,
+# ice_emissivity = 0.95,
+# snow_emissivity = 0.95,
+#
+# exf_albedo        = 0.1556,
  exf_albedo        = 0.1,
  exf_scal_BulkCdn  = 0.9997,
  exf_iprec         = 32,

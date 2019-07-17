@@ -9,7 +9,7 @@ fwdAdj=""
 vers="_c67h"
 
 ## Set up file extensions: blank if no extension
-ext="_notides"
+ext=""
 
 ## Specify parallel domain decomposition:
 #   Read SIZE.h or data.exch2 for sNx, sNy, and nPx
@@ -91,6 +91,7 @@ fi
 # binary files
 dataDir=$srcDir/run_template
 ln -sf $dataDir/input_binaries/* .
+#ln -sf $dataDir/input_pickup/* .
 ln -sf $dataDir/input_obcs/*.bin .
 
 ## =============================================================================
@@ -98,7 +99,7 @@ ln -sf $dataDir/input_obcs/*.bin .
 #   WARNING: copy instead of link to avoid overwriting output
 if [[ $pkup_prev ]]; then
     echo "Linking pickup data..."
-    pkupDir=$scratchDir/no_tidal_bc/run${vers}_test1_pk$pkup_prev
+    pkupDir=$scratchDir/run$vers${ext}_pk$pkup_prev
     cp -f $pkupDir/pickup.${pkup}.data .
     cp -f $pkupDir/pickup.${pkup}.meta .
 fi
