@@ -1,41 +1,18 @@
 #!/bin/bash
 
-#SBATCH -J NA4320
-#SBATCH -o NA4320.%j.out
-#SBATCH -e NA4320.%j.err
-#SBATCH -A Transfer-of-ECCO-glo
-#================================================
-# Tile size 30x30
-##SBATCH -N 94
-##SBATCH -n 3957
-#================================================
-# Tile size 40x40
-##SBATCH -N 53
-##SBATCH -n 2238
-#================================================
-# Tile size 45x45
-##SBATCH -N 42
-##SBATCH -n 1779
-#================================================
-# HAVE TO ACCOUNT FOR AN OFFSET on the first node:
-# 48*26 = 1248-1234 = offset = 14
-# Tile size 54x54
-#SBATCH -N 26
-##SBATCH -n 1248
-#SBATCH -n 1234
+#SBATCH -J notide4320
+#SBATCH -o tide.%j.out
+#SBATCH -e tide.%j.err
 #================================================
 # Tile size 120x120
-##SBATCH -N 6
-##SBATCH -n 257
+#SBATCH -N 10
+#SBATCH -n 257
 #================================================
-#SBATCH -t 48:00:00
-#SBATCH -p skx-normal
+#SBATCH -t 1:59:00
+#SBATCH -p normal
 #SBATCH -A Polar-Project
-#SBATCH --reservation=ECCO19School
-
 #SBATCH --mail-user=ivana@oden.utexas.edu
-#SBATCH --mail-type=begin
-#SBATCH --mail-type=end
+#SBATCH --mail-type=all
 
 ## Set up suffix for run
 #   adjoint run: "_ad"
@@ -46,21 +23,13 @@ suff=""
 vers="_c67h"
 
 ## Set up file extensions: blank if no extension
-ext=""
+ext="_tidal_bc"
 
 ## Specify parallel domain decomposition:
 #   Read SIZE.h or data.exch2 for sNx, sNy, and nPx
-sNx="54"
+sNx="120"
 sNy=$sNx
-nPx="1234"
-##---
-#sNx="45"
-#sNy=$sNx
-#nPx="1779"
-##---
-#sNx="120"
-#sNy=$sNx
-#nPx="257"
+nPx="257"
 
 ## Set up pickup time step file extension: '0000000000' if no pickup
 ### Picking up from the 5 week "warm up" run on sverdrup
@@ -76,8 +45,8 @@ exeDir=$scratchDir/run$vers${ext}_pk$pkup
 cd $exeDir
 
 module restore
-module load remora
+#module load remora
 set -x
 date>run.MITGCM.timing
-remora ibrun -n $nPx mitgcmuv
+ibrun tacc_affinity mitgcmuv
 date>>run.MITGCM.timing

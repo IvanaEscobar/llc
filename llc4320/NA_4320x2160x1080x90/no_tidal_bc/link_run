@@ -28,7 +28,7 @@ pkup_prev="0000010560"
 #   srcDir:    Problem run
 #       Ex: in sverdrup: ~ivana/llc/llc4320/NA_4320x2160x1080x90/root
 gcmDir=$HOME/MITgcm$vers
-srcDir=$PWD # $WORK/llc/llc4320/NA_4320x2160x1080x90/notides
+srcDir=$PWD # $WORK/llc/llc4320/NA_4320x2160x1080x90/no_tidal_bc
 buildDir=$srcDir/build$vers$fwdAdj
 codeDir=$srcDir/code$vers$fwdAdj
 inpDir=$srcDir/namelists$vers$fwdAdj

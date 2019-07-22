@@ -8,7 +8,7 @@
 #SBATCH -N 116
 #SBATCH -n 2752
 #================================================
-#SBATCH -t 1:59:00
+#SBATCH -t 2:59:00
 #SBATCH -p normal
 #SBATCH -A Polar-Project
 #SBATCH --mail-user=ivana@oden.utexas.edu

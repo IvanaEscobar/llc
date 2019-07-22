@@ -66,14 +66,14 @@ cd $buildDir
 echo "Inside dir: "$PWD
 
 echo "Evaluating: "$build_cmd
-eval $build_cmd > make_run.out 2> make_run.err
+eval $build_cmd > $srcDir/make_run.out 2> $srcDir/make_run.err
 echo "Make depend ..."
-eval "make depend" >> make_run.out 2>> make_run.err
+eval "make depend" >> $srcDir/make_run.out 2>> $srcDir/make_run.err
 echo "Making executable ..."
 if [[ $fwdAdj == "_ad" ]] ; then
   eval "make -j 8 adall" 
 else
-    eval "make -j 8" >> make_run.out 2>> make_run.err
+    eval "make -j 20" >> $srcDir/make_run.out 2>> $srcDir/make_run.err
 fi
 ## Append sNx sNy and nPx
 cp -f mitgcmuv mitgcmuv_${sNx}x${sNy}x$nPx

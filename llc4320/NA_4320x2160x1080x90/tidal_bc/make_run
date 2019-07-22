@@ -11,17 +11,9 @@ vers="_c67h"
 
 ## Specify parallel domain decomposition:
 #   Read SIZE.h or data.exch2 for sNx, sNy, and nPx
-sNx="54"
+sNx="120"
 sNy=$sNx
-nPx="1234"
-##---
-#sNx="45"
-#sNy=$sNx
-#nPx="1779"
-##---
-#sNx="120"
-#sNy=$sNx
-#nPx="257"
+nPx="257"
 
 ## Set up directories:
 #	gcmDir: MITgcm code
@@ -41,7 +33,7 @@ else
 fi
 
 ## Opt file architecture specific
-opt=$env_setups/optfiles/linux_amd64_ifort+mpi_stampede2
+opt=$env_setups/optfiles/linux_amd64_ifort+mpi_lonestar5
 
 ## Use the correct opt file here
 build_cmd="$gcmDir/tools/genmake2 -rd=$gcmDir -mods=$codeDir -optfile=$opt -mpi"
@@ -74,14 +66,19 @@ cd $buildDir
 echo "Inside dir: "$PWD
 
 echo "Evaluating: "$build_cmd
-eval $build_cmd 
+eval $build_cmd > $srcDir/make_run.out 2> $srcDir/make_run.err
 echo "Make depend ..."
-eval "make depend" 
+eval "make depend" >> $srcDir/make_run.out 2>> $srcDir/make_run.err
 echo "Making executable ..."
 if [[ $fwdAdj == "_ad" ]] ; then
-  eval "make -j 4 adall" 
+  eval "make -j 8 adall" 
 else
-  eval "make -j 4"
+    eval "make" >> $srcDir/make_run.out 2>> $srcDir/make_run.err
 fi
 ## Append sNx sNy and nPx
 cp -f mitgcmuv mitgcmuv_${sNx}x${sNy}x$nPx
+echo ""
+echo "---------- SUMMARY ----------"
+echo "Executable for "${sNx}"x"${sNy}" tile size on "${nPx}" cores"
+echo "-----------------------------"
+echo ""
