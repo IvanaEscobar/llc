@@ -13,8 +13,6 @@ dirOut = dirIn;
 %calculating hFac using updated bathy:
 hFacMin=0.2;
 hFacMinDr=5.;
-%hFacMin=0;
-%hFacMinDr=0.1;
 
 eyeballing_Gibraltar=1;
 

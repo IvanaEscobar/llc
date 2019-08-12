@@ -102,24 +102,18 @@
 # ----------     Run for one year,
 # ----------     Pickup monthly,
 # ----------     Monitor daily
- deltaT      =    90.,
- nIter0     = 0,
-## 365.25 days at 90sec: 365.25*24*3600/90 = 350 640
- nTimeSteps = 350640,
+ deltaT     =    90.,
+ nIter0     = 249600,
+## 365.25 days at 90sec: 365.25*24*3600/90 = 350 640 - 249 600 = 101 040
+ nTimeSteps = 101040,
 
-# every 24 hours
- monitorFreq =   86400.
-# every 48 hours 
- chkptFreq = 172800.
-# every month
- pChkptFreq = 2635200.
+# every 1 day
+ monitorFreq    = 86400.
+# every 20 days 
+# chkptFreq      = 1728000.
+# every 20 days
+ pChkptFreq     = 1728000.
 
-## every 1 day
-# monitorFreq    = 86400.
-## every 2 days 
-# chkptFreq      = 172800.
-## every 2 days
-# pChkptFreq     = 172800.
 
  abEps       = 0.1,
 ## It is unclear what these specify.
@@ -127,6 +121,7 @@
  forcing_In_AB       = .FALSE.,
  momDissip_In_AB     = .FALSE.,
  dumpInitAndLast     = .FALSE.,
+ writePickupAtEnd    = .TRUE.,
  /
 ### Gridding parameters ------------------------------------------------------- 
  &PARM04

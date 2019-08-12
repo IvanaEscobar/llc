@@ -30,8 +30,6 @@ fsave=[dirOut 'step2b_obcs_' datestamp '.mat'];
 %calculating hFac using updated bathy:
 hFacMin=0.2;
 hFacMinDr=5.;
-%hFacMin=0;
-%hFacMinDr=0.1;
 
 %define last obcs:
 obcs2=obcs;

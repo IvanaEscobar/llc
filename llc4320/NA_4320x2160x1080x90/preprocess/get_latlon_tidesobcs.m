@@ -3,7 +3,7 @@ warning off;
 
 % Take velocity points as first available points. Ex: Face 1 will shift jC1
 % for South OBC and iC1 for West OBC.
-% From namelists/data:
+% From namelists/data.obcs:
 %   OB_Jnorth = 2160*1057, 1080*0, 
 %   OB_Jsouth = 2160*16  , 1080*0, 
 %   OB_Ieast  = 539*0, 14*1531, 527*0, 2160*1065,
