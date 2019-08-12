@@ -58,13 +58,13 @@ end
 clear temp ixa iya nxa nya
 
 %%=============== DEFINE OPEN BOUNDARIES ======================================
-% Manually define each ob.
+% Manually define each open boundary location
 obcstype=['NSEW'];
 
 for iobcs=1:5;
   fieldIn0=[];fieldIn=[];
   obcs0{iobcs}=[];obcs{iobcs}=[];
-%--------------- 1: Atlantic, South, Face 1 -----------------------------------
+%% --------------- 1: Atlantic, South, Face 1 -----------------------------------
 if(iobcs==1);
 %26.9236 degN Atlantic
   fieldIn0.name='Face1_Atlantic26p9236degN_South';
@@ -75,7 +75,7 @@ if(iobcs==1);
   fieldIn0.nfx=id.nf.x0;					    % [270 0 270 180 450]
   fieldIn0.nfy=id.nf.y0;					    % [450 0 270 270 270]
   fieldIn0.sshiftx=(nfx0_full(fieldIn0.face)-id.nf.x0(fieldIn0.face));	% 0
-  fieldIn0.sshifty=(nfy0_full(fieldIn0.face)-id.nf.y0(fieldIn0.face));	% 360
+  fieldIn0.sshifty=(nfy0_full(fieldIn0.face)-id.nf.y0(fieldIn0.face));	% 810-450=360
 %move 1 pt up so that we're not at the southern edge of high res at the outer point (1st wt pt), 
   fieldIn0.pad=1;
 
@@ -100,12 +100,12 @@ if(iobcs==1);
   clear iy;eval(['iy=id.iy{' num2str(fieldIn0.face) '};']);
   fieldIn.sshiftx=ix(1)-1;						% 0
   fieldIn.sshifty=iy(1)-1;						% 9377-1=9376
-% ix global [1 2160]; South 1st wet pt. global 9392  
+% ix global [1 2160]; South 1st wet pt. global [9392]  
   fieldIn = set_edge(fieldIn, fieldIn0.ix, fieldIn0.jy, 0);
   fieldIn.imask=repmat(fieldIn0.imask',[1 id.fac]);fieldIn.imask=reshape(fieldIn.imask',1,id.fac*max(sz0));
   fieldIn.flag_case=0;
 
-%------------------ 2: Atlantic, North, Face 1 -------------------------------- 
+%% ------------------ 2: Atlantic, North, Face 1 -------------------------------- 
 elseif(iobcs==2);
 %43.4141 degN Atlantic
   fieldIn0.name='Face1_Atlantic43p4141degN_North';
@@ -132,7 +132,6 @@ elseif(iobcs==2);
   sz0=size(fieldIn0.imask);if(sz0(2)==1&sz0(1)>sz0(2));fieldIn0.imask=fieldIn0.imask';end;      % make into row
 
   fieldIn = parent2domain_info(fieldIn0, id);
-% nx = 4320; nfx = [2160 0 0 0 1080]; nfy = [1080 0 0 0 2160]
 
   clear ix;eval(['ix=id.ix{' num2str(fieldIn0.face) '};']);
   clear iy;eval(['iy=id.iy{' num2str(fieldIn0.face) '};']);
@@ -143,7 +142,7 @@ elseif(iobcs==2);
   fieldIn.imask=repmat(fieldIn0.imask',[1 id.fac]);fieldIn.imask=reshape(fieldIn.imask',1,id.fac*max(sz0));
   fieldIn.flag_case=0;
 
-%--------------- 3: Atlantic, East, Face 5 ------------------------------------ 
+%% --------------- 3: Atlantic, East, Face 5 ------------------------------------ 
 elseif(iobcs==3);
 %26.9236 degN Atlantic
   fieldIn0.name='Face5_Atlantic26p9236degN_East';
@@ -169,7 +168,6 @@ elseif(iobcs==3);
   sz0=size(fieldIn0.imask);if(sz0(2)==1&sz0(1)>sz0(2));fieldIn0.imask=fieldIn0.imask';end;
 
   fieldIn = parent2domain_info(fieldIn0, id);
-% nx = 4320; nfx = [2160 0 0 0 1080]; nfy = [1080 0 0 0 2160]
 
   clear ix;eval(['ix=id.ix{' num2str(fieldIn0.face) '};']);
   clear iy;eval(['iy=id.iy{' num2str(fieldIn0.face) '};']);
@@ -180,7 +178,7 @@ elseif(iobcs==3);
   fieldIn.imask=repmat(fieldIn0.imask',[1 id.fac]);fieldIn.imask=reshape(fieldIn.imask',1,id.fac*max(sz0));
   fieldIn.flag_case=0;
 
-%--------------- 4: Atlantic, West, Face 5 ------------------------------------ 
+%% --------------- 4: Atlantic, West, Face 5 ------------------------------------ 
 elseif(iobcs==4);
 %43.4141 degN Atlantic
   fieldIn0.name='Face5_Atlantic43p4141degN_West';
@@ -206,7 +204,6 @@ elseif(iobcs==4);
   sz0=size(fieldIn0.imask);if(sz0(2)==1&sz0(1)>sz0(2));fieldIn0.imask=fieldIn0.imask';end;
 
   fieldIn = parent2domain_info(fieldIn0, id);
-% nx = 4320; nfx = [2160 0 0 0 1080]; nfy = [1080 0 0 0 2160]
 
   clear ix;eval(['ix=id.ix{' num2str(fieldIn0.face) '};']);
   clear iy;eval(['iy=id.iy{' num2str(fieldIn0.face) '};']);
@@ -217,7 +214,7 @@ elseif(iobcs==4);
   fieldIn.imask=repmat(fieldIn0.imask',[1 id.fac]);fieldIn.imask=reshape(fieldIn.imask',1,id.fac*max(sz0));
   fieldIn.flag_case=0;
 
-%--------------- 5: Gibraltar Strait, East, Face 1 ---------------------------- 
+%% --------------- 5: Gibraltar Strait, East, Face 1 ---------------------------- 
 % SPECIAL OBC
 elseif(iobcs==5);
   fieldIn0.name='Face1_GibraltarStrait_East';
@@ -233,7 +230,6 @@ elseif(iobcs==5);
   clear ix;eval(['ix=id.ix0{' num2str(fieldIn0.face) '};']);			%global
   clear iy;eval(['iy=id.iy0{' num2str(fieldIn0.face) '};']);			%global
   fieldIn0.jy=iy;                                                       %global
-%  fieldIn0.jy=[261:262]+fieldIn0.sshifty;                              % [621 622] global
   fieldIn0.ix=96*ones(size(fieldIn0.jy))+fieldIn0.sshiftx;              % [96] global (1st wet pt)
 
   fieldIn0.imask = ones(size(fieldIn0.jy));ii=find(iy<621|iy>622);fieldIn0.imask(ii)=0; %[261:262]aste,[621:622]global
@@ -241,12 +237,11 @@ elseif(iobcs==5);
 
 %checking:
   yg0_f1=readbin([dirs.parent.grid_global 'YG.data'],[id.n.x0 id.n.x0*3]);
-  tmpj=find(fieldIn0.imask==1);			% [172 173] for 1440x540, [127 128] for 1260x540
+  tmpj=find(fieldIn0.imask==1);			% [172 173] for 1440x540; [127 128] for 1260x540
   yg0_f1(fieldIn0.ix(1),fieldIn0.jy(tmpj));	% [35.817378997802734  36.066429138183594]
 %end checking
 
   fieldIn = parent2domain_info(fieldIn0, id);
-% nx = ncut1=2160; nfx = [2160 0 0 0 1080]; nfy = [1080 0 0 0 2160]
   fieldIn.nx=id.ncut1;
 
   clear ix;eval(['ix=id.ix{' num2str(fieldIn0.face) '};']);
@@ -267,7 +262,7 @@ elseif(iobcs==5);
 %note: step1b_interpllc270_llc4320grid.m is updated too:
 % iU=1531 (1st wet pt), jC=[540:553]+9376=[9916 9929]
   fieldIn.jy=iy;
-  fieldIn.ix=1531.*ones(size(fieldIn.jy))+fieldIn.sshiftx;% 1531; %1549,eyeball
+  fieldIn.ix=1531.*ones(size(fieldIn.jy))+fieldIn.sshiftx;% 1531 eyeball value
 %load('/scratch/atnguyen/llc4320/NA_4320x2160x1080x106/run_template/'...
 %     'input_obcs/obcs_llc4320_it0012_11Nov2016.mat','Face1new'); 
 %--> Face1new.iCE_1st=1531; Face1new.jCE([1,14))=[9916,9929]

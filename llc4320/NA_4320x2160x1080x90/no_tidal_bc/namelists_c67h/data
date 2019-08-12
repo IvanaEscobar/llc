@@ -103,21 +103,14 @@
 # ----------     Pickup monthly,
 # ----------     Monitor daily
  deltaT     = 90.,
- nIter0     = 19200.,
-## 365.25 days at 90sec: 365.25*24*3600/90 = 350 640
- nTimeSteps = 350640,
-
-## every 24 hours
-# monitorFreq =   86400.
-## every 48 hours 
-# chkptFreq = 172800.
-## every month
-# pChkptFreq = 2635200.
+ nIter0     = 307200.,
+## 365.25 days at 90sec: 365.25*24*3600/90 = 350 640 - 307 200 = 
+ nTimeSteps =  43440,
 
 # every 1 day
  monitorFreq    = 86400.
 # every 20 days 
- chkptFreq      = 1728000.
+# chkptFreq      = 1728000.
 # every 20 days
  pChkptFreq     = 1728000.
 
