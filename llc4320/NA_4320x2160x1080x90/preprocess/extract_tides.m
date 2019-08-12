@@ -1,5 +1,5 @@
 %% EXTRACTING TIDES
-% This script extracts the TPXO tidal predictions at the OBC locations using
+% This script extracts the TPXO7.2 tidal predictions at the OBC locations using
 % TMD, converts them into the format used by the MITgcm, and saves the
 % information to input files.
 

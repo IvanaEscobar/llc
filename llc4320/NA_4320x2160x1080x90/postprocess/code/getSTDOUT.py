@@ -6,7 +6,7 @@ from re import findall
 Class for extracing monitor information from STDOUT.#### files in the debugging
 stage
 
-Need to import the filename:
+How to import the filename:
     - d = getData('STDOUT.0000')
 
 The following objects are in the class:

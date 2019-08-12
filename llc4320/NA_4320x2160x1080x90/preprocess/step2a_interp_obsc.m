@@ -300,9 +300,6 @@ if(check_transport==1);
   str1={'V','V','U','U','U'};
   str2={'x','x','y','y','y'};
   str3={'S','S','W','W','W'};
-  %str1={'V','U','U','U'};
-  %str2={'x','y','y','y'};
-  %str3={'S','W','W','W'};
 
   fprintf('\n\n');
   for iobcs=1:size(obcs,2);
@@ -325,19 +322,13 @@ if(check_transport==1);
       fprintf('Correct Gibraltar mean transport is 0.046344737627870 Sv\n');		%eccov4r3
     end;
   end;
-% from aste_1080x1260x540x90:
-  %iobcs: 1 , [sum,mean] resid transport: -3.99128e+07 -237576
-  %iobcs: 2 , [sum,mean] resid transport: -4.86207e+07 -289409
-  %iobcs: 3 , [sum,mean] resid transport:  3.14668e+06 18730.2
-  %Gibralta mean transport [obcs0,obcs]:   0.046192    0.064922
-  %Correct Gibralta mean transport is 0.046344737627870 Sv
 % from this set up, NA_4320x2160x1080
   %iobcs: 2 , [sum,mean] resid transport: -3.89819e+06 -23203.5
   %iobcs: 3 , [sum,mean] resid transport: 1.65813e+07 98698.5
   %iobcs: 4 , [sum,mean] resid transport: 3.4871e+07 207566
   %iobcs: 5 , [sum,mean] resid transport: 3.14668e+06 18730.2
   %Gibralta mean transport [obcs0,obcs]: 0.046192 0.064922
-  %Correct Gibralta mean transport is 0.046344737627870 Sv
+  %Correct Gibraltar mean transport is 0.046344737627870 Sv
 
   clear tmp sc vel ds hf tmp0 vel0 ds0 hf0 a str1 str2 str3
 end;

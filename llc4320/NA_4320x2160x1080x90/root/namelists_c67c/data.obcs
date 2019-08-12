@@ -10,7 +10,6 @@
 #
  useOBCSprescribe=.TRUE.,
  useOBCSsponge = .FALSE.,
-# useOBCSsponge=.TRUE.,
  OBCS_monSelect = 3,
 # >0: use 1rst O. upwind adv-scheme @ OB (=1: only if outflow)
  OBCS_u1_adv_T = 1,
@@ -68,16 +67,3 @@
  OBWphtFile='OBWtph_3240x13.bin',
  OBEphtFile='OBEtph_3240x13.bin',
  &
-
-# *****************************************
-# Sponge Layer Parameters.
-# *****************************************
-# &OBCS_PARM02
-# Urelaxobcsinner=2629800.E0,
-# Urelaxobcsbound=43200.E0,
-#
-# Vrelaxobcsinner=2629800.E0,
-# Vrelaxobcsbound=43200.E0,
-#
-# spongeThickness=16,
-# &

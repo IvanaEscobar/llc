@@ -155,7 +155,7 @@
 ## 24 weeks at 180sec: 24*7*24*3600/180 = 80640
 # nTimeSteps = 80640,
 
-# frequency of saving restart files, 1 month in seconds
+# frequency of saving pickup files, 1 month in seconds
  pChkptFreq  = 2635200.,
 
  monitorFreq = 2635200.,
