@@ -44,7 +44,7 @@ f0=(1./(2.*7.292115e-5.*sin(lat0.*pi./180)./2./pi))./3600;
 
  L=720;%length(flist);
 %dirout=[dirin '../../'];
-dirout=['/scratch/05427/iescobar/llc/llc4320/NA_4320x2160x1080x90/run_c67h_pk0000000001/'];
+dirout=['/scratch/05427/iescobar/llc/llc4320/NA_4320x2160x1080x90/'];
 fsave=[dirout 'Eta_2points_atn.mat'];
 if(~exist(fsave));
    eta=zeros(L,length(ind));

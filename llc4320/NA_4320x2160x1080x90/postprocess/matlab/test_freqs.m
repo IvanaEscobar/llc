@@ -4,8 +4,8 @@ tidalPeriod  =[ 44714.165, 43200.001, 45570.054, 43082.050, 86164.077, 92949.636
 nx=2160;
 ny=2160;
 
-%dirgrid=['/scratch/05427/iescobar/llc/llc4320/NA_4320x2160x1080x90/run_c67h_pk0000000001/GRID/'];
-dirgrid=['/scratch/05427/iescobar/llc/llc4320/NA_4320x2160x1080x90/run_c67h_notides_pk0000000001/GRID/'];
+%dirgrid=['/scratch/05427/iescobar/llc/llc4320/NA_4320x2160x1080x90/run_c67h_notides_pk0000000001/GRID/'];
+dirgrid=['/work/05427/iescobar/lonestar/tidal_bc/GRID/'];
 yc=rdmds([dirgrid 'YC']);yc=reshape(yc,nx,ny);
 D=rdmds([dirgrid 'Depth']);D=reshape(D,nx,ny);
 Df{1}=D(:,1:ny/2);
@@ -35,13 +35,14 @@ f0=(1./(2.*7.292115e-5.*sin(lat0.*pi./180)./2./pi))./3600;
 %22.9,17.95,20.49,24.68,19.77,17.81 hrs]
 
 dirin=[dirgrid '../diags/STATE/'];
+dirin=['/scratch/05427/iescobar/llc/llc4320/NA_4320x2160x1080x90/run_c67h_tidal_bc_pk0000268800/diags/'];
 varstr='state_2d_hourly';
 
 flist=dir([dirin varstr '.*.data']);
 
 l=length(flist);
-dirout=[dirin '../../'];
-fsave=[dirout 'eta_notides_sixpoints.mat'];
+dirout=[dirin '../'];
+fsave=[dirout 'eta_tides_october2002_sixpoints.mat'];
 if(~exist(fsave));
    eta=zeros(l,length(ind));
    for i=1:l
@@ -85,4 +86,4 @@ for i = 1:length(ind)
             hold off;
      xlabel('Period in hours');ylabel('Spectral density [Pa^2/hr], NASA');%'JC');
 end
-savefig('spectral_notides.fig');
+savefig('spectral_tides_october2002.fig');

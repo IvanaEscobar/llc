@@ -31,10 +31,12 @@ nfx=[nx 0 nx 60 150];nfy=[150 0 nx nx nx];
 list_fields2={'XC','YC','DXF','DYF','RAC','XG','YG','DXV','DYU','RAZ',...
     'DXC','DYC','RAW','RAS','DXG','DYG'};
 
-b=readbin([dirRoot 'bathy_obcs15Nov2018.bin'],[nx 2*nfy(1)+nx+nfx(4)]);
+b=readbin([dirRoot 'bathy_obcs15Nov2018.bin'],[nx 2*nfy(1)+nx+nfx(4)],1,'real*8');
 [b,bf]=get_aste_tracer(abs(b),nfx,nfy);
+% iface=[1,4,5]; for i=1:size(iface,2); subplot(1,size(iface,2),i);mypcolor(bf{iface(i)}');mythincolorbar; title(["Face" num2str(iface(i))]);end
 hf=readbin([dirRoot '../../GRID/hFacC.data'],[nx 2*nfy(1)+nx+nfx(4)]);hf(find(hf>0))=1;
 [hf,hff]=get_aste_tracer(hf,nfx,nfy);
+% for i=1:size(iface,2); subplot(1,size(iface,2),i);mypcolor(hff{iface(i)}');mythincolorbar; title(["Face" num2str(iface(i))]);end
 
 flist=dir([dirRoot 'tile*.mitgrid']);
 
