@@ -31,9 +31,6 @@ load([dirIn 'latlon_for_obcs_tides.mat'],'Face1N','Face1S','Face5E','Face5W','Fa
 % is pure E/N, for example at some latitude it's transitioning
 % into projection, in which case will need to rotate to model
 % u/v using Angle[CS,SN].
-% Luckily, for this set up, 
-% face4: yc4(495,181:1080) are identical, 50.708789825439453 degN
-% face1: yc1(1:360,61) are identical,      4.671571254730225 degN
 %**************************
 
 % NORTH
@@ -47,8 +44,8 @@ for iloop=1:2;
   [am,ph] = conv_corr(time,am,ph,cl);   %am: m, ph: phase in sec 
   am(isnan(am)) = 0;		% 13 x 4320?
   ph(isnan(ph)) = 0;		% 13 x 4320?
-  am = [am,zeros(length(cl),padS)]; % pad for face 5, 13 x 3240
-  ph = [ph,zeros(length(cl),padS)]; % pad for face 5, 13 x 3240
+  am = [am,zeros(length(cl),padN)]; % pad for face 5, 13 x 3240
+  ph = [ph,zeros(length(cl),padN)]; % pad for face 5, 13 x 3240
   writebin([dirOut 'OBN' str 'am_' num2str(n1N) 'x' num2str(size(cl,1)) '.bin'],am',1,'real*4'); %  amplitude
   writebin([dirOut 'OBN' str 'ph_' num2str(n1N) 'x' num2str(size(cl,1)) '.bin'],ph',1,'real*4'); %  phase
   clear am ph
@@ -84,8 +81,8 @@ for iloop=1:2;
   [am,ph] = conv_corr(time,am,ph,cl);   %am: m, ph: phase in sec 
   am(isnan(am)) = 0;		% 13 x 4320?
   ph(isnan(ph)) = 0;		% 13 x 4320?
-  am = [am,zeros(length(cl),padS)]; am=ss.*am   % pad for face 5, 13 x 3240
-  ph = [ph,zeros(length(cl),padS)];             % pad for face 5, 13 x 3240
+  am = [am,zeros(length(cl),padW)]; am=ss.*am   % pad for face 5, 13 x 3240
+  ph = [ph,zeros(length(cl),padW)];             % pad for face 5, 13 x 3240
   writebin([dirOut 'OBW' str 'am_' num2str(n1S) 'x' num2str(size(cl,1)) '.bin'],am',1,'real*4'); %  amplitude
   writebin([dirOut 'OBW' str 'ph_' num2str(n1S) 'x' num2str(size(cl,1)) '.bin'],ph',1,'real*4'); %  phase
   clear am ph

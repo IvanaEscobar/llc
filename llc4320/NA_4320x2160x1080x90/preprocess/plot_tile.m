@@ -18,20 +18,23 @@ factor(id.ncut{1});      %2 2 2 2 3 3 3 5	%2160
 factor(id.ncut{2});	   %2 2 2 3 3 3   5	%1080
 
 %possible tile size:
-% 24 30 40 45 54 60 72 90 108 120 
+% 12 20 24 30 40 45 54 60 72 90 108 120 
 
-for icase=1:11;
-if(icase==1);dtilex=24;dtiley=24;           %total 8100, 6167 
-elseif(icase==2);dtilex=30;dtiley=30;       %total 5184, 3957
-elseif(icase==3);dtilex=36;dtiley=36;       %total 3600, 2752
-elseif(icase==4);dtilex=40;dtiley=40;   	%total 2916, 2238 
-elseif(icase==5);dtilex=45;dtiley=45;   	%total 2304, 1779 
-elseif(icase==6);dtilex=54;dtiley=54;   	%total 1600, 1243 
-elseif(icase==7);dtilex=60;dtiley=60;   	%total 1296, 1006 
-elseif(icase==8);dtilex=72;dtiley=72;   	%total  900,  698 
-elseif(icase==9);dtilex=90;dtiley=90;   	%total  576,  456 
-elseif(icase==10);dtilex=108;dtiley=108;	%total  400,  313 
-elseif(icase==11);dtilex=120;dtiley=120;	%total  324,  257 
+for icase=1:14;
+if(icase==1);dtilex=15;dtiley=15;           %total 20736, 15307 
+elseif(icase==2);dtilex=18;dtiley=18;       %total 14400, 10766
+elseif(icase==3);dtilex=20;dtiley=20;       %total 11664, 8722
+elseif(icase==4);dtilex=24;dtiley=24;       %total 8100, 6167
+elseif(icase==5);dtilex=30;dtiley=30;       %total 5184, 3957
+elseif(icase==6);dtilex=36;dtiley=36;       %total 3600, 2752
+elseif(icase==7);dtilex=40;dtiley=40;   	%total 2916, 2238 
+elseif(icase==8);dtilex=45;dtiley=45;   	%total 2304, 1779 
+elseif(icase==9);dtilex=54;dtiley=54;   	%total 1600, 1243 
+elseif(icase==10);dtilex=60;dtiley=60;   	%total 1296, 1006 
+elseif(icase==11);dtilex=72;dtiley=72;   	%total  900,  698 
+elseif(icase==12);dtilex=90;dtiley=90;   	%total  576,  456 
+elseif(icase==13);dtilex=108;dtiley=108;	%total  400,  313 
+elseif(icase==14);dtilex=120;dtiley=120;	%total  324,  257 
 end;
 print_fig=1;
 %nx=nx;ny=2*nx1+nx2+nx;id.nf.x=[nx 0 nx nx2 nx1];id.nf.y=[nx1 0 nx nx nx];
