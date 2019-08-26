@@ -37,56 +37,56 @@ load([dirIn 'latlon_for_obcs_tides.mat'],'Face1N','Face1S','Face5E','Face5W','Fa
 % face 1: normal component: vN at N, save as v at N
 % face 1: tangential component: uE at N, save as u at N
 n1N = nx+ncut2; %2160+1080 = 3240 (whole length)
-for iloop=1:2;
+for iloop=1:2
   clear am ph type
-  if(iloop==1);type='v';str='';else;type='u';str='t';end;
+  if(iloop==1);type='v';str='';else;type='u';str='t';end
   [am,ph,h,cl] = tmd_extract_HC('DATA/Model_tpxo7.2',Face1N.yg,Face1N.xc,type); %am: m, ph: deg [0-360]
   [am,ph] = conv_corr(time,am,ph,cl);   %am: m, ph: phase in sec 
-  am(isnan(am)) = 0;		% 13 x 4320?
-  ph(isnan(ph)) = 0;		% 13 x 4320?
-  am = [am,zeros(length(cl),padN)]; % pad for face 5, 13 x 3240
-  ph = [ph,zeros(length(cl),padN)]; % pad for face 5, 13 x 3240
+  am(isnan(am)) = 0;		% 13 tidal constituents x 2160 face 1 indices
+  ph(isnan(ph)) = 0;		% 13 x 2160
+  am = [am,zeros(length(cl),padN)]; % add pad for face 5, 13 x 3240
+  ph = [ph,zeros(length(cl),padN)]; 
   writebin([dirOut 'OBN' str 'am_' num2str(n1N) 'x' num2str(size(cl,1)) '.bin'],am',1,'real*4'); %  amplitude
   writebin([dirOut 'OBN' str 'ph_' num2str(n1N) 'x' num2str(size(cl,1)) '.bin'],ph',1,'real*4'); %  phase
   clear am ph
-end;
+end
 
 % SOUTH
 % face 1: normal component: vN at S, save as v at S
 % face 1: tangential component: uE at S, save as u at S
 n1S = nx+ncut2; %2160+1080 = 3240 (whole length)
-for iloop=1:2;
+for iloop=1:2
   clear am ph type
-  if(iloop==1);type='v';str='';else;type='u';str='t';end;
+  if(iloop==1);type='v';str='';else;type='u';str='t';end
   [am,ph,h,cl] = tmd_extract_HC('DATA/Model_tpxo7.2',Face1S.yg,Face1S.xc,type); %am: m, ph: deg [0-360]
   [am,ph] = conv_corr(time,am,ph,cl);   %am: m, ph: phase in sec 
-  am(isnan(am)) = 0;		% 13 x 4320?
-  ph(isnan(ph)) = 0;		% 13 x 4320?
-  am = [am,zeros(length(cl),padS)]; % pad for face 1, 13 x 3240
-  ph = [ph,zeros(length(cl),padS)]; % pad for face 1, 13 x 3240
+  am(isnan(am)) = 0;		% 13 x 2160
+  ph(isnan(ph)) = 0;		
+  am = [am,zeros(length(cl),padS)]; % add pad for face 5, 13 x 3240
+  ph = [ph,zeros(length(cl),padS)]; 
   writebin([dirOut 'OBS' str 'am_' num2str(n1S) 'x' num2str(size(cl,1)) '.bin'],am',1,'real*4'); %  amplitude
   writebin([dirOut 'OBS' str 'ph_' num2str(n1S) 'x' num2str(size(cl,1)) '.bin'],ph',1,'real*4'); %  phase
   clear am ph
-end;
+end
 
 % WEST: check
 % face 5: normal    : vN at N, save as -u at W
 % face 5: tangential: uE at N, save as +v at W
 n5W = nx+ncut2; %2160+1080 = 3240 (whole length)
 bc = 'n5W';
-for iloop=1:2;
+for iloop=1:2
   clear am ph type
-  if(iloop==1);type='v';str='';ss=-1.;else;type='u';str='t';ss=1.;end;
+  if(iloop==1);type='v';str='';ss=-1.;else;type='u';str='t';ss=1.;end
   [am,ph,h,cl] = tmd_extract_HC('DATA/Model_tpxo7.2',Face5W.yg,Face5W.xc,type); %am: m, ph: deg [0-360]
   [am,ph] = conv_corr(time,am,ph,cl);   %am: m, ph: phase in sec 
-  am(isnan(am)) = 0;		% 13 x 4320?
-  ph(isnan(ph)) = 0;		% 13 x 4320?
-  am = [am,zeros(length(cl),padW)]; am=ss.*am   % pad for face 5, 13 x 3240
-  ph = [ph,zeros(length(cl),padW)];             % pad for face 5, 13 x 3240
+  am(isnan(am)) = 0;		% 13 x 2160
+  ph(isnan(ph)) = 0;		% 13 x 2160
+  am = [am,zeros(length(cl),padW)]; am=ss.*am;   % pad for face 5, 13 x 3240
+  ph = [ph,zeros(length(cl),padW)];             
   writebin([dirOut 'OBW' str 'am_' num2str(n1S) 'x' num2str(size(cl,1)) '.bin'],am',1,'real*4'); %  amplitude
   writebin([dirOut 'OBW' str 'ph_' num2str(n1S) 'x' num2str(size(cl,1)) '.bin'],ph',1,'real*4'); %  phase
   clear am ph
-end;
+end
 
 % EAST
 %Gibraltar Strait:
@@ -94,24 +94,24 @@ end;
 % face 1: tangential: vN at E, save as v at E
 clear am ph type uam uph vam vph
 str='1E';
-for iloop=1:2;
-  if (iloop==1);type='u';else;type='v';end;
+for iloop=1:2
+  if (iloop==1);type='u';else;type='v';end
   [am,ph,h,cl] = tmd_extract_HC('DATA/Model_tpxo7.2',Face1E.yc,Face1E.xg,type);
   [am,ph] = conv_corr(time,am,ph,cl);
   eval([type 'am' str '=am;']);eval([type 'ph' str '=ph;']);
   clear am ph type
-end;
+end
 
 % face 5: normal    : vN at S, save as -u at E
 % face 5: tangential: uE at S, save as +v at E
 str='5E';
-for iloop=1:2;
-  if(iloop==1);type='v';ss='-1.0';else;type='u';ss='1.0';end;
+for iloop=1:2
+  if(iloop==1);type='v';ss='-1.0';else;type='u';ss='1.0';end
   [am,ph,h,cl] = tmd_extract_HC('DATA/Model_tpxo7.2',Face5E.yg,Face5E.xc,type);
   [am,ph] = conv_corr(time,am,ph,cl);
   eval([type 'am' str '=' ss '.*am;']);eval([type 'ph' str '=ph;']);
   clear am ph
-end;
+end
 
 % Putting all East together:
 nE = nx+ncut2;% 2160 + 1080 = 3240
