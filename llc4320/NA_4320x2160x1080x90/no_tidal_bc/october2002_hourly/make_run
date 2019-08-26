@@ -1,0 +1,84 @@
+#!/bin/bash
+## Copy this into your problem directory and modify to your needs
+
+## Set up fwdAdj for run: 
+#	"_ad": adjoint
+#	"":    forward
+fwdAdj=""
+
+## Set up code version: blank if current version
+vers="_c67h"
+
+## Specify parallel domain decomposition:
+#   Read SIZE.h or data.exch2 for sNx, sNy, and nPx
+sNx="30"
+sNy=$sNx
+nPx="3957"
+
+## Set up directories:
+#	gcmDir: MITgcm code
+#	srcDir:  Problem run
+#		  Ex: in sverdrup: ~ivana/llc/llc4320/NA_4320x2160x1080x90/root/
+gcmDir=$HOME/MITgcm$vers
+srcDir=$PWD #/work/05427/llc/llc4320/NA_4320x2160x1080x90/root/
+buildDir=$srcDir/build$vers$fwdAdj
+codeDir=$srcDir/code$vers$fwdAdj
+
+## Copy correct SIZE.h file
+if [ -f "$codeDir/SIZE.h_${sNx}x${sNy}x$nPx" ]; then
+    cp $codeDir/SIZE.h_${sNx}x${sNy}x$nPx $codeDir/SIZE.h
+else
+    echo "Add SIZE.h_sNx x sNy x nPx in code directory..."
+    exit 1
+fi
+
+## Opt file architecture specific: STAMPEDE 2 SKX 
+opt=$env_setups/optfiles/linux_amd64_ifort+mpi_stampede2_skx
+
+## Use the correct opt file here
+build_cmd="$gcmDir/tools/genmake2 -rd=$gcmDir -mods=$codeDir -optfile=$opt -mpi"
+
+## Check which run to set up
+if [[ $fwdAdj == "_ad" ]]
+  then
+        echo "Preparing adjoint run ..."
+elif [[ $fwdAdj == "" ]]
+  then
+        echo "Preparing forward run ..."
+else
+        echo "Unsure of fwdAdj suffix, exiting ..."
+        exit 1
+fi
+
+## Build the model in build directory
+if [ ! -d $buildDir ]
+  then
+        mkdir $buildDir
+        cd $buildDir
+else
+        cd $buildDir
+        if [ -s Makefile ] ; then
+		make clean
+	fi
+fi
+
+cd $buildDir
+echo "Inside dir: "$PWD
+
+echo "Evaluating: "$build_cmd
+eval $build_cmd > $srcDir/make_run.out 2> $srcDir/make_run.err
+echo "Make depend ..."
+eval "make depend" >> $srcDir/make_run.out 2>> $srcDir/make_run.err
+echo "Making executable ..."
+if [[ $fwdAdj == "_ad" ]] ; then
+  eval "make -j 8 adall" 
+else
+    eval "make -j 20" >> $srcDir/make_run.out 2>> $srcDir/make_run.err
+fi
+## Append sNx sNy and nPx
+cp -f mitgcmuv mitgcmuv_${sNx}x${sNy}x$nPx
+echo ""
+echo "---------- SUMMARY ----------"
+echo "Executable for "${sNx}"x"${sNy}" tile size on "${nPx}" cores"
+echo "-----------------------------"
+echo ""

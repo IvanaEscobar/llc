@@ -4,6 +4,8 @@ syntax: glob
 ###############################
 build*
 run*
+*REMOVE_AFTER*
+
 
 ## Data files ## 
 ################

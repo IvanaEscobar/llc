@@ -1,0 +1,9 @@
+# Packages
+ &PACKAGES
+ useEXF         = .TRUE.,
+ useCAL         = .TRUE.,
+ useKPP         = .TRUE.,
+ useDiagnostics = .TRUE.,
+ useOBCS        = .TRUE.,
+ useMNC         = .FALSE.,
+ /
