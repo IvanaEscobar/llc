@@ -76,14 +76,15 @@ while [ ${iloop} -le 1 ]; do
   fi
 
 #--- 4. linking binary ---------
-  ln -s ${basedir}/run_template/input_binaries/*.bin .
-  ln -s ${basedir}/run_template/input_binaries/tile*.mitgrid .
-  ln -s ${basedir}/run_template/input_weight/* .
+  bindir=$basedir/../root/run_template
+  ln -s $bindir/input_binaries/*.bin .
+  ln -s $bindir/input_binaries/tile*.mitgrid .
+  ln -s $bindir/input_weight/* .
   rm -f OB*
-  ln -s ${basedir}/run_template/input_obcs/*.bin .
+  ln -s $bindir/input_obcs/*.bin .
 ###
-  ln -s ${basedir}/run_template/input_smooth/smooth*Dscales* ./
-  ln -s ${basedir}/run_template/input_smooth/smooth*Dnorm001.* ./
+  ln -s $bindir/input_smooth/smooth*Dscales* ./
+  ln -s $bindir/input_smooth/smooth*Dnorm001.* ./
 #
 #=================================================================================
 ##--- 5. linking xx_ fields ------
@@ -112,7 +113,7 @@ while [ ${iloop} -le 1 ]; do
 #--- 6. NAMELISTS ---------
   cp -f ${inputdir}/* .
   cp -f ${basedir}/${jobfile} .
-  cp -f data_exch2_${snx}x${sny}x${nprocs} data.exch2
+  cp -f data.exch2_${snx}x${sny}x${nprocs} data.exch2
 
 #--- 7. executable --------
   rm -f mitgcmuv*
@@ -129,7 +130,7 @@ while [ ${iloop} -le 1 ]; do
 
 #--- 9. make a list of all linked files ------
   rm -f command_ln_input
-  ls -l namelists_*/* > command_ln_input
+  ls -l ${inputdir}/* > command_ln_input
   ls -l *.bin >> command_ln_binary
   ls -l tile* >> command_ln_binary
   ls -l smooth* >> command_ln_binary

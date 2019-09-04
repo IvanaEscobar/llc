@@ -427,7 +427,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7-|--+----|
      &     (OBWphFile,fp,tidalComponents,OBWph,1,nIter0,myThid )
       IF ( OBWamtFile .NE. ' '  ) CALL READ_REC_YZ_RL
      &     (OBWamtFile,fp,tidalComponents,OBWamt,1,nIter0,myThid )
-      IF ( OBWphFile .NE. ' '  ) CALL READ_REC_YZ_RL
+      IF ( OBWphtFile .NE. ' '  ) CALL READ_REC_YZ_RL
      &     (OBWphtFile,fp,tidalComponents,OBWpht,1,nIter0,myThid )
 # endif
       _BARRIER
@@ -447,6 +447,9 @@ C--   Load/compute OBCS values (initial conditions only)
 #endif
        CALL OBCS_CALC( startTime, nIter0,
      &              uVel, vVel, wVel, theta, salt, myThid )
+C     S/R OBCS_CALC is split between computing the boundary conditions
+C     and adjusting them to balance the flow (and apply tides)
+       CALL OBCS_ADJUST( startTime, nIter0, myThid )
 
 C--   Apply OBCS values to initial conditions for consistency
 C      (but initial conditions only)

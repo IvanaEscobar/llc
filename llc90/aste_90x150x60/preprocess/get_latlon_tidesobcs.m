@@ -8,16 +8,16 @@ warning off
 % face1.S              face4.E            face5.E               face1.E
 %[obcs2{1}.jvel(2,1) obcs2{2}.ivel(2,1) obcs2{3}.ivel(2,1) obcs2{4}.ivel(2,1)]	[257 494 1185 387]
 
-%for aste_90x150x60:
-OB_Jsouth =   90*8, 300*0,
-OB_Ieast  =   86*0, 1*33, 63*0, 90*0, 90*42, 90*143,
+%% for aste_90x150x60:
+% From data.obcs:
+% OB_Jsouth =   90*8, 300*0,
+% OB_Ieast  =   86*0, 1*33, 63*0, 90*0, 90*42, 90*143,
 
-
-% [global local] indeces per Face: 
+%% [global local] indices for Face: 
 % Ex: for llc 90 global indices on Face 1 are ALWAYS Nx=90 Ny=270
 %     if we only use upper half of face, local indices are Nx=[1 135], Ny=[1 90].
 %     global indices are Nx=[136 270], ny=[1 90]
-% got glabal indices from Step0 in preprocess
+% Obtained global indices from Step0 in preprocess
 Face1S.jvel=[129    9  ]';  Face1S.jC1=[128     8  ]';
 Face4E.ivel=[42     42 ]';  Face4E.iC1=[42      42 ]';
 Face5E.ivel=[143    143]';  Face5E.iC1=[143     143]';
@@ -40,6 +40,7 @@ hf=readbin([dirRoot '../../GRID/hFacC.data'],[nx 2*nfy(1)+nx+nfx(4)]);hf(find(hf
 
 flist=dir([dirRoot 'tile*.mitgrid']);
 
+%% Saving lat/lon of boundaries
 i=1;
 yg=read_slice([dirRoot flist(i).name],nfx(i)+1,nfy(i)+1,7,'real*8');
 xc=read_slice([dirRoot flist(i).name],nfx(i)+1,nfy(i)+1,1,'real*8');

@@ -9,7 +9,10 @@ dirOut=dirIn;
 % model start time
 time = datenum(2002,01,01);
 
-% pads... WHERE DO THE PADS COME FROM? WHAT IS THEIR FUNCTION?
+%% Pads
+% define size of boundary where we want to ignore tidal forcing
+% Ex:   tidal forcing on S. border of Face 1 will need a pad of zeros on 
+%       faces 3, 4, and 5
 nz=50; nx=90; ncut1=150; ncut2=60; ny=2*ncut1+nx+ncut2; % 450
 padS    = nx+ncut2+ncut1;	%300
 padE3   = nx;
@@ -27,21 +30,22 @@ load([dirIn 'latlon_for_obcs_tides.mat'],'Face1S','Face4E','Face5E','Face1E');
 % face1: yc1(1:360,61) are identical,      4.671571254730225 degN
 %**************************
 
+%% Extracting tidal amplitude and phase
 % face 1: normal component: vN at S, save as v at S
 % face 1: tangential component: uE at S, save as u at S
-for iloop=1:2;
+for iloop=1:2
   clear am ph type
-  if(iloop==1);type='v';str='';else;type='u';str='t';end;
+  if(iloop==1);type='v';str='';else;type='u';str='t';end
   [am,ph,h,cl] = tmd_extract_HC('DATA/Model_tpxo7.2',Face1S.yg,Face1S.xc,type);%am: m, ph: deg [0-360]
   [am,ph] = conv_corr(time,am,ph,cl);						%am: m, ph: phase in sec 
   am(isnan(am)) = 0;		% 13 x nx
-  ph(isnan(ph)) = 0;		% 13 x nx
-  am = [am,zeros(length(cl),padS)]; % pad for face 3+4+5, 13 x ny
-  ph = [ph,zeros(length(cl),padS)]; % pad for face 3+4+5, 13 x ny
-  writebin([dirOut 'OBS' str 'am_' num2str(ny) 'x' num2str(size(cl,1)) '.bin'],am',1,'real*4'); %  amplitude
-  writebin([dirOut 'OBS' str 'ph_' num2str(ny) 'x' num2str(size(cl,1)) '.bin'],ph',1,'real*4'); %  phase
+  ph(isnan(ph)) = 0;		
+  am = [am,zeros(length(cl),padS)]; % add pad for faces 3+4+5, 13 x 390
+  ph = [ph,zeros(length(cl),padS)]; 
+  writebin([dirOut 'OBS' str 'am_' num2str(size(am,2)) 'x' num2str(size(cl,1)) '.bin'],am',1,'real*4'); %  amplitude
+  writebin([dirOut 'OBS' str 'ph_' num2str(size(am,2)) 'x' num2str(size(cl,1)) '.bin'],ph',1,'real*4'); %  phase
   clear am ph
-end;
+end
 
 %East
 %Gibraltar Strait:
@@ -49,35 +53,35 @@ end;
 % face 1: tangential: vN at E, save as v at E
 clear am ph type uam uph vam vph
 str='1E';
-for iloop=1:2;
-  if (iloop==1);type='u';else;type='v';end;
+for iloop=1:2
+  if (iloop==1);type='u';else;type='v';end
   [am,ph,h,cl] = tmd_extract_HC('DATA/Model_tpxo7.2',Face1E.yc,Face1E.xg,type);
   [am,ph] = conv_corr(time,am,ph,cl);
-  eval([type 'am' str '=am;']);eval([type 'ph' str '=ph;']);
+  eval([type 'am' str '=am;']);eval([type 'ph' str '=ph;']); %uam1E
   clear am ph type
-end;
+end
 
 % face 4: normal:     vN at S, save as -u at E
 % face 4: tangential: uE at S, save as +v at E
 str='4E';
-for iloop=1:2;
-  if(iloop==1);type='v';ss='-1.0';else;type='u';ss='1.0';end;
+for iloop=1:2
+  if(iloop==1);type='v';ss='-1.0';else;type='u';ss='1.0';end
   [am,ph,h,cl] = tmd_extract_HC('DATA/Model_tpxo7.2',Face4E.yg,Face4E.xc,type);
   [am,ph] = conv_corr(time,am,ph,cl);
   eval([type 'am' str '=' ss '.*am;']);eval([type 'ph' str '=ph;']);
-  clear am ph
-end;
+  clear am ph type
+end
 
 % face 5: normal    : vN at S, save as -u at E
 % face 5: tangential: uE at S, save as +v at E
 str='5E';
-for iloop=1:2;
-  if(iloop==1);type='v';ss='-1.0';else;type='u';ss='1.0';end;
+for iloop=1:2
+  if(iloop==1);type='v';ss='-1.0';else;type='u';ss='1.0';end
   [am,ph,h,cl] = tmd_extract_HC('DATA/Model_tpxo7.2',Face5E.yg,Face5E.xc,type);
   [am,ph] = conv_corr(time,am,ph,cl);
   eval([type 'am' str '=' ss '.*am;']);eval([type 'ph' str '=ph;']);
-  clear am ph
-end;
+  clear am ph type
+end
 
 %now putting together: note take away -1 to vam4E and vam5E because already applied above
 E3_len = ncut1+3*nx;% 420

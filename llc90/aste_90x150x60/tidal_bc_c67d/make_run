@@ -33,7 +33,7 @@ else
 fi
 
 ## Opt file architecture specific
-opt=$env_setups/optfiles/linux_amd64_ifort+mpi_stampede2_skx
+opt=$env_setups/optfiles/linux_amd64_ifort+mpi_stampede2
 
 ## Use the correct opt file here
 build_cmd="$gcmDir/tools/genmake2 -rd=$gcmDir -mods=$codeDir -of=$opt -mpi -disable autodiff"
@@ -67,12 +67,12 @@ echo "Inside dir: "$PWD
 echo "Evaluating: "$build_cmd
 eval $build_cmd 
 echo "Make depend ..."
-eval "make -j 36 depend" 
+eval "make depend" 
 echo "Making executable ..."
 if [[ $fwdAdj == "_ad" ]] ; then
   eval "make -j 8 adall" 
 else
-  eval "make -j 36"
+  eval "make -j 30"
 fi
 ## Append sNx sNy and nPx
 cp -f mitgcmuv mitgcmuv_${sNx}x${sNy}x$nPx

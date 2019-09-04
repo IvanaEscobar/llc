@@ -45,9 +45,8 @@ exeDir=$scratchDir/run$vers${ext}_pk$pkup
 cd $exeDir
 
 module restore
-#module load remora
 set -x
 date>run.MITGCM.timing
+# Lonestar5
 ibrun tacc_affinity mitgcmuv
-#remora ibrun -n $nPx mitgcmuv
 date>>run.MITGCM.timing
