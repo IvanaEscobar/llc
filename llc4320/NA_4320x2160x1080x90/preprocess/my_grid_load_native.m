@@ -12,7 +12,7 @@ clear all;
 warning off;
 
 define_indices;
-set_directory;
+%set_directory;
 useNativeFormat=1;
 
 %actual indices on the faces:
@@ -31,13 +31,15 @@ end
 
 [Lx1 Ly1 Lx5 Ly5];			%2160 1080 1080 2160
 
+nx=2160; %!
 niout = [  Lx1     0  0 0     Lx5    0];
 njout = [  Ly1     0  0 0     Ly5    0];
 niin  = [   nx    nx nx nx*3  nx*3  nx];
 njin  = [ nx*3  nx*3 nx nx    nx    nx];
 
 % fine resolution grid = child grid
-files=dir([dirs.child.Grid_global_real8 'tile00*.mitgrid']);
+%files=dir([dirs.child.Grid_global_real8 'tile00*.mitgrid']);
+files=dir(['/work/05427/iescobar/stampede2/llc/llc4320/NA_4320x2160x1080x90/root/run_template/input_binaries/tile00*.mitgrid']); %!
 numFaces = length(files); % same as the number of *.mitgrid files
 if(numFaces==0);error('missing tile00*.mitgrid for child grid');end;
 
@@ -72,8 +74,7 @@ for iFile=1:numFaces;
     
     % If you want to write out to a different location specify dirGridOut
     % Ex: 
-    % outfile =   
-    ; %dirGridOut
+    % outfile = dirGridOut;
     % else
     outfile = files
     fidout=fopen(outfile,'w','b');

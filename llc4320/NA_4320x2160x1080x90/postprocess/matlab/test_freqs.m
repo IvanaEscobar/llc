@@ -4,10 +4,10 @@ tidalPeriod  =[ 44714.165, 43200.001, 45570.054, 43082.050, 86164.077, 92949.636
 nx=2160;
 ny=2160;
 
-%dirgrid=['/scratch/05427/iescobar/llc/llc4320/NA_4320x2160x1080x90/run_c67h_notides_pk0000000001/GRID/'];
-dirgrid=['/work/05427/iescobar/lonestar/tidal_bc/GRID/'];
-yc=rdmds([dirgrid 'YC']);yc=reshape(yc,nx,ny);
-D=rdmds([dirgrid 'Depth']);D=reshape(D,nx,ny);
+%gridDir=['/scratch/05427/iescobar/llc/llc4320/NA_4320x2160x1080x90/run_c67h_notides_pk0000000001/GRID/'];
+gridDir='/work/05427/iescobar/lonestar/tidal_bc/GRID/';
+yc=rdmds([gridDir 'YC']);yc=reshape(yc,nx,ny);
+D=rdmds([gridDir 'Depth']);D=reshape(D,nx,ny);
 Df{1}=D(:,1:ny/2);
 Df{5}=reshape(D(:,ny/2+1:ny),ny/2,nx);
 
@@ -34,7 +34,7 @@ lat0=yc(ind);
 f0=(1./(2.*7.292115e-5.*sin(lat0.*pi./180)./2./pi))./3600;
 %22.9,17.95,20.49,24.68,19.77,17.81 hrs]
 
-dirin=[dirgrid '../diags/STATE/'];
+dirin=[gridDir '../diags/STATE/'];
 dirin=['/scratch/05427/iescobar/llc/llc4320/NA_4320x2160x1080x90/run_c67h_tidal_bc_pk0000268800/diags/'];
 varstr='state_2d_hourly';
 

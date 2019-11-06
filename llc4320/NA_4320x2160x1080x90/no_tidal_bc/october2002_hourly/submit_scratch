@@ -8,7 +8,7 @@
 #SBATCH -N 84
 #SBATCH -n 3957
 #================================================
-#SBATCH -t 42:19:00
+#SBATCH -t 47:59:59
 #SBATCH -p skx-normal
 #SBATCH -A Transfer-of-ECCO-glo
 #SBATCH --mail-user=ivana@oden.utexas.edu

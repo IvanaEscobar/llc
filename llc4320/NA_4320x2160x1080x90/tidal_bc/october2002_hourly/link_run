@@ -93,8 +93,8 @@ if [[ $pkup_prev ]]; then
     pkupDir=$STOCKYARD/lonestar/tidal_bc/pickups_pk0000249600
     #pkupDir=$scratchDir/no_tidal_bc/run${vers}_notides_pk$pkup_prev
     if [[ ! -f pickup.${pkup}.meta ]]; then     
-        cp -f $pkupDir/pickup.${pkup}.data .
-        cp -f $pkupDir/pickup.${pkup}.meta .
+        cp -f $pkupDir/pickup.${pkup_prev}.data .
+        cp -f $pkupDir/pickup.${pkup_prev}.meta .
     else
         echo "Already copied pickup files..."
     fi

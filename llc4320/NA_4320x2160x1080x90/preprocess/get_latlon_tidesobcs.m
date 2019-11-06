@@ -14,7 +14,7 @@ Face5E.ivel=[3569  1065]';  Face5E.iC1=[3569  1065]';
 Face5W.ivel=[2529    25]';  Face5W.iC1=[2528    24]';
 Face1E.ivel=[1531  1531]';  Face1E.iC1=[1531  1531]';
 
-dirRoot='/scratch/ivana/llc/llc4320/NA_4320x2160x1080x90/run_template/';
+dirRoot='/work/05427/iescobar/stampede2/llc/llc4320/NA_4320x2160x1080x90/root/run_template/';
 dirBin=[dirRoot 'input_binaries/'];
 dirOut=[dirRoot 'input_obcs/'];
 nx=2160;
@@ -22,16 +22,18 @@ ncut2=1080;
 ny=2*ncut2;
 nfx=[nx 0 0 0 ncut2];nfy=[ncut2 0 0 0 nx];
 
-b=readbin([dirBin 'SandSv18p1_NA4320x2160x1080_obcs13Jul2018.bin'],[nx ny]);
-[b,bf]=get_aste_tracer(abs(b),nfx,nfy);
-hf=readbin([dirRoot '../GRID/hFacC.data'],[nx ny]);hf(find(hf>0))=1;
-[hf,hff]=get_aste_tracer(hf,nfx,nfy);
+% b=readbin([dirBin 'SandSv18p1_NA4320x2160x1080_obcs13Jul2018.bin'],[nx ny]);
+% [b,bf]=get_aste_tracer(abs(b),nfx,nfy);
+% hf=readbin([dirRoot '../GRID/hFacC.data'],[nx ny]);hf(find(hf>0))=1;
+% [hf,hff]=get_aste_tracer(hf,nfx,nfy);
 
 flist=dir([dirBin 'tile*.mitgrid']);
 
 list_fields2={'XC','YC','DXF','DYF','RAC','XG','YG','DXV','DYU','RAZ',...
     'DXC','DYC','RAW','RAS','DXG','DYG'};
 
+%% Get velocity points along boundaries
+% remember to shift local index on South and West boundaries
 i=1;
 yg=read_slice([dirBin flist(i).name],nfx(i)+1,nfy(i)+1,7,'real*8');
 xc=read_slice([dirBin flist(i).name],nfx(i)+1,nfy(i)+1,1,'real*8');
@@ -43,6 +45,7 @@ xc=read_slice([dirBin flist(i).name],nfx(i)+1,nfy(i)+1,1,'real*8');
 Face1S.yg=yg(1:nfx(i),Face1S.jvel(2,1));
 Face1S.xc=xc(1:nfx(i),Face1S.jC1(2,1));	
 
+% Note: 5E is the Southern Boundary on the globe and 5W is the Northern Bndry. 
 i=5;
 yg=read_slice([dirBin flist(i).name],nfx(i)+1,nfy(i)+1,7,'real*8');
 xc=read_slice([dirBin flist(i).name],nfx(i)+1,nfy(i)+1,1,'real*8');
@@ -63,7 +66,7 @@ Face1E.yc=yc(Face1E.iC1(2,1) ,1:nfy(i));
 fsave=[dirOut 'latlon_for_obcs_tides.mat'];
 save(fsave,'Face1N','Face1S','Face5E','Face5W', 'Face1E');
 
-% NOTE: indices might look off between face5 and face1, but yg identically lined up.
+%% Plot boundaries based on lat and lon
 load coast;
 figure(1);clf;
 subplot(221);
