@@ -1,57 +1,56 @@
 clear all;
-dirGrid=['/work/03901/atnguyen/llc1080/aste_1080x1260x540x90/GRID/'];
-nx=1080;ny=1260*2+nx+540;nz=90;nfx=[nx 0 nx 540 1260];nfy=[1260 0 nx nx nx];
-
-dirWork='/work/03901/atnguyen/MITgcm_c67/mysetups/aste_1080x1260x540x90/';
-dirScratch='/scratch/03901/atnguyen/aste_1080x1260x540x90/';
-%RunStr='run_tides_it0000_pk0001270800';%RunStr='run_tides_it0000_pk0001166400';
-%RunStr='run_tides_run2b_it0000_pk0001544760';%RunStr='run_tides_it0000_pk0001166400';
-%dirRun=[dirScratch RunStr '/diags/'];
-RunStr='run_tides_run2_hourly_it0000_pk0001577880';
-dirRun=[dirWork RunStr '/diags/'];
+define_indices; 
+%% Setting Directories and Domain Info: Escobar's NA setup
+dirWork='/work/05427/iescobar/stampede2/llc/llc4320/NA_4320x2160x1080x90/';
+dirScratch='/scratch/05427/iescobar/llc/llc4320/NA_4320x2160x1080x90/run_c67h_tidal_bc_pk0000000001/';
+dirGrid=[dirWork 'GRID/'];
+dirRun=[dirScratch 'diags/'];
 if(~exist(dirRun));error('dirrun not exist');end;
 
-%varstrin={'state_3d_set1','state_3d_set1','trsp_3d_set1','trsp_3d_set1'};%'state_3d_set1',
-%varstrin={'state_3d_daily','state_3d_daily','trsp_3d_daily','trsp_3d_daily'};
-varstrin={'state_3d_hourly','state_3d_hourly','trsp_3d_hourly','trsp_3d_hourly'};
-ext     ={'STATE/','STATE/','TRSP/','TRSP/'};%'STATE/',
-varstrout={'THETA','SALT','UVELMASS','VVELMASS'};%'RHOAnoma',
-varstr_wetpt={'C','C','W','S'};		%hfac[C,W,S], %,'C'
-%sometimes, write file not full depth to nz, but only to nz1:
-nzoffset=[0 1 0 1].*nz;%2 
+nx= id.n.x/2;   % 2160
+ny= id.n.y;     % 2160
+nz= id.n.z;     % 90
+nfx= id.nf.x;   % [2160 0 0 0 1080]
+nfy= id.nf.y;   % [1080 0 0 0 2160]
 
+%% Picking Diagnostics to Compress: see *.meta for info on diags
+diagIn  ={'state_3d_hourly','state_3d_hourly','trsp_3d_hourly','trsp_3d_hourly'};
+subDir  ={'state_3d/','state_3d/','trsp_3d/','trsp_3d/'};
+diagVar ={'THETA','SALT','UVELMASS','VVELMASS'};
+varWetpt={'C','C','W','S'};		%hfac[C,W,S]
+%nzoffset: the index of the diagVar Can be found in *.meta fldList
+nzoffset=[0 1 0 1].*nz;
 
 %use_method=1;		%split iz
 use_method=0;		%read the whole file
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%for ivar=1:size(varstrin,2);
-for ivar=3:3;%size(varstrin,2);
-
+%for ivar=1:size(diagIn,2);
+for ivar=1:1;
   clear flist
 
-  flist=dir([dirRun ext{ivar} varstrin{ivar} '.*.data']);if(length(flist)==0);error('flist missing');end;
+  flist=dir([dirRun subDir{ivar} diagIn{ivar} '.*.data']);if(length(flist)==0);error('flist missing');end;
   idot=find(flist(1).name=='.');idot=idot(1)+1:idot(2)-1;
 
 %determining nz1 from meta file:
-  meta=rdmds_meta([dirRun ext{ivar} flist(1).name(1:end-5)]);
+  meta=rdmds_meta([dirRun subDir{ivar} flist(1).name(1:end-5)]);
   if(meta.nDims==2);nz1=1;else;nz1=meta.dimList(7);end;			%83 or 80
 
-  dirOut=[dirRun varstrout{ivar} '_wet/'];if(~exist(dirOut));mkdir(dirOut);end;
-  fGrid=[dirGrid 'Index_wet_hfac' varstr_wetpt{ivar} '.mat'];
+  dirOut=[dirRun diagVar{ivar} '_wet/'];if(~exist(dirOut));mkdir(dirOut);end;
+  fGrid=[dirGrid 'Index_wet_hfac' varWetpt{ivar} '.mat'];
   if(~exist(fGrid));error('fGrid wet pt missing, run get_wet_points.m first\n');end;
-  fprintf('%s ',varstrout{ivar});
+  fprintf('%s ',diagVar{ivar});
   t1=clock;load(fGrid,'ind','i1','i2'); fprintf('%g ',etime(clock,t1));	%40sec to load
   Lmax=size(ind,1);
 
   izv=[1:nz1]+nzoffset(ivar);
 
-  istart=1;%if(ivar==1);istart=83;else;istart=1;end;
+  istart=1;
   for ifile=istart:length(flist);					%89sec / file
     %tic
-    ts=flist(ifile).name(idot);
+    ts=flist(ifile).name(idot)
 
-    fOut=[dirOut varstrout{ivar} '_' sprintf('%i',Lmax) '.' ts '.data'];%10sec to write
+    fOut=[dirOut diagVar{ivar} '_' sprintf('%i',Lmax) '.' ts '.data'];%10sec to write
 
     if(~exist(fOut));
 
@@ -60,7 +59,7 @@ for ivar=3:3;%size(varstrin,2);
         aout=zeros(Lmax,1);	%memory for just wet point, note this is to all 90 vertical lev %/*{{{*/
         for iz=1:nz1;
           clear a ii ioffset
-          a=read_slice([dirRun ext{ivar} flist(ifile).name],nx,ny,izv(iz));
+          a=read_slice([dirRun subDir{ivar} flist(ifile).name],nx,ny,izv(iz));
           ii=i1(6,iz):i2(6,iz);
           ioffset=(iz-1)*nx*ny;
           aout(ii,1)=a(ind(ii,6)-ioffset);
@@ -68,7 +67,7 @@ for ivar=3:3;%size(varstrin,2);
       elseif(use_method==0);						%47sec / file
         clear ain aout							%/*{{{*/
         aout=zeros(Lmax,1);						%all 90 vertical levels
-        ain=read_slice([dirRun ext{ivar} flist(ifile).name],nx,ny,izv);	%21sec to read all 90
+        ain=read_slice([dirRun subDir{ivar} flist(ifile).name],nx,ny,izv);	%21sec to read all 90
         ii=1:i2(6,nz1);							%need to obtain indices for up to only nz1:
         aout(ii,1)=ain(ind(ii,6));					%/*}}}*/
       end;
@@ -88,16 +87,16 @@ if(expanding_field==1);							%/*{{{*/
 
   %now expanding:
   for ivar=1:1;
-    dirIn=[dirRun varstrout{ivar} '_wet/'];
+    dirIn=[dirRun diagVar{ivar} '_wet/'];
     dirOut=dirIn;
-    flist1=dir([dirIn varstrout{ivar} '_' sprintf('%i',Lmax) '.*.data']);
+    flist1=dir([dirIn diagVar{ivar} '_' sprintf('%i',Lmax) '.*.data']);
     idot1=find(flist1(1).name=='.');idot1=idot1(1)+1:idot1(2)-1;
     for ifile1=1:5;
       ts=flist1(ifile1).name(idot1);
       tic;ain=readbin([dirIn flist1(ifile1).name],[1 Lmax]);toc;	%8.5sec to read
       tic;aout=zeros(nx,ny,nz);toc;					%0.02sec
       tic;aout(ind(:,6))=ain;toc;					%6.2sec
-      tic;writebin([dirOut varstrout{ivar} '.' ts '.data'],aout,1,'real*4');toc;%35sec
+      tic;writebin([dirOut diagVar{ivar} '.' ts '.data'],aout,1,'real*4');toc;%35sec
     end;
   end;
 end;									%/*}}}*/
@@ -114,9 +113,9 @@ if(expanding_field_layer==1);						%/*{{{*/
   fld=zeros(length(ii),1);
   
   for ivar=1:1;
-    dirIn=[dirRun varstrout{ivar} '/'];
+    dirIn=[dirRun diagVar{ivar} '/'];
     dirOut=dirIn;
-    flist1=dir([dirIn varstrout{ivar} '_' sprintf('%i',Lmax) '.*.data']);
+    flist1=dir([dirIn diagVar{ivar} '_' sprintf('%i',Lmax) '.*.data']);
     idot1=find(flist1(1).name=='.');idot1=idot1(1)+1:idot1(2)-1;
 
     ifile1=5;
@@ -135,7 +134,6 @@ if(expanding_field_layer==1);						%/*{{{*/
 
 end;									%/*}}}*/
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 test_duplicate=0;
 if(test_duplicate);
 %test expand: note that a tracer field will have more non-zero points than in hFacC along
@@ -155,4 +153,3 @@ for k=1:90;
   pause;
 end;
 end;
-

@@ -2,7 +2,7 @@ clear all
 %get_directories
 define_indices;
 
-dirGrid='/scratch/05427/iescobar/llc/llc4320/NA_4320x2160x1080x90/run_c67h_pk0000000001/GRID/';
+dirGrid='/work/05427/iescobar/stampede2/llc/llc4320/NA_4320x2160x1080x90/GRID/';
 nx= 2160;%id.n.x;
 ny= 2160; %id.n.y;
 nz= id.n.z;
@@ -11,8 +11,7 @@ nfy= id.nf.y;
 
 %first, build a set of indices:
 %u:
-%strv={'C','W','S'};
-strv={'S'};
+strv={'C','W','S'};
 for ivar=1:size(strv,2);
 
   fprintf('\n%s \n',strv{ivar});

@@ -1,18 +1,23 @@
 %8.mar.2019: same as get_wet_points.m, but only for surface layer
 clear all
-dirRoot='/work/03901/atnguyen/llc1080/aste_1080x1260x540x90/';
-dirGrid=[dirRoot 'GRID/'];
+define_indices;
 
-nx=1080;ny=2*1260+nx+540;nz=1;nfx=[nx 0 nx 540 1260];nfy=[1260 0 nx nx nx];
+dirGrid='/work/05427/iescobar/stampede2/llc/llc4320/NA_4320x2160x1080x90/GRID/';
+nx= 2160;%id.n.x;
+ny= 2160; %id.n.y;
+nz= 1; %id.n.z;
+nfx= id.nf.x;
+nfy= id.nf.y;
 
 %first, build a set of indices:
 %u:
 strv={'C','W','S'};
 for ivar=1:size(strv,2);
 
-  fprintf('%s ',strv{ivar});
+  fprintf('\n%s \n',strv{ivar});
 
-  i1=nan(6,nz);			%1:5: 5 faces, 6: full compact
+  % i1: rows 1:5 account for the 5 faces, and row 6 is the full compact
+  i1=nan(6,nz);	
   i2=nan(6,nz);i2(:,1)=0;
   ind=nan(nx*ny*nz,6);
 
@@ -40,10 +45,8 @@ for ivar=1:size(strv,2);
   %now split into faces:
     hff=get_aste_faces(hf,nfx,nfy);
   
-    for iface=[1,3:5];
-  
-      clear ifwet ifoffset
-;
+    for iface=[1,5];
+      clear ifwet ifoffset;
       ifoffset=(iz-1)*nfx(iface)*nfy(iface);
       ifwet=find(hff{iface}(:)>0);
   
@@ -71,4 +74,3 @@ for ivar=1:size(strv,2);
   fprintf('%s\n',fOut);
   
 end;	%ivar
-
