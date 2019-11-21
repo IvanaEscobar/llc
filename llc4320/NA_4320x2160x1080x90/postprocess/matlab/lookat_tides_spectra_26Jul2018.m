@@ -1,6 +1,5 @@
 %run lookat_tides first to load in time series
 
-
 tt=ta.*24;
 %signal=(a-mean(a))-(b-mean(b));
 
@@ -47,5 +46,3 @@ fpr=[dirRoot 'tidalpotential_spectrapower_26Jul2018.png'];print(fpr,'-dpng');
 %signal =(a-mean(a))-(b-mean(b));	%std:   6.3Pa
 %signalc=(a-mean(a))-(c-mean(c));	%std:  237Pa
 %signald=(a-mean(a))-(d'-mean(d));	%std: 1375Pa
-
-
