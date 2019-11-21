@@ -1,15 +1,10 @@
-%purpose: centering velocity to center, so that we can simple extract [Uc,Vc]
-%to match with mooring results.  As raw compact, we'd need to always extract
-%pairs of Us and Vs to do centering.
-%Note: discussion with J-M a long time ago: to do centering, it is appropriate
-%to simply add Uc=[U(i,j)+U(i,j)]./2, even next to land, because by design
-%the land point has zero vel so then Uc < max(U(i,j),U(i+1,J));  same w/ V.
-
+%% Storing velocity to center indices [Uc,Vc], to match with mooring data.
 clear all;
 define_indices; 
+
 %% Setting Directories and Domain Info: Escobar's NA setup
 dirWork=['/work/05427/iescobar/stampede2/llc/llc4320/NA_4320x2160x1080x90/'];
-dirScratch=['/scratch/05427/iescobar/llc/llc4320/NA_4320x2160x1080x90/run_c67h_tidal_bc_pk0000000001/'];
+dirScratch=['/scratch/05427/iescobar/llc/llc4320/NA_4320x2160x1080x90/run_c67h_no_tidal_bc_pk0000000001/'];
 dirGrid=[dirWork 'GRID/'];
 dirRun=[dirScratch 'diags/'];
 if(~exist(dirRun));error('dirrun not exist');end;

@@ -2,7 +2,7 @@ clear all;
 define_indices; 
 %% Setting Directories and Domain Info: Escobar's NA setup
 dirWork='/work/05427/iescobar/stampede2/llc/llc4320/NA_4320x2160x1080x90/';
-dirScratch='/scratch/05427/iescobar/llc/llc4320/NA_4320x2160x1080x90/run_c67h_tidal_bc_pk0000000001/';
+dirScratch='/scratch/05427/iescobar/llc/llc4320/NA_4320x2160x1080x90/run_c67h_no_tidal_bc_pk0000000001/';
 dirGrid=[dirWork 'GRID/'];
 dirRun=[dirScratch 'diags/'];
 if(~exist(dirRun));error('dirrun not exist');end;
@@ -26,7 +26,7 @@ use_method=0;		%read the whole file
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %for ivar=1:size(diagIn,2);
-for ivar=1:1;
+for ivar=2:2;
   clear flist
 
   flist=dir([dirRun subDir{ivar} diagIn{ivar} '.*.data']);if(length(flist)==0);error('flist missing');end;
@@ -46,7 +46,7 @@ for ivar=1:1;
   izv=[1:nz1]+nzoffset(ivar);
 
   istart=1;
-  for ifile=istart:length(flist);					%89sec / file
+  for ifile=length(flist):-1:istart
     %tic
     ts=flist(ifile).name(idot)
 

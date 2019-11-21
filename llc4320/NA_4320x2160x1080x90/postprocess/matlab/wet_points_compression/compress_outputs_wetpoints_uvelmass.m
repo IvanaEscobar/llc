@@ -1,12 +1,12 @@
 clear all;
-define_indices; 
 %% Setting Directories and Domain Info: Escobar's NA setup
 dirWork='/work/05427/iescobar/stampede2/llc/llc4320/NA_4320x2160x1080x90/';
-dirScratch='/scratch/05427/iescobar/llc/llc4320/NA_4320x2160x1080x90/run_c67h_tidal_bc_pk0000000001/';
+dirScratch='/scratch/05427/iescobar/llc/llc4320/NA_4320x2160x1080x90/run_c67h_no_tidal_bc_pk0000000001/';
 dirGrid=[dirWork 'GRID/'];
 dirRun=[dirScratch 'diags/'];
 if(~exist(dirRun));error('dirrun not exist');end;
 
+define_indices; 
 nx= id.n.x/2;   % 2160
 ny= id.n.y;     % 2160
 nz= id.n.z;     % 90
@@ -26,7 +26,7 @@ use_method=0;		%read the whole file
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %for ivar=1:size(diagIn,2);
-for ivar=2:2;
+for ivar=3:3;
   clear flist
 
   flist=dir([dirRun subDir{ivar} diagIn{ivar} '.*.data']);if(length(flist)==0);error('flist missing');end;
@@ -46,9 +46,9 @@ for ivar=2:2;
   izv=[1:nz1]+nzoffset(ivar);
 
   istart=1;
-  for ifile=length(flist):-1:istart
+  for ifile=istart:length(flist);					%89sec / file
     %tic
-    ts=flist(ifile).name(idot)
+    ts=flist(ifile).name(idot);
 
     fOut=[dirOut diagVar{ivar} '_' sprintf('%i',Lmax) '.' ts '.data'];%10sec to write
 

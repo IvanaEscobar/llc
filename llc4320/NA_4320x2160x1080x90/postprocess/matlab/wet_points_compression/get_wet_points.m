@@ -3,7 +3,7 @@ clear all
 define_indices;
 
 dirGrid='/work/05427/iescobar/stampede2/llc/llc4320/NA_4320x2160x1080x90/GRID/';
-nx= 2160;%id.n.x;
+nx= 2160;%id.n.x/2;
 ny= 2160; %id.n.y;
 nz= id.n.z;
 nfx= id.nf.x;

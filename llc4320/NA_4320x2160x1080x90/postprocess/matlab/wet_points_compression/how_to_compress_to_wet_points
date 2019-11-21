@@ -1,0 +1,51 @@
+# How to compress binary data from MITgcm llc regional models to store only the
+# wetpoints. The entire routine is developed in MATLab and is intended for 
+# binary output.
+# ==============================================================================
+
+# SET-UP:
+# You have successfully completed a run, but you have WAY TOO MUCH data! This
+# postprocess will trim off useless data assigned to land and only store
+# diagnostics outputs in the ocean. 
+#
+# Find the directory where your diagnostics have been output. Hopefully, you 
+# have seperated your data between 2D and 3D fields in data.diagnostics. 
+dirRun='...../diags/'
+
+# Find directory where you have the postprocessing MATLab codes created by An. 
+dirPostprocess='...../matlab/'
+
+# Find directory where GRID fields are. If you don't have these fields, run a
+# coarse parallelisation model with debudLevel=2 in data. 
+dirGrid='...../GRID/'
+
+# Find your domain dimensions in compact (stacked) and visualization friendly 
+# configurations
+# nx, ny, and nz are the dimensions of you binary data in compact 
+# form.
+# nfx and nfy are the llc x and y dimensions per face
+# NOTE: Face 4 and 5 have North pointing West. Face 3 is square and aligns its 
+#       Southern edge with the Northern edge of Face 2.
+# ------------------------------------------------------------------------------
+
+# FIND WETPOINT INDICES:
+# You will generate a data structure for wet point indices using hFac*.data in
+# your dirGrid.
+get_wet_points.m
+get_wet_points2D.m
+
+#
+# CENTER VELOCITY DATA
+#
+centering_UV.m
+job_centering_UV.bash
+
+# COMPRESS SALT AND THETA
+#
+compress_outputs_wetpoints.m
+job_compress_salt.bash
+job_compress_theta.bash
+
+# GET 2D STATE AND EXF DATA
+#
+# CENTER EXF DATA
