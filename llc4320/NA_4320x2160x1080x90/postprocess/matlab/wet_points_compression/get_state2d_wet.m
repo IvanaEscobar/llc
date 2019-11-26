@@ -11,7 +11,7 @@ dirRun=[dirScratch 'diags/state_2d/'];
 if(~exist(dirRun));error('dirrun not exist');end;
 dirRunW=[dirRun '../']; %An put this dir in a $WORK path
 
-nx= id.n.x/2;   % 2160
+nx= id.n.x;     % 2160
 ny= id.n.y;     % 2160
 nz= id.n.z;     % 90
 nfx= id.nf.x;   % [2160 0 0 0 1080]

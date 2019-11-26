@@ -10,7 +10,7 @@ dirRun=[dirScratch 'diags/'];
 if(~exist(dirRun));error('dirrun not exist');end;
 dirRunW=dirRun;
 
-nx= id.n.x/2;   % 2160
+nx= id.n.x;     % 2160
 ny= id.n.y;     % 2160
 nz= id.n.z;     % 90
 nfx= id.nf.x;   % [2160 0 0 0 1080]

@@ -65,7 +65,7 @@ use_intersect_method=1;
 %first, make pp a [L x 1] vector
       if(size(pp,1)==1);pp=pp';end
       pp3d=repmat(pp,[1 id.n.z]);			%[length(pp) nz]
-      for i=1:id.n.z;pp3d(:,i)=pp+(i-1)*id.n.x/2*id.n.y;end	%the vertical shift
+      for i=1:id.n.z;pp3d(:,i)=pp+(i-1)*id.n.x*id.n.y;end	%the vertical shift
 
 %ind_compact is a reduced version of pp3d, now with only valid depths
         indwet=nan.*ones(length(pp3d(:)),1);indcompact=indwet;indprof=indcompact;

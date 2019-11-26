@@ -45,7 +45,8 @@ for iloop=1:2;
   nf=flist(1).bytes/LmaxW/4;
   idot=find(flist(1).name=='.');idot=idot(1)+1:idot(2)-1;
 
-  for ifile=1:length(flist);
+  istart=1;
+  for ifile=length(flist):-1:istart;
     ts=flist(ifile).name(idot)
 
     fout=[dirout str '_c' num2str(LmaxC) '.' ts '.data'];	%add a "c" to distinguish from true "C" fields

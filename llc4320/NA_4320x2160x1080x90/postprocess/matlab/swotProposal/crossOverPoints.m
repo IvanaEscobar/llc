@@ -11,17 +11,17 @@ dirWork='/work/05427/iescobar/stampede2/llc/llc4320/NA_4320x2160x1080x90/';
 dirScratch='/scratch/05427/iescobar/llc/llc4320/NA_4320x2160x1080x90/run_c67h_tidal_bc_pk0000000001/';
 dirGrid=[dirWork 'GRID/'];
 % Depth
-depth=rdmds([dirGrid 'Depth']); depth=reshape(depth, id.n.x/2, id.n.y);
+depth=rdmds([dirGrid 'Depth']); depth=reshape(depth, id.n.x, id.n.y);
 depf{1}=depth(:,1:id.n.y/2); depf{5}=depth(:,id.n.y/2+1:end);
-depf{5}=reshape(depf{5},id.n.y/2,id.n.x/2);
+depf{5}=reshape(depf{5},id.n.y/2,id.n.x);
 % Latitude
-yc=rdmds([dirGrid 'YC']); yc=reshape(yc, id.n.x/2, id.n.y);
+yc=rdmds([dirGrid 'YC']); yc=reshape(yc, id.n.x, id.n.y);
 ycf{1}=yc(:,1:id.n.y/2); ycf{5}=yc(:,id.n.y/2+1:end);
-ycf{5}=reshape(ycf{5},id.n.y/2,id.n.x/2);
+ycf{5}=reshape(ycf{5},id.n.y/2,id.n.x);
 % Longitude
-xc=rdmds([dirGrid 'XC']); xc=reshape(xc, id.n.x/2, id.n.y);
+xc=rdmds([dirGrid 'XC']); xc=reshape(xc, id.n.x, id.n.y);
 xcf{1}=xc(:,1:id.n.y/2); xcf{5}=xc(:,id.n.y/2+1:end);
-xcf{5}=reshape(xcf{5},id.n.y/2,id.n.x/2);
+xcf{5}=reshape(xcf{5},id.n.y/2,id.n.x);
 %% Find yc closest to 35.74558 deg and xg closest to -73.95567 deg
 % yc_id is i540 on ycf{5} for all j;
 % xc_id is j435 on xcf{5} for all i;

@@ -3,11 +3,11 @@ define_indices;
 rmpath('/home1/03901/atnguyen/matlab/gcmfaces/gcmfaces_IO/');
 warning off
 
-%% Setting Directories and Domain Info: Escobar's NA setup
+%% Set Directories and Domain Info: Escobar's NA setup
 dirWork='/work/05427/iescobar/stampede2/llc/llc4320/NA_4320x2160x1080x90/';
 dirScratch='/scratch/05427/iescobar/llc/llc4320/NA_4320x2160x1080x90/run_c67h_no_tidal_bc_pk0000000001/';
 dirGrid=[dirWork 'GRID/'];
-dirRun=[dirScratch 'diags/state_2d/'];
+dirRun=[dirScratch 'diags/exf_zflux/'];
 if(~exist(dirRun));error('dirrun not exist');end;
 dirRunW=[dirRun '../']; %An put this dir in a $WORK path
 
@@ -17,17 +17,18 @@ nz= id.n.z;     % 90
 nfx= id.nf.x;   % [2160 0 0 0 1080]
 nfy= id.nf.y;   % [1080 0 0 0 2160]
 
-%% Picking Diagnostics to Compress: see *.meta for info on diags
-diagIn  ={'state_2d_hourly'};
-diagVarC={'ETAN','ETANSQ','DETADT2','PHIBOT','sIceLoad','MXLDEPTH',...
-            'RSURF','oceQnet','oceFWflx'};
-diagVarW={'oceTAUX'};
-diagVarS={'oceTAUY'};
+%% Pick Diagnostics to Compress: see *.meta for info on diags
+diagIn  ={'exf_zflux_hourly'};
+diagVarC={'EXFpreci','EXFevap','EXFroff','EXFempmr','EXFswdn','EXFlwdn',...
+          'EXFswnet','EXFlwnet','EXFqnet','EXFatemp',...
+          'EXFaqh','EXFpress','EXFhs','EXFhl','EXFsnow','EXFtidep'};
+diagVarW={'EXFtaux','EXFuwind'};
+diagVarS={'EXFtauy','EXFvwind'};
 varWetpt={'C','W','S'};		%hfac[C,W,S]
 %diagId*: index of the diagVar Can be found in *.meta fldList
-diagIdC =[1:9];
-diagIdW =[10];
-diagIdS =[11];
+diagIdC =[1:11 16:20];
+diagIdW =[12 14];
+diagIdS =[13 15];
 
 %% Load 2D wet grid info
 fIndGrid=[dirGrid 'Index_wet_hfacC_2D.mat'];
@@ -90,8 +91,7 @@ for ifile=length(flist):-1:istart;
       clear tmp1 aout
       tmp1=tmp(:,id);
 
-      if(ii==1);aout=nan(Lmax,length(id)+1);else;aout=nan(Lmax,length(id));end;
-      aout(:,1:length(id))=tmp1(ind(:,6),:);
+      clear aout;aout=tmp1(ind(:,6),:);
 
       fOutW=[dirOutW{ii} diagIn{1} '_' num2str(length(ind)) '.' ts '.data'];
       writebin(fOutW,aout,1,'real*4');%tic;toc;

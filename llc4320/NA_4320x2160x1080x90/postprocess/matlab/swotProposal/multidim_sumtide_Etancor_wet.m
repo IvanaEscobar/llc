@@ -7,7 +7,7 @@ dirGrid='/work/03901/atnguyen/Ivana/llc4320/NA_4320x2160x1080x90/GRID/';
 if(~exist(dirGrid));
   error('dirgrid not exist');
 end;
-nx= id.n.x/2;   % 2160
+nx= id.n.x;     % 2160
 ny= id.n.y;     % 2160
 nz= id.n.z;     % 90
 nfx= id.nf.x;   % [2160 0 0 0 1080]
