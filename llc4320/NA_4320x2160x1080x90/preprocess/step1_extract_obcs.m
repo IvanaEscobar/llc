@@ -34,6 +34,7 @@ prec2=get_precision([dirRun 'diags/' extU flistU(1).name(1:end-4) 'meta']);
 %first loop: get time
 idot=find(flistT(1).name=='.');idot=idot(1)+1:idot(2)-1;
 tt=zeros(LL,4);
+deltaT=1200; %rerun to see if changing to 90 matters
 for k=1:LL
   ts=str2num(flistT(k).name(idot));
   tmp=datevec(ts2dte(ts,deltaT,yrStart,moStart,0));	%take 1 day off to get month correct

@@ -7,7 +7,7 @@ nx0=270; ny0=1350; nz0=50;
 nfx0=[nx0 0 nx0 180 450];nfy0=[450 0 nx0 nx0 nx0];
 sum_nfac0=nfy0(1)+nfy0(2)+nfy0(3)+nfx0(4)+nfx0(5);
 
-deltaT=1200;yrStart=2002;moStart=1;
+deltaT=90;yrStart=2002;moStart=1;
 
 %% ================ DOMAIN REGIONAL SIZE ======================================
 nx =    4320;nxstr=num2str(nx);
