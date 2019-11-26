@@ -3,12 +3,12 @@ clear all;
 define_indices;
 set_directory;
 
-nxp=2*nfy(1);
-na=readbin(fBathyOut,[nxp ny]);
+nxp=2*id.nf.y(1);
+na=readbin(fBathyOut,[nxp id.n.y]);
 hf1=ones(size(a));hf1(find(a==0))=0;
-hf{1}=hf1(1:nfx(1),1:nfy(1));
-hf{5}=reshape(hf1(1:nxp,sum(nfy(1:3))+nfx(4)+1:sum(nfy(1:3))+sum(nfx(4:5))),nfx(5),nfy(5));
-%[hf1,hf]=get_aste_tracer(hf,nfx,nfy);%clear hf
+hf{1}=hf1(1:id.nf.x(1),1:id.nf.y(1));
+hf{5}=reshape(hf1(1:nxp,sum(id.nf.y(1:3))+id.nf.x(4)+1:sum(id.nf.y(1:3))+sum(id.nf.x(4:5))),id.nf.x(5),id.nf.y(5));
+%[hf1,hf]=get_aste_tracer(hf,id.nf.x,id.nf.y);%clear hf
 
 factor(ncut1)      %2 2 2 2 3 3 3 5	%2160
 factor(ncut2)	   %2 2 2 3 3 3   5	%1080
@@ -28,7 +28,6 @@ elseif(icase==8);dtilex=108;dtiley=108;	%total  400,  313
 elseif(icase==9);dtilex=120;dtiley=120;	%total  324,  257 
 end;
 print_fig=1;
-%nx=nx;ny=2*nx1+nx2+nx;nfx=[nx 0 nx nx2 nx1];nfy=[nx1 0 nx nx nx];
 
 cc=0;cc1=0;
 for iface=[1,3,5]
@@ -42,8 +41,8 @@ for iface=[1,5];
   clear temp 
   temp=hf{iface};
   temp1=0.*temp;
-  nnx=nfx(iface)/dtilex;
-  nny=nfy(iface)/dtiley;
+  nnx=id.nf.x(iface)/dtilex;
+  nny=id.nf.y(iface)/dtiley;
 
   for j=1:nny
     jy=(j-1)*dtiley+1:j*dtiley;
@@ -72,11 +71,11 @@ for iface=[1,5];
   figure(iface);clf;colormap(gray(3));
   imagescnan(msk{iface}');axis xy;caxis([-1,2]);
   %temp1=yc{iface};title(['yc: [' num2str(nanmin(temp1(:)),3) ' ' num2str(nanmax(temp1(:)),3) ']']);
-  set(gca,'Xtick',0:dtilex:nfx(iface),'Ytick',0:dtiley:nfy(iface));grid;
-  hold on;[aa,bb]=contour(1:nfx(iface),1:nfy(iface),hf{iface}',[1 1]);hold off;
+  set(gca,'Xtick',0:dtilex:id.nf.x(iface),'Ytick',0:dtiley:id.nf.y(iface));grid;
+  hold on;[aa,bb]=contour(1:id.nf.x(iface),1:id.nf.y(iface),hf{iface}',[1 1]);hold off;
   set(bb,'color',.7.*[1,1,1],'linewidth',2);
-  nnx=nfx(iface)/dtilex;
-  nny=nfy(iface)/dtiley;
+  nnx=id.nf.x(iface)/dtilex;
+  nny=id.nf.y(iface)/dtiley;
   for j=1:nny;
     jy=(j-1)*dtiley+1:j*dtiley;
     for i=1:nnx

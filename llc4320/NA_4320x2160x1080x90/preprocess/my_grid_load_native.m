@@ -8,9 +8,7 @@
 %dirGrid='/net/weddell/raid3/gforget/grids/gridCompleted/llcRegLatLon/llc_dec09_270/';
 %dirGridOut='/net/nares/raid8/ecco-shared/llc270/aste/GRID/';
 
-clear all;
 warning off;
-
 define_indices;
 %set_directory;
 useNativeFormat=1;
@@ -31,7 +29,7 @@ end
 
 [Lx1 Ly1 Lx5 Ly5];			%2160 1080 1080 2160
 
-nx=2160; %!
+nx=id.n.x; %2160; %!
 niout = [  Lx1     0  0 0     Lx5    0];
 njout = [  Ly1     0  0 0     Ly5    0];
 niin  = [   nx    nx nx nx*3  nx*3  nx];

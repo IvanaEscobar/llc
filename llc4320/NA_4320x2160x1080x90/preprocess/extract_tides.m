@@ -2,7 +2,7 @@
 % This script extracts the TPXO tidal predictions at the OBC locations using
 % TMD, converts them into the format used by the MITgcm, and saves the
 % information to input files.
-
+define_indices;
 addpath('/home/atnguyen/nansen/tides/JCcode_tides_obcs/tmd_mar_203/TMD2.03');
 addpath('/home/atnguyen/nansen/tides/JCcode_tides_obcs/tmd_mar_203/TMD2.03/FUNCTIONS/');
 addpath('/home/atnguyen/nansen/tides/JCcode_tides_obcs/tmd_mar_203/TMD2.03/DATA/');
@@ -15,8 +15,9 @@ dirOut=dirIn;
 time = datenum(2002,01,01);
 
 % pad lengths for other faces
-nz=90;
-nx = 2160; ncut2 = 1080;
+nz=id.n.z;          % 90
+nx = id.n.x;        % 2160
+ncut2 = id.ncut{2}; % 1080
 padN = ncut2;
 padS = ncut2;
 padW = ncut2;

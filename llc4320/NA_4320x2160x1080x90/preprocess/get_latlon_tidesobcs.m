@@ -1,5 +1,5 @@
-clear all; clc;
 warning off;
+define_indices;
 
 % Take velocity points as first available points. Ex: Face 1 will shift jC1
 % for South OBC and iC1 for West OBC.
@@ -17,10 +17,11 @@ Face1E.ivel=[1531  1531]';  Face1E.iC1=[1531  1531]';
 dirRoot='/work/05427/iescobar/stampede2/llc/llc4320/NA_4320x2160x1080x90/root/run_template/';
 dirBin=[dirRoot 'input_binaries/'];
 dirOut=[dirRoot 'input_obcs/'];
-nx=2160;
-ncut2=1080;
-ny=2*ncut2;
-nfx=[nx 0 0 0 ncut2];nfy=[ncut2 0 0 0 nx];
+nx=id.n.x; % 2160;
+ncut2=id.ncut{2}; %1080;
+ny=id.n.y; %2*ncut2;
+nfx=id.nf.x; % [nx 0 0 0 ncut2];
+nfy=id.nf.y; % [ncut2 0 0 0 nx];
 
 % b=readbin([dirBin 'SandSv18p1_NA4320x2160x1080_obcs13Jul2018.bin'],[nx ny]);
 % [b,bf]=get_aste_tracer(abs(b),nfx,nfy);

@@ -3,29 +3,13 @@ clear all;
 clearfig=input('clearfig? [1=yes,0=no] ');
 if(clearfig==0);colc=input('color? [default is blue, "bgmc"] ');if(isempty(colc)==1);colc='b';end;end;
 
-%dirRoot='/net/nares/raid8/ecco-shared/llc270/aste_270x450x180/output/';
-%RunStr='bobLeithBasin5Piomas92bathyf3';%'bobLeithBasin4_llc90tsuv';
 ext=input('Extension ["_ad"] for ad: ');
-%dirRoot=['/net/nares/raid8/ecco-shared/llc270/aste_270x450x180/output' ext '/'];
-%dirRoot=['/scratch/atnguyen/aste_540x720x360/'];
 dirRoot=['/scratch/ivana/llc/llc4320/NA_4320x2160x1080x90/' ];
 RunStr=input('RunStr ["run21"] ');yrStart=2002;dt=30;
 clear fname;fname=input('filename? "STDOUT.0000=default" or "stdout.pk2232" etc: ');
 if(length(fname)==0);fname='STDOUT.0000';end;
 filein=[dirRoot RunStr '/' fname];
 dirOut=[dirRoot RunStr '/matlab/'];if(exist(dirOut)==0);mkdir(dirOut);end;
-
-%%ff2D={'seaice\_tsnumber',
-%ff2D={'seaice\_uice\_min','seaice\_uice\_mean','seaice\_uice\_max','seaice\_uice\_sd',...
-%      'seaice\_vice\_min','seaice\_vice\_mean','seaice\_vice\_max','seaice\_vice\_sd',...
-%      'seaice\_heff\_max','seaice\_heff\_mean','seaice\_heff\_sd','seaice\_heff\_del2',...
-%      'seaice\_hsnow\_mean','seaice\_hsnow\_mean','seaice\_hsnow\_sd','seaice\_hsnow\_del2'};
-
-%vals2D=mitgcmhistory(filein,... %'seaice_tsnumber',...
-%	'seaice_uice_min','seaice_uice_mean','seaice_uice_max','seaice_uice_sd',...
-%     'seaice_vice_min','seaice_vice_mean','seaice_vice_max','seaice_vice_sd',...
-%     'seaice_heff_max','seaice_heff_mean','seaice_heff_sd','seaice_heff_del2',...
-%     'seaice_hsnow_mean','seaice_hsnow_mean','seaice_hsnow_sd','seaice_hsnow_del2');
 
 %%ff={'time\_tsnumber',
 ff={'ke\_max','dynstat\_eta\_max','dynstat\_eta\_mean',...

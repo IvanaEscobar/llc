@@ -3,9 +3,9 @@ clear all;
 define_indices;
 set_directory;
 
-a0=readbin([dirGrid0 'bathy_fill9iU42Ef_noStLA.bin'],[nx0 ny0],1,'real*8');[a0,af0]=get_aste_tracer(a0,nfx0,nfy0);
+a0=readbin([dirGrid0 'bathy_fill9iU42Ef_noStLA.bin'],[id.nx0 id.ny0],1,'real*8');[a0,af0]=get_aste_tracer(a0,id.nf.x0,id.nf.y0);
 idot=find(fBathyIn=='.');extBathy='';%'_v2';
-a=readbin([fBathyIn(1:idot-1) extBathy '.bin'],[ncut1 ny]);[a,af]=get_aste_tracer(a,nfx,nfy);
+a=readbin([fBathyIn(1:idot-1) extBathy '.bin'],[ncut{1} id.n.y]);[a,af]=get_aste_tracer(a,id.nf.x,id.nf.y);
 load([dirOBCS 'step0_obcs_' datestamp '.mat']);	%obcs0 obcs
 
 figure(1);clf;
@@ -56,7 +56,7 @@ for iobcs=[1,2,size(obcs,2),3,4];%:size(obcs,2)-1];
 end;
 
 figure(1);set(gcf,'paperunits','inches','paperposition',[0 0 12 10]);
-fpr=[dirOBCS 'NA' nxstr 'x' num2str(ncut1) 'x' num2str(ncut2) '_obcsC.png'];print(fpr,'-dpng');fprintf('%s\n',fpr);
+fpr=[dirOBCS 'NA' id.nx 'x' num2str(ncut{1}) 'x' num2str(ncut{2}) '_obcsC.png'];print(fpr,'-dpng');fprintf('%s\n',fpr);
 
 iloop=[0 0 0];
 clear type face
@@ -91,5 +91,5 @@ for iobcs=[1,2,size(obcs,2),3,4];%:size(obcs,2)-1];
 end;
 
 figure(2);set(gcf,'paperunits','inches','paperposition',[0 0 12 10]);
-fpr=[dirOBCS 'NA' nxstr 'x' num2str(ncut1) 'x' num2str(ncut2) '_obcsC270.png'];print(fpr,'-dpng');fprintf('%s\n',fpr);
+fpr=[dirOBCS 'NA' id.nx 'x' num2str(ncut{1}) 'x' num2str(ncut{2}) '_obcsC270.png'];print(fpr,'-dpng');fprintf('%s\n',fpr);
 

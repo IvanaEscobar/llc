@@ -55,7 +55,7 @@ id.ix0{1} = ix1_0; id.ix0{5} = ix5_0;
 id.iy0{1} = iy1_0; id.iy0{5} = iy5_0;
 id.ncut{1} = ncut1; id.ncut{2} = ncut2;
 id.nf.x = nfx; id.nf.y = nfy; 
-id.n.x = nx; id.n.y = ny; id.n.z = nz; 
+id.n.x = nx/2; id.n.y = ny; id.n.z = nz; 
 id.nf.x0 = nfx0; id.nf.y0 = nfy0; 
 id.n.x0 = nx0; id.n.y0 = ny0; id.n.z0 = nz0; 
 id.nx = num2str(nx);

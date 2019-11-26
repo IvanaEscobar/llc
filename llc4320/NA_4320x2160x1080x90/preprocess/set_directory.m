@@ -19,9 +19,9 @@ end
 %           - '13Jul2018'
 %           - '13Jan2018'
 %           - '20Dec2017'
-
 %dirs.datestamp = date; 
 dirs.datestamp = '11Jan2019';
+
 dirs.datestamp(find(dirs.datestamp=='-'))='';
 fprintf('\nSetting directories...\nUsing datestamp: %s\n',dirs.datestamp);
 
@@ -59,10 +59,10 @@ dirs.matlab=[dirs.domain.root '../preprocess/'];cd(dirs.matlab);
 
 %define bathymetry binary files for modification during extraction of obcs:
 dirs.domain.bins =[dirs.domain.root 'run_template/input_binaries/'];
-dirs.bathy.fIn =[dirs.domain.bins 'SandSv18p1_NA' id.nx 'x' id.ncut1 'x' ...
-            id.ncut2 '.bin'];
-dirs.bathy.fOut=[dirs.domain.bins 'SandSv18p1_NA' id.nx 'x' id.ncut1 'x' ...
-            id.ncut2 '_obcs' dirs.datestamp '.bin'];
+dirs.bathy.fIn =[dirs.domain.bins 'SandSv18p1_NA' id.n.x 'x' id.ncut{1} 'x' ...
+            id.ncut{2} '.bin'];
+dirs.bathy.fOut=[dirs.domain.bins 'SandSv18p1_NA' id.n.x 'x' id.ncut{1} 'x' ...
+            id.ncut{2} '_obcs' dirs.datestamp '.bin'];
 
 %% =================== PARENT (coarse) ========================================
 % set parent global domain paths based on the user and resolution of domain
@@ -70,13 +70,13 @@ dirs.bathy.fOut=[dirs.domain.bins 'SandSv18p1_NA' id.nx 'x' id.ncut1 'x' ...
 
 if (strcmp(hostname,'sverdrup.ices.utexas.edu')>0)
     %directory of global parent llcXXXX
-    dirs.parent.grid_global = ['/scratch/' user '/llc/llc' id.nx0 ...
+    dirs.parent.grid_global = ['/scratch/' user '/llc/llc' id.n.x0 ...
                                 '/global/GRID/'];
     dirs.parent.data_grid_global = 'real4';
 
     %directory of ASTE llc270
-    if id.nx0 == '270'
-        astedim = [id.nx0 'x450x180']; % (hardcoded)
+    if id.n.x0 == '270'
+        astedim = [id.n.x0 'x450x180']; % (hardcoded)
         dirs.parent.root=['/scratch/' user '/aste_' astedim '/'];
         % Latest bathy: 3Feb2017
         dirs.parent.grid=[dirs.parent.root 'GRID_real8/']; 
@@ -112,10 +112,10 @@ return
 end
 
 function[dirs] = pfe_paths(user,s)
-    dirs.grid_global= ['/nobackupp8/dmenemen/tarballs/llc_' s.nx ...
+    dirs.grid_global= ['/nobackupp8/dmenemen/tarballs/llc_' s.n.x ...
             '/run_template/'];
-    dirs.root=['/nobackupp2/atnguye4/llc' s.nx '/aste_' nx 'x' ...
-             s.ncut1 'x' s.ncut2 'x' s.nz '/'];
+    dirs.root=['/nobackupp2/atnguye4/llc' s.n.x '/aste_' s.n.x 'x' ...
+             s.ncut{1} 'x' s.ncut{2} 'x' s.n.z '/'];
     dirs.grid=[root  '/run_template/'];
     check_paths(dirs);
 return
@@ -123,19 +123,19 @@ end
 
 function [dirs] = sverdrup_paths(user,s)
     if (strcmp(user,'atnguyen')>0)
-        dirs.grid_global=['/scratch/' user '/llc' s.nx '/global/GRID/'];
+        dirs.grid_global=['/scratch/' user '/llc' s.n.x '/global/GRID/'];
         dirs.data_grid_global = 'real8';
 
-        dirs.root=['/home/' user '/llc' s.nx '/NA_' s.nx 'x' ...
-                s.ncut1 'x' s.ncut2 'x' s.nz '/'];        
+        dirs.root=['/home/' user '/llc' s.n.x '/NA_' s.n.x 'x' ...
+                s.ncut{1} 'x' s.ncut{2} 'x' s.n.z '/'];        
         dirs.grid=[dirs.root  '/run_template/'];
     elseif (strcmp(user, 'ivana')>0)
-        dirs.grid_global=['/scratch/' user '/llc/llc' s.nx ...
+        dirs.grid_global=['/scratch/' user '/llc/llc' s.n.x ...
                 '/global/GRID/'];
         dirs.data_grid_global = 'real8'; % assuming based on hardcoded version
 
-        dirs.root=['/home/' user '/llc/llc' s.nx '/NA_' s.nx 'x' ...
-                s.ncut1 'x' s.ncut2 'x' s.nz '/root/'];        
+        dirs.root=['/home/' user '/llc/llc' s.n.x '/NA_' s.n.x 'x' ...
+                s.ncut{1} 'x' s.ncut{2} 'x' s.n.z '/root/'];        
         dirs.grid=[dirs.root  'run_template/'];
     end
     check_paths(dirs);
