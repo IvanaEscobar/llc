@@ -11,4 +11,4 @@
 #SBATCH --mail-type=all
 
 module load matlab
-matlab -nodesktop -nodisplay -nosplash < centering_UV.m >> job_status/pprogress_centering_UV.dat 
+matlab -nodesktop -nodisplay -nosplash < centering_UV.m >> job_status/progress_centering_UV.dat 

@@ -3,7 +3,7 @@ define_indices;
 
 %% Setting Directories and Domain Info: Escobar's NA setup
 dirWork=['/work/05427/iescobar/stampede2/llc/llc4320/NA_4320x2160x1080x90/'];
-dirScratch=['/scratch/05427/iescobar/llc/llc4320/NA_4320x2160x1080x90/run_c67h_tidal_bc_pk0000000001/'];
+dirScratch=['/scratch/05427/iescobar/llc/llc4320/NA_4320x2160x1080x90/run_c67h_no_tidal_bc_pk0000000001/'];
 dirGrid=[dirWork 'GRID/'];
 dirRun=[dirScratch 'diags/'];
 if(~exist(dirRun));error('dirrun not exist');end;

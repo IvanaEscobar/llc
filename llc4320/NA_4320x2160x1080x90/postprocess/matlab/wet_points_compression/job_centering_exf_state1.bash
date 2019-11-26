@@ -5,7 +5,7 @@
 #SBATCH -t 47:55:00
 #SBATCH -N 1
 #SBATCH -n 48
-#SBATCH -p normal
+#SBATCH -p skx-normal
 #SBATCH -A Polar-Project 
 #SBATCH --mail-user=ivana@oden.utexas.edu
 #SBATCH --mail-type=all

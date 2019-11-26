@@ -34,8 +34,13 @@ dirGrid='...../GRID/'
 get_wet_points.m
 get_wet_points2D.m
 
-#
-# CENTER VELOCITY DATA
+# These scripts generate *.mat files containing the indices in compressed form
+# of these points in both 2D and 3D fields that are ocean only. The index info
+# is stored in dirGrid/ These indices are used in the next scripts to write out 
+# wet point only diagnostics. 
+# ------------------------------------------------------------------------------
+
+# CENTER VELOCITY DATA:
 #
 centering_UV.m
 job_centering_UV.bash
@@ -48,4 +53,9 @@ job_compress_theta.bash
 
 # GET 2D STATE AND EXF DATA
 #
+get_state2d_wet.m
+get_exf2d.m
+job_get_state2d_wet.bash
+job_get_exf2d_wet.bash
+
 # CENTER EXF DATA

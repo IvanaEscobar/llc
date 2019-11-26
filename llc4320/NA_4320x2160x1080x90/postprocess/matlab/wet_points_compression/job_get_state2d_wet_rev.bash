@@ -11,4 +11,4 @@
 #SBATCH --mail-type=all
 
 module load matlab
-matlab -nodesktop -nodisplay -nosplash < get_state2d_wet_rev.m >> job_status/pprogress_stateWtPt_rev.dat 
+matlab -nodesktop -nodisplay -nosplash < get_state2d_wet_rev.m >> job_status/progress_stateWtPt_rev.out
