@@ -37,35 +37,20 @@
  useSingleCpuIO=.TRUE.,
  tempAdvScheme=30,
  saltAdvScheme=30,
-# tempAdvScheme=7,
-# saltAdvScheme=7,
-# tempVertAdvScheme=3,
-# saltVertAdvScheme=3,
-# tempImplVertAdv=.TRUE.,
-# saltImplVertAdv=.TRUE.,
-# done adding
  staggerTimeStep=.TRUE.,
  vectorInvariantMomentum=.TRUE.,
  useJamartWetPoints=.TRUE.,
 # set to eccov4, make sure minbathy=20m first
  hFacMin=.2,
  hFacMinDr=5.,
-# balanceSaltClimRelax=.TRUE.,
-# select_rStar=0,
-# nonlinFreeSurf=0,
-# nonlinFreeSurf=2,
  select_rStar=2,
  nonlinFreeSurf=4,
  useRealFreshWaterFlux=.TRUE.,
  linFSconserveTr=.FALSE.,
-# balanceEmPmR=.TRUE.,
-# balanceQnet=.TRUE.,
-# balanceThetaClimRelax=.TRUE.,
 #
  allowFreezing=.FALSE.,
  readBinaryPrec=64,
  writeBinaryPrec=32,
-# writeBinaryPrec=64,
  debugLevel=1,
  /
 
@@ -80,19 +65,13 @@
  pickupStrictlyMatch=.FALSE.,
  nIter0=1,
  deltaT = 1800.,
-# 1mo at 1200
-# nTimeSteps=2232,
 # 1mo at 1800
  nTimeSteps=1488,
  abEps = 0.1,
  forcing_In_AB=.FALSE.,
  momDissip_In_AB=.FALSE.,
-# pChkptFreq  =31536000.0,
  pchkptFreq   =2635200.0,
  monitorFreq = 1.0,
-# dumpFreq    = 86400.0,
-# adjDumpFreq=2635200.0,
-# adjMonitorFreq = 432000.0,
  pickupStrictlyMatch=.FALSE.,
  /
 
@@ -114,8 +93,5 @@
  bathyFile = 'bathy_obcs15Nov2018.bin',
  hydrogThetaFile='WOA09v2_T_llc90notsqeeze_JAN.bin',
  hydrogSaltFile ='WOA09v2_S_llc90notsqueeze_JAN.bin',
-# viscA4Dfile    ='visc_v1up9_cap0jy460GoM600_Pac0.bin',
-# viscA4Zfile    ='visc_v1up9_cap0jy460GoM600_Pac0.bin',
-# diffKrFile     ='diffkr_xxi12icoast9x10_merge.bin',
  diffKrFile     ='diffkr_xxi12icoast9x10_merge.bin',
  /

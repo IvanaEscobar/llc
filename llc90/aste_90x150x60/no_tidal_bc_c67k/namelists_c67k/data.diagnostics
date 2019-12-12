@@ -34,17 +34,17 @@
    fileFlags(3) = 'D       ',
 ####---
   frequency(4) = 2635200.0,
-   fields(1:8,4) = 'oceFWflx','SIatmFW ','TFLUX   ','SItflux ',
-                   'SFLUX   ','oceQsw  ','oceSPflx','SPforcT1',
+   fields(1:7,4) = 'oceFWflx','SIatmFW ','TFLUX   ','SItflux ',
+                   'SFLUX   ','oceQsw  ','oceSPflx',
    filename(4) = 'diags/budg2d_zflux_set1',
    fileFlags(4) = 'D       ',
 ####---
   frequency(5) = 2635200.0,
-   fields(1:14,5) ='UVELMASS','VVELMASS',
+   fields(1:13,5) ='UVELMASS','VVELMASS',
                  'ADVx_TH ','ADVy_TH ','DFxE_TH ','DFyE_TH ',
                  'ADVx_SLT','ADVy_SLT','DFxE_SLT','DFyE_SLT',
 #the following are not transports but tendencies
-                 'oceSPtnd','AB_gT   ','AB_gS   ','oceEPtnd',
+                 'oceSPtnd','AB_gT   ','AB_gS   ',
    filename(5) = 'diags/budg2d_hflux_set2',
    fileFlags(5) = 'DI      ',
 #####---
@@ -82,7 +82,7 @@
    fileFlags(9) = 'D       ',
 ####---
   frequency(10) = 2635200.0,
-   fields(1:4,10) ='KPPg_TH ','KPPg_SLT','oceSPtnd','oceEPtnd',
+   fields(1:3,10) ='KPPg_TH ','KPPg_SLT','oceSPtnd',
    filename(10) = 'diags/budg3d_kpptend_set1',
    fileFlags(10) = 'D       ',
 ####note: TOT[T,S]TEND are useless unless mult also with hFacC prior to output
@@ -91,7 +91,7 @@
 ####---
 ##some fields not kpp nor tend, but need for integrated:
   frequency(17) = 2635200.0,
-   fields(1:11,17) ='KPPg_TH ','KPPg_SLT','oceSPtnd','oceEPtnd',
+   fields(1:10,17) ='KPPg_TH ','KPPg_SLT','oceSPtnd',
                     'WVELMASS','ADVr_TH ','DFrE_TH ','DFrI_TH ',
                     'ADVr_SLT','DFrE_SLT','DFrI_SLT',
    filename(17) = 'diags/budg2d_kpptend_set1',
@@ -149,10 +149,11 @@
    filename(15) = 'diags/seaice_2d_set1',
 ##---
   frequency(16) = 2635200.0,
-   fields(1:18,16) ='EXFpreci','EXFevap ','EXFroff ','EXFempmr',
+   fields(1:20,16) ='EXFpreci','EXFevap ','EXFroff ','EXFempmr',
                  'EXFswdn ','EXFlwdn ','EXFswnet','EXFlwnet','EXFqnet ',
                  'EXFatemp','EXFaqh  ','EXFtaux ','EXFtauy ',
                  'EXFuwind','EXFvwind','EXFpress','EXFhs   ','EXFhl   ',
+                 'EXFsnow','EXFtidep',
    filename(16) = 'diags/exf_zflux_set1',
 ##---
 ###---------------------------------------------------------------
@@ -212,4 +213,4 @@
 #     stat_freq(2)= 3153600.,
 # stat_region(1,2)=  1, 2, 3, 4, 5, 6, 7, 8, 9,
 #                   10,11,12,13,14,15,16,17
- /
+

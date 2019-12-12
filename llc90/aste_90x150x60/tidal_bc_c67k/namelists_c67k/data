@@ -46,7 +46,7 @@
  allowFreezing=.FALSE.,
  readBinaryPrec=64,
  writeBinaryPrec=32,
- debugLevel=2,
+ debugLevel=1,
  /
 
 # Elliptic solver parameters

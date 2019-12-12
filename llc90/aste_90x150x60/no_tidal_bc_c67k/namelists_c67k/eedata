@@ -7,7 +7,6 @@
  nTx=1,
  nTy=1,
  debugMode=.FALSE.,
-# debugMode=.TRUE.,
  /
 # Note: Some systems use & as the
 # namelist terminator. Other systems

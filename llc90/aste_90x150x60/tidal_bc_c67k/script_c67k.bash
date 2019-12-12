@@ -2,7 +2,7 @@
 #SBATCH -J MINIaste
 #SBATCH -o aste90.%j.out
 #SBATCH -e aste90.%j.err
-#SBATCH -p skx-dev
+#SBATCH -p skx-normal
 #SBATCH -t 00:40:00 
 #SBATCH -N 1 
 #SBATCH -n 36 
@@ -22,7 +22,6 @@ pickupts1="0000000001"
 iter=0
 forwadj=""
 whichexp="_c67k"
-ext1="_tidal_bc"
 jobfile=script${whichexp}${forwadj}.bash
 
 read_xx=0
@@ -42,12 +41,12 @@ while [ ${iloop} -le 1 ]; do
 
 #--- 2.set dir ------------
 #
-  basedir=/work/05427/iescobar/stampede2/llc/llc90/aste_90x150x60/no_tidal_bc${whichexp} 
+  basedir=/work/05427/iescobar/stampede2/llc/llc90/aste_90x150x60/tidal_bc${whichexp} 
   scratchdir=/scratch/05427/iescobar/llc/llc90/aste_90x150x60
   builddir=$basedir/build${whichexp}
   codedir=$basedir/code${whichexp}
   inputdir=$basedir/namelists${whichexp}
-  workdir=$scratchdir/run${whichexp}${ext1}_it${ext2}_pk${pickupts1}
+  workdir=$scratchdir/run${whichexp}_tidal_bc_it${ext2}_pk${pickupts1}
 
   if [ ! -d $workdir ]; then
     mkdir -p $workdir
@@ -129,7 +128,7 @@ while [ ${iloop} -le 1 ]; do
 
 #--- 9. make a list of all linked files ------
   rm -f command_ln_input
-  ls -l ${inputdir}/* > command_ln_input
+  ls -l *data* > command_ln_input
   ls -l *.bin >> command_ln_binary
   ls -l tile* >> command_ln_binary
   ls -l smooth* >> command_ln_binary

@@ -72,7 +72,7 @@ echo "Making executable ..."
 if [[ $fwdAdj == "_ad" ]] ; then
   eval "make -j 8 adall" 
 else
-  eval "make -j 30"
+  eval "make -j 8"
 fi
 ## Append sNx sNy and nPx
 cp -f mitgcmuv mitgcmuv_${sNx}x${sNy}x$nPx

@@ -2,7 +2,7 @@
 #SBATCH -J MINIaste
 #SBATCH -o aste90.%j.out
 #SBATCH -e aste90.%j.err
-#SBATCH -p skx-dev
+#SBATCH -p skx-normal
 #SBATCH -t 00:40:00 
 #SBATCH -N 1 
 #SBATCH -n 36 
@@ -46,7 +46,7 @@ while [ ${iloop} -le 1 ]; do
   builddir=$basedir/build${whichexp}
   codedir=$basedir/code${whichexp}
   inputdir=$basedir/namelists${whichexp}
-  workdir=$scratchdir/run${whichexp}_it${ext2}_pk${pickupts1}
+  workdir=$scratchdir/run${whichexp}_no_tidal_bc_it${ext2}_pk${pickupts1}
 
   if [ ! -d $workdir ]; then
     mkdir -p $workdir
@@ -111,7 +111,7 @@ while [ ${iloop} -le 1 ]; do
 #--- 6. NAMELISTS ---------
   cp -f ${inputdir}/* .
   cp -f ${basedir}/${jobfile} .
-  cp -f data_exch2_${snx}x${sny}x${nprocs} data.exch2
+  cp -f data.exch2_${snx}x${sny}x${nprocs} data.exch2
 
 #--- 7. executable --------
   rm -f mitgcmuv*
@@ -128,7 +128,7 @@ while [ ${iloop} -le 1 ]; do
 
 #--- 9. make a list of all linked files ------
   rm -f command_ln_input
-  ls -l namelists_*/* > command_ln_input
+  ls -l *data* > command_ln_input
   ls -l *.bin >> command_ln_binary
   ls -l tile* >> command_ln_binary
   ls -l smooth* >> command_ln_binary
