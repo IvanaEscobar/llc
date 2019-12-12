@@ -81,8 +81,8 @@ for iloop=1:2
   [am,ph] = conv_corr(time,am,ph,cl);   %am: m, ph: phase in sec 
   am(isnan(am)) = 0;		% 13 x 2160
   ph(isnan(ph)) = 0;		% 13 x 2160
-  am = [am,zeros(length(cl),padW)]; am=ss.*am;   % pad for face 5, 13 x 3240
-  ph = [ph,zeros(length(cl),padW)];             
+  am = [zeros(length(cl),padW),am]; am=ss.*am;   % pad for face 5, 13 x 3240
+  ph = [zeros(length(cl),padW),ph];             
   writebin([dirOut 'OBW' str 'am_' num2str(n1S) 'x' num2str(size(cl,1)) '.bin'],am',1,'real*4'); %  amplitude
   writebin([dirOut 'OBW' str 'ph_' num2str(n1S) 'x' num2str(size(cl,1)) '.bin'],ph',1,'real*4'); %  phase
   clear am ph
