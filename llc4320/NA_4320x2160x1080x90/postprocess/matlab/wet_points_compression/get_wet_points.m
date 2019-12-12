@@ -16,15 +16,21 @@ for ivar=1:size(strv,2);
 
   fprintf('\n%s \n',strv{ivar});
 
-  % i1: rows 1:5 account for the 5 faces, and row 6 is the full compact
+  % i1: rows 1:5 account for the 5 faces, and row 6 is the full compact index
+  % EX: NA4320 only uses face 1 and 5
+  %             k=1     ...     k=nz
+  %     Face 1  #       ...     # 
+  %     Face 2  NaN     ...     NaN
+  %     Face 3  NaN     ...     NaN
+  %     Face 4  NaN     ...     NaN
+  %     Face 5  #       ...     #
+  %     Compact #       ...     #
   i1=nan(6,nz);	
   i2=nan(6,nz);i2(:,1)=0;
   ind=nan(nx*ny*nz,6);
 
   for iz=1:nz
-
     clear iwet ifwet hf hff ioffset ifoffset
-
     hf=read_slice([dirGrid 'hFac' strv{ivar} '.data'],nx,ny,iz);
   
   %first, deal in compact format:

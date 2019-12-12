@@ -22,12 +22,14 @@ ycf{5}=reshape(ycf{5},id.n.y/2,id.n.x);
 xc=rdmds([dirGrid 'XC']); xc=reshape(xc, id.n.x, id.n.y);
 xcf{1}=xc(:,1:id.n.y/2); xcf{5}=xc(:,id.n.y/2+1:end);
 xcf{5}=reshape(xcf{5},id.n.y/2,id.n.x);
+
 %% Find yc closest to 35.74558 deg and xg closest to -73.95567 deg
 % yc_id is i540 on ycf{5} for all j;
 % xc_id is j435 on xcf{5} for all i;
 % NOTE: use aste indices for get_wet_ind_single_section.m
 % ycaste=get_aste_tracer(yc,id.nf.x,id.nf.y); xcaste=get_aste_tracer(xc,id.nf.x,id.nf.y); depaste=get_aste_tracer(depth,id.nf.x,id.nf.y);
 % ix_prof=closest(-73.95,xcaste(:,540));
+
 %% Plot YC or XC and find a point nearest the cross section center
 %figure(1); clf; 
 %subplot(121); mypcolor(depf{1}'); grid; 
