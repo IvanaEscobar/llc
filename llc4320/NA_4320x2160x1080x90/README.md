@@ -1,10 +1,14 @@
 # NA 4320x2160x1080x90 #
 
-A repository for computing regional North Atlantic domains with the MITgcm.
-These setups work with the current version of the [MITgcm](https://github.com/MITgcm/MITgcm).
+A repository for modeling regional North Atlantic domains with the MITgcm.
+These setups work with the a version of the [MITgcm](https://github.com/MITgcm/MITgcm).
 
-Running with MITgcm c67c, make sure to submit script from the execution
-directory located in the project directory (ie. $na in TACC machines). 
+Running with MITgcm c67c, can get to this checkpoint by issuing the following 
+command in your MITgcm git repository:
+`git checkout checkpoitc67c`
+
+Make sure to submit run script from the respective execution directory located 
+under the project directory (ie. $na in TACC machines). 
 
 Ex: 
 cd MITgcm\_c67c/mysetups/ProjectName/
@@ -20,9 +24,11 @@ preprocess/
 conditions, and determine tidal forcing. 
 
 root/ 
+* UPDATE (12 Dec 19): Discontinued model developent for this region and
+resolution. Will continue to work on analysis with aste1080. 
 * UPDATE (29 May 19): not spun up enough, there is a peak in the power spectrum 
 density at about 17 hours which doesn't correspond to any of the tidal forcing
-constituents applied. Spinning up for 2yrs in SVERDRUP.
+constituents applied. Would like to have SPUN UP for more than 2 years instead. 
 * contains code, inputs, and namelists for computing the forward regional model
 including tidal forcing and open boundary conditions.
 * Spin up includes 13 constituents of tidal forcing along the boundaries for 
