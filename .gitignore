@@ -80,10 +80,12 @@ __pycache__/
 
 ## Project Specific ##
 ######################
-ans_tides_namelists/
-pickups/
+pickup*/
 *.0000
 *.0000.*
+tile*.mitgrid
+visHelp/
+STDOUT.0000*
 
 ## MISC ##
 ##########
