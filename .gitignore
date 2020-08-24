@@ -5,6 +5,8 @@ syntax: glob
 build*
 run*
 *REMOVE_AFTER*
+*ans*
+scrNA*
 
 
 ## Data files ## 
