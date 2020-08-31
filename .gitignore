@@ -1,5 +1,9 @@
 syntax: glob
 
+## User specified ##
+####################
+kernels*
+
 ## Build and run directories ##
 ###############################
 build*
