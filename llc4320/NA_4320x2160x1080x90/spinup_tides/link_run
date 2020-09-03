@@ -1,0 +1,114 @@
+#!/bin/bash
+
+## Set up suffix for run
+#   adjoint run: "_ad"
+#   forward run: "" 
+suff=""
+
+## Set up code version: blank if current version
+vers="_c67h"
+
+## Set up file extensions: blank if no extension
+ext=""
+
+## Set up pickup time step file extension: '00000000' if no pickup
+pkup="00000000"
+pkup_prev=""
+
+## =============================================================================
+## Set up directories:
+#   gcmDir:   MITgcm code
+#   srcDir:    Problem run
+#       Ex: in sverdrup: ~ivana/llc/llc4320/NA_4320x2160x1080x90/root
+gcmDir=$HOME/MITgcm$vers
+
+srcDir=$PWD # $WORK/llc/llc4320/NA_4320x2160x1080x90/root
+buildDir=$srcDir/build$vers$suff
+codeDir=$srcDir/code$vers$suff
+inpDir=$srcDir/input$vers$suff
+
+scrDir=$SCRATCH/llc/llc4320/NA_4320x2160x1080x90
+exeDir=$scrDir/run$vers${ext}_pk$pkup
+
+submit_script=$srcDir/submit_scratch$suff
+## =============================================================================
+## Create executing directory: where gcm output will go
+if [ ! -d $exeDir ] ; then
+	echo "Making "$exeDir" ..."
+    mkdir $exeDir
+else
+    echo "Moving to "$exeDir" ..."
+fi        
+cd $exeDir
+
+if [ ! -d "diags" ] ; then
+    mkdir diags
+fi
+## =============================================================================
+## Link problem information
+echo "Grabbing necessary files ..."
+
+# Submission script
+cp $submit_script .
+
+# Executable
+cp -f $buildDir/mitgcmuv$suff .
+
+# Namelists
+cp -f $inpDir/* .
+
+# 6 hour forcing files
+forcingDir=$WORK/forcing
+if [ ! -d /.jra55 ]; then
+    ln -sf $forcingDir/jra55 .
+    ln -sf $forcingDir/jra55xx .
+fi
+
+# binary files
+dataDir=$WORK/../NA4320-data
+ln -sf $dataDir/input_binaries/* .
+ln -sf $dataDir/input_pickup/* .
+ln -sf $dataDir/input_obcs/*.bin .
+
+## =============================================================================
+## Setup pickups: 
+#   WARNING: copy instead of link to avoid overwriting output
+if [[ $pkup_prev ]]; then
+    pkupDir=$scrDir/run$vers${ext}_pk$pkup_prev
+    cp -f $pkupDir/pickup.${pkup}.data .
+    cp -f $pkupDir/pickup.${pkup}.meta .
+fi
+
+echo "Ready to execute ..."
+## =============================================================================
+## list of linked files
+ls -l *.bin > linked_list
+ls -l tile* >> linked_list
+
+echo ""
+echo "*** Pro tips: "
+echo "      - Check data.pkg: useAUTODIFF = .true.? usePROFILES = .false.? "
+echo ""
+echo "      - Check data: "
+echo "           nTimeSteps correct? tapes directory uncommented? adjDump = false?"
+echo ""
+echo "      - Check data.ctrl ... mult = 0 for non-optimize run? "
+echo "           have the necessary xx_<parameter> files?"
+echo ""
+echo "      - Check data.diagnostics: have the filenames set with diags/ prefix? "
+echo ""
+echo "      - Check data.exf: directory set for correct forcing files? period correct?"
+echo "" 
+echo "      - Check data.ecco: ... just make sure it looks good"
+echo ""
+echo "      - Check to make sure any masks are set properly ... "
+echo ""
+echo "      - Check submit file for .."
+echo "           Correct queue? "
+echo "           forward run: <exec> mitgcmuv "
+echo "           adjoint: <exec> mitgcmuv_ad "
+echo "           walltime correct? " 
+echo ""
+echo "Assuming this is done, ready for launch ... "
+echo ""
+echo ""
