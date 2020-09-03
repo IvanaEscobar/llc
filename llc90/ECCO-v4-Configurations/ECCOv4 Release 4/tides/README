@@ -1,0 +1,29 @@
+Follow the instructions in
+https://ecco.jpl.nasa.gov/drive/files/Version4/Release4/doc/v4r4_reproduction_howto.pdf,
+except using code/ and input/ provided here and doing the following:
+
+1. Download and extract the SPICE toolkit from here:
+   https://naif.jpl.nasa.gov/naif/toolkit_FORTRAN.html
+   and include the full path to spicelib.a in the LIBS
+   variable of your optfile.
+
+2. Download the SPICE kernels listed in input/meta_kernels from
+   https://naif.jpl.nasa.gov/pub/naif/generic_kernels/
+   and place them in appropriate subdirectories of kernels/
+   in the run directory:
+
+curl --create-dirs -o kernels/lsk/naif0012.tls                 https://naif.jpl.nasa.gov/pub/naif/generic_kernels/lsk/naif0012.tls
+curl --create-dirs -o kernels/fk/planets/earth_assoc_itrf93.tf https://naif.jpl.nasa.gov/pub/naif/generic_kernels/fk/planets/earth_assoc_itrf93.tf
+curl --create-dirs -o kernels/spk/planets/de430.bsp            https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/de430.bsp
+curl --create-dirs -o kernels/pck/pck00010.tpc                 https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00010.tpc
+curl --create-dirs -o kernels/pck/gm_de431.tpc                 https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/gm_de431.tpc
+
+3. Rename pickups to suffix '0000000004':
+
+mv pickup.0000000001.data pickup.0000000004.data
+mv pickup.0000000001.meta pickup.0000000004.meta
+mv pickup_ggl90.0000000001.data pickup_ggl90.0000000004.data
+mv pickup_ggl90.0000000001.meta pickup_ggl90.0000000004.meta
+mv pickup_seaice.0000000001.data pickup_seaice.0000000004.data
+mv pickup_seaice.0000000001.meta pickup_seaice.0000000004.meta
+
