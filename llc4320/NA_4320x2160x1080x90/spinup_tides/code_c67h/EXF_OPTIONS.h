@@ -67,7 +67,7 @@ C   Relaxation to monthly climatologies.
 #undef ALLOW_CLIMSSS_RELAXATION
 
 C Allows to read-in (2-d) tidal geopotential forcing
-#define EXF_ALLOW_TIDES
+#undef EXF_ALLOW_TIDES
 
 C   Use spatial interpolation to interpolate
 C   forcing files from input grid to model grid.

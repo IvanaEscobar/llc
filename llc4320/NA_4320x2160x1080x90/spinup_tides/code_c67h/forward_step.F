@@ -233,7 +233,6 @@ C     == Global variables ==
 #include "EEPARAMS.h"
 #include "PARAMS.h"
 #include "DYNVARS.h"
-#include "FFIELDS.h"
 
 #ifdef HAVE_SIGREG
 #include "SIGREG.h"
@@ -249,6 +248,10 @@ C     == Global variables ==
 #ifdef ALLOW_LONGSTEP
 # include "LONGSTEP_PARAMS.h"
 # include "LONGSTEP.h"
+#endif
+
+#ifdef ALLOW_TIDES
+# include "FFIELDS.h"
 #endif
 
 #ifdef ALLOW_AUTODIFF

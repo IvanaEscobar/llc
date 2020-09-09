@@ -75,15 +75,15 @@ C     == Global variables ==
 #include "SIZE.h"
 #include "EEPARAMS.h"
 #include "PARAMS.h"
-#include "FFIELDS.h"
 
+# include "FFIELDS.h"
 c**************************************
 #ifdef ALLOW_AUTODIFF
 # ifndef ALLOW_OPENAD
 
 c These includes are needed for
 c AD-checkpointing.
-c They provide the fields to be stored.
+c They provide the fields to be stored
 
 #  include "AUTODIFF_MYFIELDS.h"
 #  include "GRID.h"

@@ -135,7 +135,6 @@ C     == Global variables ===
 #include "PARAMS.h"
 #include "GRID.h"
 #include "DYNVARS.h"
-# include "FFIELDS.h"
 #ifdef ALLOW_TIMEAVE
 # include "TIMEAVE_STATV.h"
 #endif
@@ -143,6 +142,9 @@ C     == Global variables ===
 # include "OFFLINE_SWITCH.h"
 #endif
 
+#ifdef ALLOW_TIDES
+# include "FFIELDS.h"
+#endif
 #ifdef ALLOW_AUTODIFF
 # include "AUTODIFF_MYFIELDS.h"
 # include "tamc.h"

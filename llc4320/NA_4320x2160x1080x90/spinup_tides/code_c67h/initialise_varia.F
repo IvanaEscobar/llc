@@ -85,6 +85,7 @@ C     == Global variables ==
 #include "DYNVARS.h"
 #include "SURFACE.h"
 # include "FFIELDS.h"
+      
 #ifdef ALLOW_AUTODIFF
 # include "GRID.h"
 # include "FFIELDS.h"

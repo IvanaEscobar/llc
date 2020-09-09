@@ -34,7 +34,8 @@ C     == Global variables ===
 #include "PARAMS.h"
 #include "GRID.h"
 #include "DYNVARS.h"
-#include "FFIELDS.h"
+# include "FFIELDS.h"
+
 #ifdef ALLOW_MOM_COMMON
 # include "MOM_VISC.h"
 #endif
