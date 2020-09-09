@@ -33,7 +33,6 @@
  swdownfile        = 'jra55/jra55_dsw',
  lwdownfile        = 'jra55/jra55_dlw',
  apressurefile     = 'jra55/jra55_pres',
-# tidePotFile       = 'jra55/pot_tide_1deg',
  uwindfile         = 'jra55/jra55_u10m',
  vwindfile         = 'jra55/jra55_v10m',
  runofffile        = 'runoff1p2472-360x180x12.bin',
@@ -61,10 +60,6 @@
  apressurestartdate1  = 19790115,
  apressurestartdate2  = 013000,
  apressureperiod      = 10800.0,
-#
-# tidePotstartdate1  = 20020101,
-# tidePotstartdate2  = 003000,
-# tidePotperiod      = 3600.0,
 #
  uwindstartdate1   = 19790101,
  uwindstartdate2   = 000000,
@@ -202,12 +197,6 @@
  runoff_nlon       = 360,
  runoff_nlat       = 180,
 #
-# tidePot_lon0       = 0.50D0,
-# tidePot_lon_inc    = 1.0D0,
-# tidePot_lat0       = -89.5D0,
-# tidePot_lat_inc    = 179*1.,
-# tidePot_nlon       = 360,
-# tidePot_nlat       = 180,
  /
 #
  &EXF_NML_OBCS
