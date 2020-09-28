@@ -13,7 +13,7 @@ ext=""
 
 ## Set up pickup time step file extension: '00000000' if no pickup
 pkup="00000000"
-pkup_prev=""
+#pkup_prev=""
 
 ## =============================================================================
 ## Set up directories:
@@ -58,14 +58,17 @@ cp -f $buildDir/mitgcmuv$suff .
 cp -f $inpDir/* .
 
 # 6 hour forcing files
-forcingDir=$WORK/forcing
-if [ ! -d /.jra55 ]; then
+forcingDir=$SCRATCH/forcing
+if [ ! -d jra55 ]; then
     ln -sf $forcingDir/jra55 .
     ln -sf $forcingDir/jra55xx .
 fi
+if [ ! -d kernels ]; then
+    ln -sf $forcingDir/../kernels .
+fi
 
 # binary files
-dataDir=$WORK/../NA4320-data
+dataDir=$scrDir/run_template
 ln -sf $dataDir/input_binaries/* .
 ln -sf $dataDir/input_pickup/* .
 ln -sf $dataDir/input_obcs/*.bin .
@@ -84,31 +87,3 @@ echo "Ready to execute ..."
 ## list of linked files
 ls -l *.bin > linked_list
 ls -l tile* >> linked_list
-
-echo ""
-echo "*** Pro tips: "
-echo "      - Check data.pkg: useAUTODIFF = .true.? usePROFILES = .false.? "
-echo ""
-echo "      - Check data: "
-echo "           nTimeSteps correct? tapes directory uncommented? adjDump = false?"
-echo ""
-echo "      - Check data.ctrl ... mult = 0 for non-optimize run? "
-echo "           have the necessary xx_<parameter> files?"
-echo ""
-echo "      - Check data.diagnostics: have the filenames set with diags/ prefix? "
-echo ""
-echo "      - Check data.exf: directory set for correct forcing files? period correct?"
-echo "" 
-echo "      - Check data.ecco: ... just make sure it looks good"
-echo ""
-echo "      - Check to make sure any masks are set properly ... "
-echo ""
-echo "      - Check submit file for .."
-echo "           Correct queue? "
-echo "           forward run: <exec> mitgcmuv "
-echo "           adjoint: <exec> mitgcmuv_ad "
-echo "           walltime correct? " 
-echo ""
-echo "Assuming this is done, ready for launch ... "
-echo ""
-echo ""
