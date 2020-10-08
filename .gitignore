@@ -84,12 +84,12 @@ __pycache__/
 ######################
 ans_tides_namelists/
 pickup*/
-*.0000
-*.0000.*
 tile*.mitgrid
 visHelp/
-STDOUT.0000*
+STD*.0000*
 scr*
+data/
+GRID/
 
 ## MISC ##
 ##########
