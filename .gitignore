@@ -1,13 +1,13 @@
 syntax: glob
 
+## User specified ##
+####################
+kernels*
+
 ## Build and run directories ##
 ###############################
 build*
 run*
-*REMOVE_AFTER*
-*ans*
-scrNA*
-
 
 ## Data files ## 
 ################
@@ -82,12 +82,14 @@ __pycache__/
 
 ## Project Specific ##
 ######################
+ans_tides_namelists/
 pickup*/
-*.0000
-*.0000.*
 tile*.mitgrid
 visHelp/
-STDOUT.0000*
+STD*.0000*
+scr*
+data/
+GRID/
 
 ## MISC ##
 ##########
