@@ -14,7 +14,7 @@ vers="_c67h"
 #	srcDir:  Problem run
 #		  Ex: in sverdrup: ~ivana/llc/llc4320/NA_4320x2160x1080x90/root/
 #		  Ex: ~ivana/llc/llc4320/NA_4320x2160x1080x90/root/
-gcmDir=$HOME/MITgcm$vers
+gcmDir=$HOME/MITgcm/MITgcm$vers
 srcDir=$PWD
 buildDir=$srcDir/build$vers$suff
 codeDir=$srcDir/code$vers${suff}
