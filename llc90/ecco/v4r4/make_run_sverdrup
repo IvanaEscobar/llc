@@ -1,5 +1,6 @@
 #!/bin/bash
 ## Copy this into your  directory and modify to your needs
+## https://ecco.jpl.nasa.gov/drive/files/Version4/Release4/doc/v4r4_reproduction_howto.pdf
 
 ## Set up suff for run: 
 #	"_ad": adjoint
