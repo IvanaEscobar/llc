@@ -3,6 +3,7 @@ syntax: glob
 ## User specified ##
 ####################
 kernels*
+ECCO-v4-Configurations
 
 ## Build and run directories ##
 ###############################
