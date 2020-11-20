@@ -1,0 +1,81 @@
+#!/bin/bash
+
+## Set up suffix for run
+#   adjoint run: "_ad"
+#   forward run: "" 
+suff=""
+
+## Set up code version: blank if current version
+vers="_c66g"
+
+## Set up file extensions: blank if no extension
+ext=""
+
+## Set up pickup time step file extension: '00000000' if no pickup
+pkup="0000210372"
+pkup_prev="0000000000"
+
+## =============================================================================
+## Set up directories:
+#   srcDir:    Problem run
+#       Ex: in sverdrup: ~ivana/llc/llc4320/NA_4320x2160x1080x90/root
+srcDir=$PWD # $WORK/llc/llc90/ecco/v4r4
+buildDir=$srcDir/build
+inpDir=$srcDir/input
+
+scrDir=/scratch2/ivana/ecco/v4r4
+exeDir=$scrDir/run$vers${ext}_pk$pkup
+eccoDir=/scratch2/shared/ecco/v4r4
+## =============================================================================
+## Create executing directory: where gcm output will go
+if [ ! -d $exeDir ] ; then
+	echo "Making "$exeDir" ..."
+    mkdir $exeDir
+else
+    echo "Moving to "$exeDir" ..."
+fi        
+cd $exeDir
+
+## =============================================================================
+## Link problem information
+echo "Grabbing necessary files ..."
+
+# Submission scripts
+cp $srcDir/submit_scratch$suff .
+cp $srcDir/link_run$suff .
+
+# Executable
+cp -f $buildDir/mitgcmuv$suff .
+cp -f $buildDir/Makefile .
+
+# Forcing and binary files
+cp -f  $inpDir/* .
+ln -sf $eccoDir/input_forcing/eccov4r4* .
+ln -s $eccoDir/input_init/NAMELIST/* .
+ln -sf $eccoDir/input_init/error_weight/ctrl_weight/* .
+ln -sf $eccoDir/input_init/error_weight/data_error/* .
+ln -sf $eccoDir/input_init/tools/* .
+ln -sf $eccoDir/input_init/* .
+ln -sf $eccoDir/input_ecco/*/* .
+
+# make subdirs for diagnostics
+#python mkdir_subdir_diags.py
+
+## =============================================================================
+## Setup pickups: 
+#   WARNING: copy instead of link to avoid overwriting output
+if [[ $pkup_prev ]]; then
+    pkupDir=$scrDir/run$vers${ext}_pk$pkup_prev/pickup
+    cp -f $pkupDir/pickup.${pkup}.data .
+    cp -f $pkupDir/pickup.${pkup}.meta .
+    cp -f $pkupDir/pickup_ggl90.${pkup}.data .
+    cp -f $pkupDir/pickup_ggl90.${pkup}.meta .
+    cp -f $pkupDir/pickup_seaice.${pkup}.data .
+    cp -f $pkupDir/pickup_seaice.${pkup}.meta .
+fi
+
+echo "Ready to execute ..."
+## =============================================================================
+## list of linked files
+ls -l *.bin > linked_list
+ls -l tile* >> linked_list
