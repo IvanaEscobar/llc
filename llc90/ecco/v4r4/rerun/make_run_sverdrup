@@ -1,0 +1,64 @@
+#!/bin/bash
+## Copy this into your  directory and modify to your needs
+## https://ecco.jpl.nasa.gov/drive/files/Version4/Release4/doc/v4r4_reproduction_howto.pdf
+
+## Set up suff for run: 
+#	"_ad": adjoint
+#	"":    forward
+suff=""
+
+## Set up code version: blank if current version
+vers="_c66g"
+
+## Set up directories:
+#	gcmDir: MITgcm code
+#	srcDir:  Problem run
+#		  Ex: in sverdrup: ~ivana/llc/llc90/ecco/v4r4/
+gcmDir=$HOME/MITgcm/MITgcm$vers
+srcDir=$PWD
+buildDir=$srcDir/build
+codeDir=$srcDir/code
+
+## Opt file architecture specific
+opt=$env_setups/optfiles/linux_amd64_ifort+mpi_sverdrup
+
+## Use the correct opt file here
+build_cmd="$gcmDir/tools/genmake2 -rd=$gcmDir '-mods=$codeDir' -of=$opt -mpi"
+
+## Check which run to set up
+if [[ $suff == "_ad" ]]
+  then
+        echo "Preparing adjoint run ..."
+elif [[ $suff == "" ]]
+  then
+        echo "Preparing forward run ..."
+else
+        echo "Unsure of suffix, exiting ..."
+        exit 1
+fi
+
+## Build the model in build directory
+if [ ! -d $buildDir ]
+  then
+        mkdir $buildDir
+        cd $buildDir
+else
+        cd $buildDir
+        if [ -s Makefile ] ; then
+		make clean
+	fi
+fi
+
+cd $buildDir
+echo "Inside dir: "$PWD
+
+echo "Evaluating: "$build_cmd
+eval $build_cmd 
+echo "Make depend ..."
+eval "make depend" 
+echo "Making executable ..."
+if [[ $suff == "_ad" ]] ; then
+  eval "make -j 8 adall" 
+else
+  eval "make -j 16"
+fi
