@@ -24,7 +24,7 @@ buildDir=$srcDir/build
 inpDir=$srcDir/input
 
 scrDir=/scratch2/ivana/ecco/v4r4
-exeDir=$scrDir/run$vers${ext}_pk$pkup
+exeDir=$scrDir/testrun$vers${ext}_pk$pkup
 eccoDir=/scratch2/shared/ecco/v4r4
 ## =============================================================================
 ## Create executing directory: where gcm output will go
@@ -50,7 +50,7 @@ cp -f $buildDir/Makefile .
 
 # Forcing and binary files
 ln -sf $eccoDir/input_forcing/eccov4r4* .
-ln -s $eccoDir/input_init/NAMELIST/* .
+ln -sf $eccoDir/input_init/NAMELIST/* .
 ln -sf $eccoDir/input_init/error_weight/ctrl_weight/* .
 ln -sf $eccoDir/input_init/error_weight/data_error/* .
 ln -sf $eccoDir/input_init/tools/* .
