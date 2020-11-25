@@ -19,17 +19,17 @@ pkup="0000000000"
 ## Set up directories:
 #   srcDir:    Problem run
 #       Ex: in sverdrup: ~ivana/llc/llc4320/NA_4320x2160x1080x90/root
-srcDir=$PWD # $WORK/llc/llc90/ecco/v4r4
+srcDir=$PWD # $WORK/llc/llc90/ecco/v4r4/rerun
 buildDir=$srcDir/build
 inpDir=$srcDir/input
 
 scrDir=/scratch2/ivana/ecco/v4r4
-exeDir=$scrDir/testrun$vers${ext}_pk$pkup
+exeDir=$scrDir/run$vers${ext}_pk$pkup
 eccoDir=/scratch2/shared/ecco/v4r4
 ## =============================================================================
 ## Create executing directory: where gcm output will go
 if [ ! -d $exeDir ] ; then
-	echo "Making "$exeDir" ..."
+	echo "Make and moving to "$exeDir" ..."
     mkdir $exeDir
 else
     echo "Moving to "$exeDir" ..."
@@ -48,9 +48,11 @@ cp $srcDir/link_run$suff .
 cp -f $buildDir/mitgcmuv$suff .
 cp -f $buildDir/Makefile .
 
+# Input files (NAMELISTS)
+cp -f $inpDir/* .
+
 # Forcing and binary files
 ln -sf $eccoDir/input_forcing/eccov4r4* .
-ln -sf $eccoDir/input_init/NAMELIST/* .
 ln -sf $eccoDir/input_init/error_weight/ctrl_weight/* .
 ln -sf $eccoDir/input_init/error_weight/data_error/* .
 ln -sf $eccoDir/input_init/tools/* .
