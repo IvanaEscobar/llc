@@ -73,7 +73,8 @@
 
 # Time stepping parameters
  &PARM03
- nIter0=210372,
+ nIter0=201612,
+# 1 leap year
  nTimeSteps=8784,
 #2 lev2 for testing:
 #nTimeSteps=8,
