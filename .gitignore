@@ -70,8 +70,8 @@ run*
 *.orig
 *.mod
 *.old
+*.archive
 .ipynb_checkpoints
-__old__
 __pycache__/
 
 ## Output ##
